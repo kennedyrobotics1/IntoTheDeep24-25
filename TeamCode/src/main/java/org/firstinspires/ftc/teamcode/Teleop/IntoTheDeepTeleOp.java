@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
 
@@ -14,6 +16,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private DcMotor leftBack = null;
     private DcMotor rightBack = null;
 
+    private CRServo intake;
+
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
 
     public void init() {
@@ -21,6 +25,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
+
+        intake = hardwareMap.get(CRServo.class, "servo1");
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -34,8 +40,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     public void loop(){
 
-        double max;
-
         double x = gamepad1.left_stick_x;
         double y = -gamepad1.left_stick_y;
         double r = gamepad1.right_stick_x;
@@ -46,6 +50,13 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         backLeftPower   = (y - x + r) / denominator;
         backRightPower  = (y + x - r) / denominator;
 
+        if (gamepad1.x) {
+            intake.setPower(1.0);
+        } else if (gamepad1.b) {
+            intake.setPower(-1.0);
+        } else {
+            intake.setPower(0.0);
+        }
 
         if(gamepad1.left_bumper){
             leftFront.setPower(0.5 * frontLeftPower);
@@ -63,7 +74,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("backLeftPower ", backLeftPower);
             telemetry.addData("backRightPower ", backRightPower);
             telemetry.update();
-
         }
     }
 }
