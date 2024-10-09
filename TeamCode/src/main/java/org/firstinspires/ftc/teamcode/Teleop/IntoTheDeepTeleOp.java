@@ -16,7 +16,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private DcMotor leftBack = null;
     private DcMotor rightBack = null;
 
-    private Servo intake;
+    private CRServo intake;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
 
@@ -26,7 +26,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
-        intake = hardwareMap.get(Servo.class, "servo1");
+        intake = hardwareMap.get(CRServo.class, "servo1");
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -51,11 +51,11 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         backRightPower  = (y + x - r) / denominator;
 
         if (gamepad1.x) {
-            intake.setPosition(1.0);
+            intake.setPower(1.0);
         } else if (gamepad1.b) {
-            intake.setPosition(-1.0);
+            intake.setPower(-1.0);
         } else {
-            intake.setPosition(0.0);
+            intake.setPower(0.0);
         }
 
         if(gamepad1.left_bumper){
