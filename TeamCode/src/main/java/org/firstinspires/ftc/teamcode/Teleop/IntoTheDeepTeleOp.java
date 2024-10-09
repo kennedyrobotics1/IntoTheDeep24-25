@@ -17,11 +17,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private DcMotor rightBack = null;
 
     private Servo intake;
-    // private CRServo intake;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
-
-    double intakePosition;
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
