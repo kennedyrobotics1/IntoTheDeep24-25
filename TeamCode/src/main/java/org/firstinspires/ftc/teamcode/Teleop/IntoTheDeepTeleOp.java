@@ -30,7 +30,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
         intake = hardwareMap.get(Servo.class, "servo1");
-        // intake = hardwareMap.get(CRServo.class, "servo1");
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -43,8 +42,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     }
 
     public void loop(){
-
-        double max;
 
         double x = gamepad1.left_stick_x;
         double y = -gamepad1.left_stick_y;
