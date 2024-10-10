@@ -17,8 +17,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private DcMotor rightBack = null;
 
     private CRServo intake;
+    private Servo armLeftServo;
+    private Servo armRightServo;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
+
+    double armPosition = 0;
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -27,6 +31,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
         intake = hardwareMap.get(CRServo.class, "servo1");
+        armLeftServo = hardwareMap.get(Servo.class, "servo2");
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -58,6 +63,28 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intake.setPower(0.0);
         }
 
+        if (gamepad1.dpad_up) {
+            armPosition += 0.01;
+            if (armLeftServo.getPosition() > 1) {
+                armPosition = 1.0;
+            }
+            armLeftServo.setPosition(armPosition);
+        } else if (gamepad1.dpad_down) {
+            armPosition -= 0.01;
+            if (armLeftServo.getPosition() < 0) {
+                armPosition = 0.0;
+            }
+            armLeftServo.setPosition(armPosition);
+        }
+
+        /*
+        if (armLeftServo.getPosition() < 0) {
+                armPosition = 0.0;
+            } else if (armLeftServo.getPosition() > 1) {
+                armPosition = 1.0;
+            }
+         */
+
         if(gamepad1.left_bumper){
             leftFront.setPower(0.5 * frontLeftPower);
             rightFront.setPower(0.5 * frontRightPower);
@@ -73,6 +100,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("frontRightPower ", frontRightPower);
             telemetry.addData("backLeftPower ", backLeftPower);
             telemetry.addData("backRightPower ", backRightPower);
+            telemetry.addData("left servo position: ", armLeftServo.getPosition());
             telemetry.update();
         }
     }
