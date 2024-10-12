@@ -17,12 +17,15 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private DcMotor rightBack = null;
 
     private CRServo intake;
-    private Servo armLeftServo;
-    private Servo armRightServo;
+    private Servo armLeftFrontServo;
+    private Servo armLeftBackServo;
+    private Servo armRightFrontServo;
+    private Servo armRightBackServo;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
 
     double armPosition = 0;
+    double armPositionFive = 0;
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -31,7 +34,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
         intake = hardwareMap.get(CRServo.class, "servo1");
-        armLeftServo = hardwareMap.get(Servo.class, "servo2");
+        armLeftFrontServo = hardwareMap.get(Servo.class, "servo2");
+        armLeftBackServo = hardwareMap.get(Servo.class, "servo3");
+        armRightFrontServo = hardwareMap.get(Servo.class, "servo4");
+        armRightFrontServo.setDirection(Servo.Direction.REVERSE);
+        armRightBackServo = hardwareMap.get(Servo.class, "servo5");
+        armRightBackServo.setDirection(Servo.Direction.REVERSE);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -65,17 +73,28 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         if (gamepad1.dpad_up) {
             armPosition += 0.01;
-            if (armLeftServo.getPosition() > 1) {
+            //  += 0.01/5;
+            if (armRightFrontServo.getPosition() > 1.0/5) {
                 armPosition = 1.0;
+                // armPositionFive = 1.0/5;
             }
-            armLeftServo.setPosition(armPosition);
+            armRightBackServo.setPosition(armPosition);
+            armRightFrontServo.setPosition(armPosition / 5);
+            // armRightFrontServo.setPosition(armPositionFive);
         } else if (gamepad1.dpad_down) {
             armPosition -= 0.01;
-            if (armLeftServo.getPosition() < 0) {
+            // armPositionFive -= 0.01/5;
+            if (armRightFrontServo.getPosition() < 0.0) {
                 armPosition = 0.0;
+                // armPositionFive = 0.0;
             }
-            armLeftServo.setPosition(armPosition);
-        }
+            armRightBackServo.setPosition(armPosition);
+            armRightFrontServo.setPosition(armPosition / 5);
+        } /* else {
+            double armCurrentPosition = armLeftFrontServo.getPosition();
+            armPosition = armCurrentPosition;
+            armLeftFrontServo.setPosition(armPosition);
+        } */
 
         /*
         if (armLeftServo.getPosition() < 0) {
@@ -100,7 +119,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("frontRightPower ", frontRightPower);
             telemetry.addData("backLeftPower ", backLeftPower);
             telemetry.addData("backRightPower ", backRightPower);
-            telemetry.addData("left servo position: ", armLeftServo.getPosition());
+            telemetry.addData("servo position: ", armRightFrontServo.getPosition());
             telemetry.update();
         }
     }
