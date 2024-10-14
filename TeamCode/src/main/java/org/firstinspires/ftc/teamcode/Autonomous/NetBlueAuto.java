@@ -25,9 +25,7 @@ public class NetBlueAuto extends LinearOpMode {
     public void runOpMode() {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(36, 60, Math.toRadians(270)));
-
-        //^ double check the starting position, robot is using this as (0, 60) **Why is x = ?
-
+        
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
                 //Up to Outside Sample
