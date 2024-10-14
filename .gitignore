@@ -82,3 +82,5 @@ lint/tmp/
 
 .DS_Store
 /.idea
+
+MeepMeepTesting/src/main/java/com/example/meepmeeptesting/MeepMeepTesting.java
