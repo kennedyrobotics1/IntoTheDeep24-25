@@ -7,59 +7,56 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.acmerobotics.roadrunner.SplineHeadingPath;
-import com.acmerobotics.roadrunner.QuinticSpline1d;
-import com.acmerobotics.roadrunner.QuinticSpline2d;
-import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.robotcore.internal.camera.delegating.CachingExposureControl;
+
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
 @Config
 @Autonomous(name = "Template Autoop", group = "16481-Example")
-public class Guide extends LinearOpMode {
+public class NetBlueAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-20, 60, Math.toRadians(270)));
-
-        //^ double check the starting position, robot is using this as (0, 60) **Why is x = ?
-
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(36, 60, Math.toRadians(270)));
+        
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
-                //line up to score sample
-                .splineTo(new Vector2d(5, 8), Math.toRadians(0))
+                //Up to Outside Sample
+                .strafeTo(new Vector2d(36, 8))
 
-                //down score sample
-                .strafeTo(new Vector2d(5, 55))
+                //side to Outside Sample
+                .strafeTo(new Vector2d(47, 8))
 
-                //up to line up scoring second sample
-                .strafeTo(new Vector2d(5, 8))
+                //Down to Score Outside Sample
+                .strafeTo(new Vector2d(47, 60))
 
-                //back to line up scoring second sample
-                .strafeTo(new Vector2d(-5,8))
+                //up to Middle Sample
+                .strafeTo(new Vector2d(47,8))
 
-                //down to score second sample
-                .strafeTo(new Vector2d(10,55))
+                //Side to Middle Sample
+                .strafeTo(new Vector2d(57,8))
 
-                //back to park in observation
-                .strafeTo(new Vector2d(-100, 70))
+                //Down to Score Middle Sample
+                .strafeTo(new Vector2d(57, 57))
 
-                //strafe down into observation
-                .strafeTo(new Vector2d(-105, 80))
+                //Up to Last Sample
+                .strafeTo(new Vector2d(57, 8))
+
+                //Side to Last Sample
+                .strafeTo(new Vector2d(65, 8))
+
+                //Down To Last Sample
+                .strafeTo(new Vector2d(65, 55))
+
+                //Side to Park
+                .strafeTo(new Vector2d(-50, 60))
 
                 .build();
 
