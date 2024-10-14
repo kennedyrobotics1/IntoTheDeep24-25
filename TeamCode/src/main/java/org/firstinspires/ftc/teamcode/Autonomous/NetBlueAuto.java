@@ -26,11 +26,27 @@ public class NetBlueAuto extends LinearOpMode {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(36, 60, Math.toRadians(270)));
 
-        //^ double check the starting position, robot is using this as (0, 60) **Why is x = ?
-
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
-                //Up to Outside Sample
+
+                .splineToConstantHeading(new Vector2d(47, 8), Math.toRadians(360))
+
+                .strafeTo(new Vector2d(47, 55))
+
+                .splineToConstantHeading(new Vector2d(48,8), Math.toRadians(270))
+
+                .strafeTo(new Vector2d(60, 60))
+
+                .splineToConstantHeading(new Vector2d(56, 8), Math.toRadians(270))
+
+                .strafeTo(new Vector2d(61, 8))
+
+
+                //   .splineToConstantHeading(new Vector2d(55, 8), Math.toRadians(270))
+
+                .build();
+
+                /*
                 .strafeTo(new Vector2d(36, 8))
 
                 //side to Outside Sample
@@ -57,11 +73,44 @@ public class NetBlueAuto extends LinearOpMode {
                 //Down To Last Sample
                 .strafeTo(new Vector2d(65, 55))
 
-                //Side to Park
-                .strafeTo(new Vector2d(-50, 60))
+                //Up a bi
+                .strafeTo(new Vector2d(65, 55))
+
+                //Left To Other side of field
+                .strafeTo(new Vector2d(-35, 40))
+
+                .strafeTo(new Vector2d(-35, 8))
+
+                .strafeTo(new Vector2d(-47, 8))
+
+                .strafeTo(new Vector2d(-47, 55))
+
+                .strafeTo(new Vector2d(65, 55))
+
+                .strafeTo(new Vector2d(-47,55))
+
+                .strafeTo(new Vector2d(-47, 8))
+
+                .strafeTo(new Vector2d(-55,8))
+
+                .strafeTo(new Vector2d(-55, 55))
+
+                .strafeTo(new Vector2d(65, 55))
+
+                .strafeTo(new Vector2d(-55, 55))
+
+                .strafeTo(new Vector2d(-55, 8))
+
+                .strafeTo(new Vector2d(-65, 8))
+
+                .strafeTo(new Vector2d(-65, 55))
+
+                .strafeTo(new Vector2d(65, 55))
 
                 .build();
 
+
+                 */
 
 
      /*
