@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import androidx.annotation.NonNull;
 // RR-specific imports
 import com.acmerobotics.dashboard.config.Config;
@@ -27,16 +29,17 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
            public boolean run(@NonNull TelemetryPacket packet) {
                if (!initialized) {
                    slideLeftMotor.setPower(-0.5);
-                   slideRightMotor.setPower(-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0.5);
+                  // slideRightMotor.setPower                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 0.5);
                    initialized = true;
                }
 
                double posLeft = slideLeftMotor.getCurrentPosition();
-               double posRight = slideRightMotor.getCurrentPosition();
+              // double posRight = slideRightMotor.getCurrentPosition();
                packet.put("slideLeftMotorPos", posLeft);
-               packet.put("slideRightMotorPos", posRight);
+              // packet.put("slideRightMotorPos", posRight);
 
-               if (posLeft <10.0){
+               telemetry.addData("slideLeftMotorPos", posLeft);
+               if (posLeft < 40.0){
                    return true;
                } else{
                    slideLeftMotor.setPower(0);
@@ -46,6 +49,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
        }
        }
     public Action slideExtention(){
-        return new SlideExtention();
+
+           return new SlideExtention();
     }
    }
