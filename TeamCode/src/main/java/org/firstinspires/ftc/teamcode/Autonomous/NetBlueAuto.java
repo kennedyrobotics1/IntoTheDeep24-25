@@ -53,13 +53,11 @@ public class NetBlueAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(65, 8))
 
                 //Down To Last Sample
-                .strafeTo(new Vector2d(65, 55))
+                .strafeTo(new Vector2d(65, 25))
 
-                //Side to Park
-                .strafeTo(new Vector2d(-50, 60))
+                .splineToConstantHeading(new Vector2d(-41, 13), Math.toRadians(270))
 
                 .build();
-
 
 
      /*
