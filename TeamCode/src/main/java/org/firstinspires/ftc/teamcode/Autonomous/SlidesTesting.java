@@ -11,11 +11,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class SlidesTesting extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Slides slides = new Slides(hardwareMap);
-
+        telemetry.addData("slideLeftMotorPos", 2000);
+        telemetry.update();
+        Slides slides = new Slides(hardwareMap, telemetry);
         waitForStart();
 
-        Actions.runBlocking(slides.slideExtention());
+       /* Actions.runBlocking(slides.highBasketExtention());
+        Actions.runBlocking(slides.lowBasketExtention());
+        Actions.runBlocking(slides.submersibleExtention());
+        Actions.runBlocking(slides.retractSlideExtention()); */
     }
 
 }
