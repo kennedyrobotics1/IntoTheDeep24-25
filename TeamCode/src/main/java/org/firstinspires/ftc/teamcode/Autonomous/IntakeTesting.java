@@ -5,9 +5,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-
 @Config
-@Autonomous(name = "SlidesTesting", group = "Autonomous")
+@Autonomous(name = "IntakeTesting", group = "Autonomous")
 public class IntakeTesting extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -17,5 +16,4 @@ public class IntakeTesting extends LinearOpMode {
 
         Actions.runBlocking(intake.intakeIn());
     }
-
 }

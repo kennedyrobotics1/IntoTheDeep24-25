@@ -18,7 +18,7 @@ public class Intake {
     private Telemetry telemetry;
 
     public Intake(HardwareMap hardwareMap, Telemetry telemetryB){
-        intake = hardwareMap.get(CRServo.class, "servo1");
+        intake = hardwareMap.get(CRServo.class, "servo0");
         telemetry = telemetryB;
     }
 
