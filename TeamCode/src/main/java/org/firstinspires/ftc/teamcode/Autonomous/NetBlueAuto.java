@@ -50,32 +50,22 @@ public class NetBlueAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(57, 8))
 
                 //Side to Last Sample
-                .strafeTo(new Vector2d(65, 8))
+                .strafeTo(new Vector2d(60.5, 8))
 
                 //Down To Last Sample
-                .strafeTo(new Vector2d(65, 25))
+                .strafeTo(new Vector2d(60.5, 50))
 
-                .splineToConstantHeading(new Vector2d(-41, 13), Math.toRadians(270))
+                .strafeTo(new Vector2d(-50, 50))
 
                 .build();
 
-
-     /*
-        Action TrajectoryParkingObservation = drive.actionBuilder(drive.pose)
-                .lineToX(-50)
-                .build();
-*/
-
-     /*
-        Action TrajectoryAction1 = drive.actionBuilder(drive.pose)
-                .lineToX(10)
-                .build();
-
-        Action TrajectoryAction2 = drive.actionBuilder(new Pose2d(15, 20, 0))
-               .splineTo(new Vector2d(5, 5), Math.toRadians(90))
-                .build();
-        */
-
+//                .splineToConstantHeading(new Vector2d(-45, 13), Math.toRadians(270))
+//
+//                .strafeTo(new Vector2d(-46, 13))
+//
+//                .splineToConstantHeading(new Vector2d(60, 43), Math.toRadians(270))
+//
+//                .build();
 
         while (!isStopRequested() && !opModeIsActive()) {
 
@@ -105,5 +95,6 @@ public class NetBlueAuto extends LinearOpMode {
                         }
                         )
         );
+
     }
 }
