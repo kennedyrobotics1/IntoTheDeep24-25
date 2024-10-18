@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Config
@@ -14,12 +16,13 @@ public class SlidesTesting extends LinearOpMode {
         telemetry.addData("slideLeftMotorPos", 2000);
         telemetry.update();
         Slides slides = new Slides(hardwareMap, telemetry);
+
         waitForStart();
 
-       /* Actions.runBlocking(slides.highBasketExtention());
-        Actions.runBlocking(slides.lowBasketExtention());
-        Actions.runBlocking(slides.submersibleExtention());
-        Actions.runBlocking(slides.retractSlideExtention()); */
+//        Actions.runBlocking(slides.highBasketExtension());
+        Actions.runBlocking(slides.lowBasketExtension());
+//        Actions.runBlocking(slides.submersibleExtension());
+//        Actions.runBlocking(slides.retractSlideExtension());
     }
 
 }
