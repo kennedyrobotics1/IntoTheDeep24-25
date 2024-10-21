@@ -22,9 +22,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private Servo armRightFront;
     private Servo armRightBack;
 
-    double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
-
-    double armPosition = 0;
+    double frontLeftPower, frontRightPower, backLeftPower, backRightPower, armPosition;
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -37,14 +35,16 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
 
-        intake = hardwareMap.get(CRServo.class, "servo1");
+        intake = hardwareMap.get(CRServo.class, "servo0");
 
-        armLeftFront = hardwareMap.get(Servo.class, "servo2");
+        armLeftFront = hardwareMap.get(Servo.class, "servo0e"); // on expansion hub
+        armLeftFront.setDirection(Servo.Direction.REVERSE);
         armLeftBack = hardwareMap.get(Servo.class, "servo3");
-        armRightFront = hardwareMap.get(Servo.class, "servo4");
-        armRightFront.setDirection(Servo.Direction.REVERSE);
+        armRightFront = hardwareMap.get(Servo.class, "servo1"); // on control hub
         armRightBack = hardwareMap.get(Servo.class, "servo5");
         armRightBack.setDirection(Servo.Direction.REVERSE);
+
+        armPosition = 0;
     }
 
     public void start(){
@@ -63,34 +63,28 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         backLeftPower   = (y - x + r) / denominator;
         backRightPower  = (y + x - r) / denominator;
 
-        // move intake controls to gamepad2
-        if (gamepad1.x) {
+        if (gamepad2.y) {
             intake.setPower(1.0);
-        } else if (gamepad1.b) {
+        } else if (gamepad2.a) {
             intake.setPower(-1.0);
         } else {
             intake.setPower(0.0);
         }
 
-        // move arm rotation controls to gamepad2
-        if (gamepad1.dpad_up) {
+        if (gamepad2.dpad_right) {
             armPosition += 0.01;
-            if (armRightBack.getPosition() > 1.0) {
+            /* if (armRightFront.getPosition() > 1.0) {
                 armPosition = 1.0;
-            }
+            } */
             armLeftFront.setPosition(armPosition);
-            armLeftBack.setPosition(armPosition);
             armRightFront.setPosition(armPosition);
-            armRightBack.setPosition(armPosition);
-        } else if (gamepad1.dpad_down) {
+        } else if (gamepad2.dpad_left) {
             armPosition -= 0.01;
-            if (armRightBack.getPosition() < 0.0) {
+            /* if (armRightFront.getPosition() < 0.0) {
                 armPosition = 0.0;
-            }
+            } */
             armLeftFront.setPosition(armPosition);
-            armLeftBack.setPosition(armPosition);
             armRightFront.setPosition(armPosition);
-            armRightBack.setPosition(armPosition);
         }
 
         if(gamepad1.left_bumper){
@@ -108,7 +102,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("frontRightPower ", frontRightPower);
             telemetry.addData("backLeftPower ", backLeftPower);
             telemetry.addData("backRightPower ", backRightPower);
-            telemetry.addData("armRightBack position: ", armRightBack.getPosition());
+            telemetry.addData("armRightFront position: ", armRightFront.getPosition());
             telemetry.update();
         }
     }
