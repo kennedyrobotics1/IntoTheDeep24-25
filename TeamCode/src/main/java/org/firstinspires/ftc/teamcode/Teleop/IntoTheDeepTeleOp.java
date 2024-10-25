@@ -65,13 +65,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intake.setPower(0.0);
         }
 
-        //slide positive extension
         if (gamepad2.dpad_up) {
-            slideLeftMotor.setPower(-0.5);
-            slideRightMotor.setPower(-0.5);
+            slideLeftMotor.setPower(-0.75);
+            slideRightMotor.setPower(0.75);
         } else if (gamepad2.dpad_down) {
-            slideLeftMotor.setPower(0.5);
-            slideRightMotor.setPower(0.5);
+            slideLeftMotor.setPower(0.75);
+            slideRightMotor.setPower(-0.75);
         } else {
             slideLeftMotor.setPower(0);
             slideRightMotor.setPower(0);
