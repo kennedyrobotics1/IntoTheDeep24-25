@@ -18,9 +18,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     private CRServo intake;
     private Servo armLeftFront;
-    private Servo armLeftBack;
     private Servo armRightFront;
-    private Servo armRightBack;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower, armPosition;
 
@@ -38,10 +36,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         intake = hardwareMap.get(CRServo.class, "servo0");
 
         armLeftFront = hardwareMap.get(Servo.class, "servo1e"); // on expansion hub
-        armLeftBack = hardwareMap.get(Servo.class, "servo3");
         armRightFront = hardwareMap.get(Servo.class, "servo1"); // on control hub
-        armRightBack = hardwareMap.get(Servo.class, "servo5");
-
 
         armPosition = 0;
         armLeftFront.setPosition(armPosition);
@@ -71,20 +66,18 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intake.setPower(0.0);
         }
 
-        //forward
+        //forward arm rotation (toward floor)
         if (gamepad2.dpad_right) {
             armLeftFront.setPosition(armPosition);
             armRightFront.setPosition(1 - armPosition);
             armPosition += 0.005;
         }
-        //backward
+        //backward arm rotation
          else if (gamepad2.dpad_left) {
             armLeftFront.setPosition(armPosition);
             armRightFront.setPosition(1 - armPosition);
             armPosition -= 0.005;
         }
-
-
 
         if(gamepad1.left_bumper){
             leftFront.setPower(0.5 * frontLeftPower);
@@ -96,10 +89,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             rightFront.setPower(frontRightPower);
             leftBack.setPower(backLeftPower);
             rightBack.setPower(backRightPower);
-
-
-
-
 
             telemetry.addData("frontLeftPower ", frontLeftPower);
             telemetry.addData("frontRightPower ", frontRightPower);
