@@ -42,7 +42,7 @@ public class ArmTest extends BasicOpMode_Iterative {
             armTemp.setPosition(armPosition);
         }
 
-        telemetry.addData("arm Position (degrees): ", armTemp.getPosition()*355);
+        telemetry.addData("arm Position (degrees): ", armTemp.getPosition());
         telemetry.update();
         }
     }

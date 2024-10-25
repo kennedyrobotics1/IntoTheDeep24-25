@@ -37,18 +37,18 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         intake = hardwareMap.get(CRServo.class, "servo0");
 
-        armLeftFront = hardwareMap.get(Servo.class, "servo0e"); // on expansion hub
-        armLeftFront.setDirection(Servo.Direction.REVERSE);
+        armLeftFront = hardwareMap.get(Servo.class, "servo1e"); // on expansion hub
         armLeftBack = hardwareMap.get(Servo.class, "servo3");
         armRightFront = hardwareMap.get(Servo.class, "servo1"); // on control hub
         armRightBack = hardwareMap.get(Servo.class, "servo5");
-        armRightBack.setDirection(Servo.Direction.REVERSE);
+
 
         armPosition = 0;
+        armLeftFront.setPosition(armPosition);
+        armRightFront.setPosition(1 - armPosition);
     }
 
     public void start(){
-
     }
 
     public void loop(){
@@ -71,21 +71,20 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intake.setPower(0.0);
         }
 
+        //forward
         if (gamepad2.dpad_right) {
-            armPosition += 0.01;
-            /* if (armRightFront.getPosition() > 1.0) {
-                armPosition = 1.0;
-            } */
             armLeftFront.setPosition(armPosition);
-            armRightFront.setPosition(armPosition);
-        } else if (gamepad2.dpad_left) {
-            armPosition -= 0.01;
-            /* if (armRightFront.getPosition() < 0.0) {
-                armPosition = 0.0;
-            } */
-            armLeftFront.setPosition(armPosition);
-            armRightFront.setPosition(armPosition);
+            armRightFront.setPosition(1 - armPosition);
+            armPosition += 0.005;
         }
+        //backward
+         else if (gamepad2.dpad_left) {
+            armLeftFront.setPosition(armPosition);
+            armRightFront.setPosition(1 - armPosition);
+            armPosition -= 0.005;
+        }
+
+
 
         if(gamepad1.left_bumper){
             leftFront.setPower(0.5 * frontLeftPower);
@@ -98,11 +97,16 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             leftBack.setPower(backLeftPower);
             rightBack.setPower(backRightPower);
 
+
+
+
+
             telemetry.addData("frontLeftPower ", frontLeftPower);
             telemetry.addData("frontRightPower ", frontRightPower);
             telemetry.addData("backLeftPower ", backLeftPower);
             telemetry.addData("backRightPower ", backRightPower);
             telemetry.addData("armRightFront position: ", armRightFront.getPosition());
+            telemetry.addData("armLeftFront position: ", armLeftFront.getPosition());
             telemetry.update();
         }
     }
