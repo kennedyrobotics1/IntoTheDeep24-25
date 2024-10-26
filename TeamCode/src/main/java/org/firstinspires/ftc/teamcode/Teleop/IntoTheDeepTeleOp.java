@@ -33,7 +33,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         slideLeftMotor = hardwareMap.get(DcMotorEx.class, "slideLeftMotor");
         slideRightMotor = hardwareMap.get(DcMotorEx.class, "slideRightMotor");
 
-        intake = hardwareMap.get(CRServo.class, "servo0");
+        intake = hardwareMap.get(CRServo.class, "servo1");
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -57,25 +57,31 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         backLeftPower   = (y - x + r) / denominator;
         backRightPower  = (y + x - r) / denominator;
 
-        if (gamepad1.x) {
+        //intake code
+        if (gamepad2.y) {
             intake.setPower(1.0);
-        } else if (gamepad1.b) {
+            //intake in
+        } else if (gamepad2.a) {
             intake.setPower(-1.0);
         } else {
             intake.setPower(0.0);
+            //intake out
         }
 
+        //slides code
         if (gamepad2.dpad_up) {
             slideLeftMotor.setPower(-0.75);
             slideRightMotor.setPower(0.75);
+            //slides go up (must hold button to hold slide position)
         } else if (gamepad2.dpad_down) {
             slideLeftMotor.setPower(0.75);
             slideRightMotor.setPower(-0.75);
+            //slides go down (must hold button to hold slide position)
         } else {
             slideLeftMotor.setPower(0);
             slideRightMotor.setPower(0);
         }
-
+        //half power on drivetrain
         if(gamepad1.left_bumper){
             leftFront.setPower(0.5 * frontLeftPower);
             rightFront.setPower(0.5 * frontRightPower);
