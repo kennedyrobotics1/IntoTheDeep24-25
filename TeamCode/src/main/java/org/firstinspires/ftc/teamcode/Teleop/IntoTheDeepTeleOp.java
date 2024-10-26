@@ -22,7 +22,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     private CRServo intake;
 
-    double frontLeftPower, frontRightPower, backLeftPower, backRightPower, slideLeftPower, slideRightPower;
+    private Servo armLeftFront;
+    private Servo armRightFront;
+
+    double frontLeftPower, frontRightPower, backLeftPower, backRightPower, slideLeftPower, slideRightPower, armPosition;
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -34,6 +37,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         slideRightMotor = hardwareMap.get(DcMotorEx.class, "slideRightMotor");
 
         intake = hardwareMap.get(CRServo.class, "servo0");
+
+        armLeftFront = hardwareMap.get(Servo.class, "servo1e"); // on expansion hub
+        armRightFront = hardwareMap.get(Servo.class, "servo1");
+        armPosition = 0;
+        armLeftFront.setPosition(armPosition);
+        armRightFront.setPosition(1 - armPosition);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -67,6 +76,18 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intake.setPower(0.0);
         }
 
+        // forward arm rotation (toward floor)
+        if (gamepad2.dpad_right) {
+            armLeftFront.setPosition(armPosition);
+            armRightFront.setPosition(1 - armPosition);
+            armPosition += 0.005;
+        // backward arm rotation
+        } else if (gamepad2.dpad_left) {
+            armLeftFront.setPosition(armPosition);
+            armRightFront.setPosition(1 - armPosition);
+            armPosition -= 0.005;
+        }
+
         // slides go up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
             slideLeftMotor.setPower(-0.75);
@@ -98,6 +119,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("backRightPower ", backRightPower);
             telemetry.addData("slideLeftPower", slideLeftPower);
             telemetry.addData("slideRightPower", slideRightPower);
+            telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
+            telemetry.addData("armRightFront: ", armRightFront.getPosition());
             telemetry.update();
         }
     }
