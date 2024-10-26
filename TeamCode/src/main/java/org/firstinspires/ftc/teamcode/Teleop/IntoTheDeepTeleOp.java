@@ -81,7 +81,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             armLeftFront.setPosition(armPosition);
             armRightFront.setPosition(1 - armPosition);
             armPosition += 0.005;
-            // backward arm rotation
+        // backward arm rotation
         } else if (gamepad2.dpad_left) {
             armLeftFront.setPosition(armPosition);
             armRightFront.setPosition(1 - armPosition);
