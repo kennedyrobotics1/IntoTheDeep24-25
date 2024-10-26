@@ -57,30 +57,29 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         backLeftPower   = (y - x + r) / denominator;
         backRightPower  = (y + x - r) / denominator;
 
-        //intake code
+        // intake in
         if (gamepad2.y) {
             intake.setPower(1.0);
-            //intake in
+        // intake out
         } else if (gamepad2.a) {
             intake.setPower(-1.0);
         } else {
             intake.setPower(0.0);
-            //intake out
         }
 
-        //slides code
+        // slides go up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
             slideLeftMotor.setPower(-0.75);
             slideRightMotor.setPower(0.75);
-            //slides go up (must hold button to hold slide position)
+        // slides go down (must hold button to hold slide position)
         } else if (gamepad2.dpad_down) {
             slideLeftMotor.setPower(0.75);
             slideRightMotor.setPower(-0.75);
-            //slides go down (must hold button to hold slide position)
         } else {
             slideLeftMotor.setPower(0);
             slideRightMotor.setPower(0);
         }
+
         //half power on drivetrain
         if(gamepad1.left_bumper){
             leftFront.setPower(0.5 * frontLeftPower);
