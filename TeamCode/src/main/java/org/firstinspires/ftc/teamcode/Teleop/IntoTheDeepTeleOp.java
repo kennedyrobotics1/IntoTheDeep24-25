@@ -119,6 +119,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("backRightPower ", backRightPower);
             telemetry.addData("slideLeftPower", slideLeftPower);
             telemetry.addData("slideRightPower", slideRightPower);
+            telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
+            telemetry.addData("armRightFront: ", armRightFront.getPosition());
             telemetry.update();
         }
     }
