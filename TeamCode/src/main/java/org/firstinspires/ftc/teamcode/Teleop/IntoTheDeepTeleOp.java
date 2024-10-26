@@ -33,7 +33,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         slideLeftMotor = hardwareMap.get(DcMotorEx.class, "slideLeftMotor");
         slideRightMotor = hardwareMap.get(DcMotorEx.class, "slideRightMotor");
 
-        intake = hardwareMap.get(CRServo.class, "servo1");
+        intake = hardwareMap.get(CRServo.class, "servo0");
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
