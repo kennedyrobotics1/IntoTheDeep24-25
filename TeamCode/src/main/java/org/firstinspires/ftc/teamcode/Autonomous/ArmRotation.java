@@ -14,27 +14,29 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class ArmRotation {
-    //private Servo armLeft;
-    //private Servo armRight;
-    private Servo armTest;
+    private Servo armLeftFront;
+    private Servo armRightFront;
     private Telemetry telemetry;
+    double armPosition;
 
     public ArmRotation(HardwareMap hardwareMap, Telemetry telemetryA){
-        //armLeft = hardwareMap.get(Servo.class, "servo0e");
-        //armLeft.setDirection(Servo.Direction.REVERSE);
-        //armRight = hardwareMap.get(Servo.class, "servo1");
-        armTest = hardwareMap.get(Servo.class, "servo4");
-        armTest.setDirection(Servo.Direction.REVERSE);
+        armLeftFront = hardwareMap.get(Servo.class, "servo1e"); // on expansion hub
+        armRightFront = hardwareMap.get(Servo.class, "servo1");
+        armPosition = 0;
+        armLeftFront.setPosition(armPosition);
+        armRightFront.setPosition(1 - armPosition);
         telemetry = telemetryA;
     }
 
     public class SetLowest implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            telemetry.addData("arm pos (degs): ", armTest.getPosition() * 355);
+            telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
+            telemetry.addData("armRightFront: ", armRightFront.getPosition());
             telemetry.update();
-            armTest.setPosition(1.0);
-            if (armTest.getPosition() != 1.0) {
+            armLeftFront.setPosition(1.0);
+            armRightFront.setPosition(1.0);
+            if (armLeftFront.getPosition() != 1.0) {
                 return false;
             } else {
                 return true;
