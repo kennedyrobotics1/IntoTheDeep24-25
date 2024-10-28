@@ -22,9 +22,9 @@ public class ArmRotation {
     public ArmRotation(HardwareMap hardwareMap, Telemetry telemetryA){
         armLeftFront = hardwareMap.get(Servo.class, "servo1e"); // on expansion hub
         armRightFront = hardwareMap.get(Servo.class, "servo1");
-        armPosition = 0;
-        armLeftFront.setPosition(armPosition);
-        armRightFront.setPosition(1 - armPosition);
+        //armPosition = 0;
+        //armLeftFront.setPosition(armPosition);
+        //armRightFront.setPosition(1 - armPosition);
         telemetry = telemetryA;
     }
 
@@ -35,11 +35,11 @@ public class ArmRotation {
             telemetry.addData("armRightFront: ", armRightFront.getPosition());
             telemetry.update();
             armLeftFront.setPosition(1.0);
-            armRightFront.setPosition(1.0);
-            if (armLeftFront.getPosition() != 1.0) {
-                return false;
-            } else {
+            armRightFront.setPosition(0);
+            if (armLeftFront.getPosition() == 1.0 || armRightFront.getPosition() == 0) {
                 return true;
+            } else {
+                return false;
             }
         }
     }
