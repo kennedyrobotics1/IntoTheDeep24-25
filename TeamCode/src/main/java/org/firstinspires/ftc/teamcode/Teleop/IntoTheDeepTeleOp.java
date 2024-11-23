@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
+import org.firstinspires.ftc.teamcode.Teleop.ServoController;
 
 @TeleOp(name = "IntoTheDeepTeleOp", group = "Iterative OpMode")
 
@@ -21,15 +22,16 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private DcMotor slideExtensionMotor = null;
 
     private Servo intakeRotation;
+    private ServoController intakeRotationPosition;
     private Servo clawRotation;
     private Servo claw;
 
     private Servo armLeftFront;
     private Servo armRightFront;
-
+    private ServoController armPosition;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
-    double armPosition, intakeRotationPosition, clawRotationPosition;
+    double clawRotationPosition;
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -43,14 +45,15 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         intakeRotation = hardwareMap.get(Servo.class, "servo5");
         clawRotation = hardwareMap.get(Servo.class, "servo4");
         claw = hardwareMap.get(Servo.class, "servo3");
-        intakeRotationPosition = 0;
+        intakeRotationPosition = new ServoController(0);
         clawRotationPosition = 0;
 
         armLeftFront = hardwareMap.get(Servo.class, "servo1");
         armRightFront = hardwareMap.get(Servo.class, "servo2");
-        armPosition = 0;
-        armLeftFront.setPosition(armPosition);
-        armRightFront.setPosition(1 - armPosition);
+
+        armPosition = new ServoController(0);
+        armLeftFront.setPosition(armPosition.position);
+        armRightFront.setPosition(1 - armPosition.position);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -77,47 +80,41 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         // rotating entire intake
         // forward rotation
         if (gamepad2.left_bumper) {
-            intakeRotationPosition += 0.008;
-            if(intakeRotationPosition > 1){
-                intakeRotationPosition = 1;
-            }
-            intakeRotation.setPosition(intakeRotationPosition);
+            intakeRotationPosition.update(0.008);
+            intakeRotation.setPosition(intakeRotationPosition.position);
         // backward rotation
         } else if (gamepad2.right_bumper) {
-            intakeRotationPosition -= 0.008;
-            if(intakeRotationPosition < 0){
-                intakeRotationPosition = 0;
-            }
-            intakeRotation.setPosition(intakeRotationPosition);
+            intakeRotationPosition.update(-0.008);
+            intakeRotation.setPosition(intakeRotationPosition.position);
         }
 
-        // rotating claw
-        if (gamepad2.x) {
-            clawRotationPosition += 0.008;
-            clawRotation.setPosition(clawRotationPosition);
-        } else if (gamepad2.b) {
-            clawRotationPosition -= 0.008;
-            clawRotation.setPosition(clawRotationPosition);
-        }
+//        // rotating claw
+//        if (gamepad2.x) {
+//            clawRotationPosition -= 0.008;
+//            clawRotation.setPosition(clawRotationPosition);
+//        } else if (gamepad2.b) {
+//            clawRotationPosition += 0.008;
+//            clawRotation.setPosition(clawRotationPosition);
+//        }
 
         // open claw
         if (gamepad2.a) {
             claw.setPosition(0.75);
-        // close clawb
-        } else if (gamepad2.y) {
+        // close claw
+        } else if (gamepad2.x) {
             claw.setPosition(0.25);
         }
 
         // forward arm rotation (toward floor)
         if (gamepad2.dpad_right) {
-            armLeftFront.setPosition(armPosition);
-            armRightFront.setPosition(1 - armPosition);
-            armPosition += 0.002;
+            armLeftFront.setPosition(armPosition.position);
+            armRightFront.setPosition(1 - armPosition.position);
+            armPosition.update(0.005);
         // backward arm rotation
         } else if (gamepad2.dpad_left) {
-            armLeftFront.setPosition(armPosition);
-            armRightFront.setPosition(1 - armPosition);
-            armPosition -= 0.002;
+            armLeftFront.setPosition(armPosition.position);
+            armRightFront.setPosition(1 - armPosition.position);
+            armPosition.update(-0.005);
         }
 
         // slides go up (must hold button to hold slide position)
@@ -150,8 +147,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
             telemetry.addData("armRightFront: ", armRightFront.getPosition());
             telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
-            telemetry.addData("claw rotation position: ", clawRotation.getPosition());
             telemetry.addData("claw position: ", claw.getPosition());
+            telemetry.addData("armPosition", armPosition.position);
+            telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
             telemetry.update();
         }
     }
