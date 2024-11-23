@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
@@ -37,6 +38,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
+        slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeRotation = hardwareMap.get(Servo.class, "servo5");
         clawRotation = hardwareMap.get(Servo.class, "servo4");
@@ -76,10 +78,16 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         // forward rotation
         if (gamepad2.left_bumper) {
             intakeRotationPosition += 0.008;
+            if(intakeRotationPosition > 1){
+                intakeRotationPosition = 1;
+            }
             intakeRotation.setPosition(intakeRotationPosition);
         // backward rotation
         } else if (gamepad2.right_bumper) {
             intakeRotationPosition -= 0.008;
+            if(intakeRotationPosition < 0){
+                intakeRotationPosition = 0;
+            }
             intakeRotation.setPosition(intakeRotationPosition);
         }
 
@@ -95,15 +103,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         // open claw
         if (gamepad2.a) {
             claw.setPosition(0.75);
-        // close claw
+        // close clawb
         } else if (gamepad2.y) {
             claw.setPosition(0.25);
         }
-
-        telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
-        telemetry.addData("claw rotation position: ", clawRotation.getPosition());
-        telemetry.addData("claw position: ", claw.getPosition());
-        telemetry.update();
 
         // forward arm rotation (toward floor)
         if (gamepad2.dpad_right) {
@@ -129,10 +132,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         // half power on drivetrain
         if(gamepad1.left_bumper){
-            leftFront.setPower(0.5 * frontLeftPower);
-            rightFront.setPower(0.5 * frontRightPower);
-            leftBack.setPower(0.5 * backLeftPower);
-            rightBack.setPower(0.5 * backRightPower);
+            leftFront.setPower(0.35 * frontLeftPower);
+            rightFront.setPower(0.35 * frontRightPower);
+            leftBack.setPower(0.35 * backLeftPower);
+            rightBack.setPower(0.35 * backRightPower);
         } else {
             leftFront.setPower(frontLeftPower);
             rightFront.setPower(frontRightPower);
@@ -146,6 +149,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("slideExtensionPower", slideExtensionMotor.getPower());
             telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
             telemetry.addData("armRightFront: ", armRightFront.getPosition());
+            telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
+            telemetry.addData("claw rotation position: ", clawRotation.getPosition());
+            telemetry.addData("claw position: ", claw.getPosition());
             telemetry.update();
         }
     }
