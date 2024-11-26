@@ -42,7 +42,6 @@ public class AutonomousTracker {
     }
 
     public double updateRotation(double new_incrementr) {
-
         double rotation = Math.toRadians(new_incrementr);
         if (invertR) {
             r += rotation + Math.PI;

@@ -19,37 +19,29 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "CalibrateStraightTest", group = "23393 Auto")
-public class CalibrateStraightTest extends LinearOpMode {
+@Autonomous(name = "roadRunnerTestAuto", group = "16481-Example")
+public class roadRunnerTestAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
 
         AutonomousTracker auto = new AutonomousTracker(0, 0, 0);
-
+        auto.invertY = true;
+        auto.invertX = true;
+        auto.invertR = true;
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(270)));
 
+        double MOVE_FORWARD = 20;
+        double MOVE_FORWARD_TO_GET_IN_POSITION = -7;
+
+
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
-                //Up to Outside Sample
-                .strafeTo(auto.update2d(0, -20))
-
-                .strafeTo(auto.update2d(-10, 0))
-
-                .strafeTo(auto.update2d(0, 20))
-
-                .strafeTo(auto.update2d(10, 0))
-
+                .strafeTo(auto.update2d(0, MOVE_FORWARD))
+                .strafeToLinearHeading(auto.update2d(-40,-10), auto.updateRotation(-135))
+                .strafeTo(auto.update2d(0, MOVE_FORWARD_TO_GET_IN_POSITION))
                 .build();
-
-//                .splineToConstantHeading(new Vector2d(-45, 13), Math.toRadians(270))
-//
-//                .strafeTo(new Vector2d(-46, 13))
-//
-//                .splineToConstantHeading(new Vector2d(60, 43), Math.toRadians(270))
-//
-//                .build();
 
         while (!isStopRequested() && !opModeIsActive()) {
 
@@ -79,6 +71,5 @@ public class CalibrateStraightTest extends LinearOpMode {
                         }
                 )
         );
-
     }
 }
