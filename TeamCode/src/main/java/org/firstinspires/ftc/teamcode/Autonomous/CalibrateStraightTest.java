@@ -27,19 +27,21 @@ public class CalibrateStraightTest extends LinearOpMode {
 
         AutonomousTracker auto = new AutonomousTracker(0, 0, 0);
 
+        auto.invertX = true;
+        auto.invertY = true;
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(270)));
 
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
                 //Up to Outside Sample
-                .strafeTo(auto.update2d(0, -20))
-
-                .strafeTo(auto.update2d(-10, 0))
-
                 .strafeTo(auto.update2d(0, 20))
 
                 .strafeTo(auto.update2d(10, 0))
+
+                .strafeTo(auto.update2d(0, -20))
+
+                .strafeTo(auto.update2d(-10, 0))
 
                 .build();
 
