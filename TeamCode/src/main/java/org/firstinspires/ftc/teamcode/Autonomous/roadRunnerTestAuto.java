@@ -14,16 +14,49 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Teleop.ServoController;
 
 
 @Config
 @Autonomous(name = "roadRunnerTestAuto", group = "16481-Example")
 public class roadRunnerTestAuto extends LinearOpMode {
 
+    private DcMotor slideExtensionMotor;
+
+    private Servo intakeRotation;
+    private ServoController intakeRotationPosition;
+    private Servo clawRotation;
+    private Servo claw;
+
+    private Servo armLeftFront;
+    private Servo armRightFront;
+    private ServoController armPosition;
+
+    double clawRotationPosition;
+
     @Override
     public void runOpMode() {
+        slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
+        slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        intakeRotation = hardwareMap.get(Servo.class, "servo5");
+        clawRotation = hardwareMap.get(Servo.class, "servo4");
+        claw = hardwareMap.get(Servo.class, "servo3");
+        intakeRotationPosition = new ServoController(0);
+        clawRotationPosition = 0;
+
+        armLeftFront = hardwareMap.get(Servo.class, "servo1");
+        armRightFront = hardwareMap.get(Servo.class, "servo2");
+
+        armPosition = new ServoController(0);
+        armLeftFront.setPosition(armPosition.position);
+        armRightFront.setPosition(1 - armPosition.position);
 
         AutonomousTracker auto = new AutonomousTracker(0, 0, 0);
         auto.invertY = true;

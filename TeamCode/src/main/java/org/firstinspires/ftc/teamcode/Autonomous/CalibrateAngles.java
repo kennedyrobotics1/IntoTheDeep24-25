@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "CalibrateStraightTest", group = "23393 Auto")
-public class CalibrateStraightTest extends LinearOpMode {
+@Autonomous(name = "CalibrateAngles", group = "23393 Auto")
+public class CalibrateAngles extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -32,16 +32,19 @@ public class CalibrateStraightTest extends LinearOpMode {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(270)));
 
-        Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
+        Action Trajectory = drive.actionBuilder(drive.pose)
 
-                //Up to Outside Sample
-                .strafeTo(auto.update2d(0, 20))
+                .strafeTo(auto.update2d(0, 30))
 
-                .strafeTo(auto.update2d(10, 0))
-
-                .strafeTo(auto.update2d(0, -20))
+                .turn(auto.updateRotation(90))
 
                 .strafeTo(auto.update2d(-10, 0))
+
+                .turn(auto.updateRotation(45))
+
+                .strafeTo(auto.moveForward(10))
+
+                .strafeTo(auto.update2d(-5, -5))
 
                 .build();
 
@@ -62,7 +65,7 @@ public class CalibrateStraightTest extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        TrajectoryForwardToSample,
+                        Trajectory,
                         new Action() {
                             // This action and the following action do the same thing
 
