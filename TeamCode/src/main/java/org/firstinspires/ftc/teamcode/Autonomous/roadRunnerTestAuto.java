@@ -32,15 +32,15 @@ public class roadRunnerTestAuto extends LinearOpMode {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(270)));
 
-        double MOVE_FORWARD = 20;
-        double MOVE_FORWARD_TO_GET_IN_POSITION = -7;
-
+        double MOVE_FORWARD_TO_SUB = 20;
+        double MOVE_LEFT_TO_SCORE = -40;
+        double MOVE_FORWARD_TO_SCORE = -10;
+        double TURN_TO_SCORE = -135;
 
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
-                .strafeTo(auto.update2d(0, MOVE_FORWARD))
-                .strafeToLinearHeading(auto.update2d(-40,-10), auto.updateRotation(-135))
-                .strafeTo(auto.update2d(0, MOVE_FORWARD_TO_GET_IN_POSITION))
+                .strafeTo(auto.update2d(0, MOVE_FORWARD_TO_SUB))
+                .strafeToLinearHeading(auto.update2d(MOVE_LEFT_TO_SCORE,MOVE_FORWARD_TO_SCORE), auto.updateRotation(TURN_TO_SCORE))
                 .build();
 
         while (!isStopRequested() && !opModeIsActive()) {

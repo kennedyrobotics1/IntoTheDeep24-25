@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousTracker;
 
 import androidx.annotation.NonNull;
 // RR-specific imports
@@ -7,7 +8,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
@@ -19,20 +19,24 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "TestIncrementAbsoluteKevina", group = "23393 Auto")
-public class TestIncrementAbsoluteKevina extends LinearOpMode {
+@Autonomous(name = "BasketToPark", group = "16481-Example")
+public class BasketToPark extends LinearOpMode {
 
     @Override
     public void runOpMode() {
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(17, 60, Math.toRadians(270)));
+        AutonomousTracker auto = new AutonomousTracker(0, 0, 0);
+        auto.invertY = true;
+        auto.invertX = true;
+        auto.invertR = true;
+
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(270)));
+
+        double MOVE_RIGHT_TO_PARK = 70;
 
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
-                .strafeTo(new Vector2d(17, 20))
-                .strafeToLinearHeading(new Vector2d(56, 20), Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(56, 44), Math.toRadians(45))
-                .strafeTo(new Vector2d(50, 39))
+                .strafeTo(auto.update2d(MOVE_RIGHT_TO_PARK, 0))
                 .build();
 
         while (!isStopRequested() && !opModeIsActive()) {
@@ -44,10 +48,9 @@ public class TestIncrementAbsoluteKevina extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                      TrajectoryForwardToSample,
+                        TrajectoryForwardToSample,
                         new Action() {
                             // This action and the following action do the same thing
-
                             @Override
                             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                                 telemetry.addLine("Action!");
@@ -62,9 +65,6 @@ public class TestIncrementAbsoluteKevina extends LinearOpMode {
                             return false; // Returning true causes the action to run again, returning false causes it to cease
                         }
                 )
-
         );
-
     }
 }
-

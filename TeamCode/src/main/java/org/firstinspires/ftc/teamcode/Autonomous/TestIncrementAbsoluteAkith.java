@@ -25,7 +25,7 @@ public class TestIncrementAbsoluteAkith extends LinearOpMode {
 
 
 
-        AutonomousTracker auto = new AutonomousTracker(0, 0);
+        AutonomousTracker auto = new AutonomousTracker(0, 0, 0);
         auto.invertY = true;
         auto.invertX = true;
 
