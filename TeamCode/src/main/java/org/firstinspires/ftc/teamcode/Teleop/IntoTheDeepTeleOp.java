@@ -24,7 +24,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private Servo intakeRotation;
     private ServoController intakeRotationPosition;
     private Servo clawRotation;
-    private Servo claw;
+    private CRServo claw;
+    private CRServo claw2;
 
     private Servo armLeftFront;
     private Servo armRightFront;
@@ -43,8 +44,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeRotation = hardwareMap.get(Servo.class, "servo5");
-        clawRotation = hardwareMap.get(Servo.class, "servo4");
-        claw = hardwareMap.get(Servo.class, "servo3");
+        //clawRotation = hardwareMap.get(Servo.class, "servo4");
+        claw = hardwareMap.get(CRServo.class, "servo4");
+        claw2 = hardwareMap.get(CRServo.class, "servo3");
         intakeRotationPosition = new ServoController(0);
         clawRotationPosition = 0;
 
@@ -99,10 +101,16 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         // open claw
         if (gamepad2.a) {
-            claw.setPosition(0.75);
+            claw.setPower(1);
+            claw2.setPower(-1);
         // close claw
         } else if (gamepad2.x) {
-            claw.setPosition(0.25);
+            claw.setPower(-1);
+            claw2.setPower(1);
+        }
+        else{
+            claw.setPower(0);
+            claw2.setPower(0);
         }
 
         // forward arm rotation (toward floor)
@@ -147,7 +155,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
             telemetry.addData("armRightFront: ", armRightFront.getPosition());
             telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
-            telemetry.addData("claw position: ", claw.getPosition());
             telemetry.addData("armPosition", armPosition.position);
             telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
             telemetry.update();
