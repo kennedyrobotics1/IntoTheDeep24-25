@@ -24,14 +24,14 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private Servo intakeRotation;
     private ServoController intakeRotationPosition;
     private Servo clawRotation;
-    private Servo claw;
+    private CRServo clawServoLeft;
+    private CRServo clawServoRight;
 
     private Servo armLeftFront;
     private Servo armRightFront;
     private ServoController armPosition;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
-    double clawRotationPosition;
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -43,10 +43,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeRotation = hardwareMap.get(Servo.class, "servo5");
-        clawRotation = hardwareMap.get(Servo.class, "servo4");
-        claw = hardwareMap.get(Servo.class, "servo3");
-        intakeRotationPosition = new ServoController(0);
-        clawRotationPosition = 0;
+
+        clawServoLeft = hardwareMap.get(CRServo.class, "servo3");
+        clawServoRight  = hardwareMap.get(CRServo.class, "servo4");
 
         armLeftFront = hardwareMap.get(Servo.class, "servo1");
         armRightFront = hardwareMap.get(Servo.class, "servo2");
@@ -79,78 +78,72 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         // rotating entire intake
         // forward rotation
-        if (gamepad2.left_bumper) {
-            intakeRotationPosition.update(0.008);
-            intakeRotation.setPosition(intakeRotationPosition.position);
-        // backward rotation
-        } else if (gamepad2.right_bumper) {
-            intakeRotationPosition.update(-0.008);
-            intakeRotation.setPosition(intakeRotationPosition.position);
+        if (gamepad1.y) {
+            intakeRotation.setPosition(0.75);
+        }
+        if (gamepad1.x) {
+            intakeRotation.setPosition(0.25);
         }
 
-//        // rotating claw
-//        if (gamepad2.x) {
-//            clawRotationPosition -= 0.008;
-//            clawRotation.setPosition(clawRotationPosition);
-//        } else if (gamepad2.b) {
-//            clawRotationPosition += 0.008;
-//            clawRotation.setPosition(clawRotationPosition);
-//        }
-
-        // open claw
-        if (gamepad2.a) {
-            claw.setPosition(0.75);
-        // close claw
-        } else if (gamepad2.x) {
-            claw.setPosition(0.25);
+        double ClawPower = 0.5;
+//      Intake Claw
+        if (gamepad1.left_trigger > 0.7) {
+            clawServoLeft.setPower(-ClawPower);
+            clawServoRight.setPower(ClawPower);
+//      Outake Claw
+        } else if (gamepad1.right_trigger > 0.7) {
+            clawServoLeft.setPower(ClawPower/2);
+            clawServoRight.setPower(-ClawPower/2);
+        }
+        else {
+            clawServoLeft.setPower(0);
+            clawServoRight.setPower(0);
         }
 
         // forward arm rotation (toward floor)
-        if (gamepad2.dpad_right) {
+        if (gamepad1.dpad_up) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             armPosition.update(0.005);
         // backward arm rotation
-        } else if (gamepad2.dpad_left) {
+        } else if (gamepad1.dpad_down) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             armPosition.update(-0.005);
         }
 
         // slides go up (must hold button to hold slide position)
-        if (gamepad2.dpad_up) {
-            slideExtensionMotor.setPower(1.0);
+        if (gamepad1.b) {
+            slideExtensionMotor.setPower(0.5);
         // slides go down (must hold button to hold slide position)
-        } else if (gamepad2.dpad_down) {
-            slideExtensionMotor.setPower(-1.0);
+        } else if (gamepad1.a) {
+            slideExtensionMotor.setPower(-0.5);
         } else {
             slideExtensionMotor.setPower(0);
         }
 
+        double SlowSpeed = 0.35;
+        double NormalSpeed = .6;
+        double FastSpeed = 1;
+
         // half power on drivetrain
         if(gamepad1.left_bumper){
-            leftFront.setPower(0.35 * frontLeftPower);
-            rightFront.setPower(0.35 * frontRightPower);
-            leftBack.setPower(0.35 * backLeftPower);
-            rightBack.setPower(0.35 * backRightPower);
-        } else {
-            leftFront.setPower(frontLeftPower);
-            rightFront.setPower(frontRightPower);
-            leftBack.setPower(backLeftPower);
-            rightBack.setPower(backRightPower);
-
-            telemetry.addData("frontLeftPower ", frontLeftPower);
-            telemetry.addData("frontRightPower ", frontRightPower);
-            telemetry.addData("backLeftPower ", backLeftPower);
-            telemetry.addData("backRightPower ", backRightPower);
-            telemetry.addData("slideExtensionPower", slideExtensionMotor.getPower());
-            telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
-            telemetry.addData("armRightFront: ", armRightFront.getPosition());
-            telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
-            telemetry.addData("claw position: ", claw.getPosition());
-            telemetry.addData("armPosition", armPosition.position);
-            telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
-            telemetry.update();
+            leftFront.setPower(SlowSpeed * frontLeftPower);
+            rightFront.setPower(SlowSpeed * frontRightPower);
+            leftBack.setPower(SlowSpeed * backLeftPower);
+            rightBack.setPower(SlowSpeed * backRightPower);
+        } else if (gamepad1.right_bumper){
+            leftFront.setPower(FastSpeed * frontLeftPower);
+            rightFront.setPower(FastSpeed * frontRightPower);
+            leftBack.setPower(FastSpeed * backLeftPower);
+            rightBack.setPower(FastSpeed * backRightPower);
         }
+        else {
+            leftFront.setPower(NormalSpeed * frontLeftPower);
+            rightFront.setPower(NormalSpeed * frontRightPower);
+            leftBack.setPower(NormalSpeed * backLeftPower);
+            rightBack.setPower(NormalSpeed * backRightPower);
+        }
+
     }
 }

@@ -1,2 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;public class ClawAuto {
+package org.firstinspires.ftc.teamcode.Autonomous;
+
+public class ClawAuto {
 }

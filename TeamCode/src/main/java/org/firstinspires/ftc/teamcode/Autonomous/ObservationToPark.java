@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
@@ -17,25 +18,39 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "ObservationToPark", group = "16481-Example")
+@Autonomous(name = "ObservationToPark", group = "23393 Auto")
 public class ObservationToPark extends LinearOpMode {
 
     @Override
     public void runOpMode() {
 
-        AutonomousTracker auto = new AutonomousTracker(0, 0, 0);
-        auto.invertY = true;
-        auto.invertX = true;
-        auto.invertR = true;
-
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(270)));
-
-        double MOVE_RIGHT_TO_PARK = 20;
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-15, 60, Math.toRadians(270)));
 
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
-                .strafeTo(auto.update2d(MOVE_RIGHT_TO_PARK, 0))
+                //Park to Observation Zone From Observation Side
+                .strafeTo(new Vector2d(-58, 60))
+
                 .build();
+
+
+
+     /*
+        Action TrajectoryParkingObservation = drive.actionBuilder(drive.pose)
+                .lineToX(-50)
+                .build();
+*/
+
+     /*
+        Action TrajectoryAction1 = drive.actionBuilder(drive.pose)
+                .lineToX(10)
+                .build();
+
+        Action TrajectoryAction2 = drive.actionBuilder(new Pose2d(15, 20, 0))
+               .splineTo(new Vector2d(5, 5), Math.toRadians(90))
+                .build();
+        */
+
 
         while (!isStopRequested() && !opModeIsActive()) {
 
@@ -49,6 +64,7 @@ public class ObservationToPark extends LinearOpMode {
                         TrajectoryForwardToSample,
                         new Action() {
                             // This action and the following action do the same thing
+
                             @Override
                             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                                 telemetry.addLine("Action!");

@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
-import org.firstinspires.ftc.teamcode.Autonomous.AutonomousTracker;
 
 import androidx.annotation.NonNull;
 // RR-specific imports
@@ -19,25 +18,39 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "BasketToPark", group = "16481-Example")
+@Autonomous(name = "BasketToPark", group = "23393 Auto")
 public class BasketToPark extends LinearOpMode {
 
     @Override
     public void runOpMode() {
 
-        AutonomousTracker auto = new AutonomousTracker(0, 0, 0);
-        auto.invertY = true;
-        auto.invertX = true;
-        auto.invertR = true;
-
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(270)));
-
-        double MOVE_RIGHT_TO_PARK = 70;
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(35, 60, Math.toRadians(270)));
 
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
-                .strafeTo(auto.update2d(MOVE_RIGHT_TO_PARK, 0))
+                //Park to Observation Zone From Basket Side
+                .strafeTo(new Vector2d(-32, 60))
+
                 .build();
+
+
+
+     /*
+        Action TrajectoryParkingObservation = drive.actionBuilder(drive.pose)
+                .lineToX(-50)
+                .build();
+*/
+
+     /*
+        Action TrajectoryAction1 = drive.actionBuilder(drive.pose)
+                .lineToX(10)
+                .build();
+
+        Action TrajectoryAction2 = drive.actionBuilder(new Pose2d(15, 20, 0))
+               .splineTo(new Vector2d(5, 5), Math.toRadians(90))
+                .build();
+        */
+
 
         while (!isStopRequested() && !opModeIsActive()) {
 
@@ -51,6 +64,7 @@ public class BasketToPark extends LinearOpMode {
                         TrajectoryForwardToSample,
                         new Action() {
                             // This action and the following action do the same thing
+
                             @Override
                             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                                 telemetry.addLine("Action!");
