@@ -68,7 +68,7 @@ public class ThreeSampleScoreAuto extends LinearOpMode {
                         new SequentialAction(
                                 extensionMotor.extensionHigh(),
                                 wrist.out(),
-                                //clawhere
+                                //claw unload into basket
                                 wrist.home(),
                                 extensionMotor.extensionLow()
 
