@@ -30,6 +30,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private Servo armLeftFront;
     private Servo armRightFront;
     private ServoController armPosition;
+    boolean RotatingThing = false;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     double clawRotationPosition;
@@ -81,11 +82,11 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         // rotating entire intake
         // forward rotation
-        if (gamepad2.left_bumper) {
+        if (gamepad1.dpad_left) {
             intakeRotationPosition.update(0.008);
             intakeRotation.setPosition(intakeRotationPosition.position);
         // backward rotation
-        } else if (gamepad2.right_bumper) {
+        } else if (gamepad1.dpad_right) {
             intakeRotationPosition.update(-0.008);
             intakeRotation.setPosition(intakeRotationPosition.position);
         }
@@ -100,11 +101,11 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 //        }
 
         // open claw
-        if (gamepad2.a) {
+        if (gamepad1.a) {
             claw.setPower(1);
             claw2.setPower(-1);
         // close claw
-        } else if (gamepad2.x) {
+        } else if (gamepad1.b) {
             claw.setPower(-1);
             claw2.setPower(1);
         }
@@ -113,30 +114,32 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             claw2.setPower(0);
         }
 
+
+
         // forward arm rotation (toward floor)
-        if (gamepad2.dpad_right) {
+        if (gamepad1.right_trigger != 0) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             armPosition.update(0.005);
         // backward arm rotation
-        } else if (gamepad2.dpad_left) {
+        } else if (gamepad1.left_trigger != 0) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             armPosition.update(-0.005);
         }
 
         // slides go up (must hold button to hold slide position)
-        if (gamepad2.dpad_up) {
+        if (gamepad1.right_bumper) {
             slideExtensionMotor.setPower(1.0);
         // slides go down (must hold button to hold slide position)
-        } else if (gamepad2.dpad_down) {
+        } else if (gamepad1.left_bumper) {
             slideExtensionMotor.setPower(-1.0);
         } else {
             slideExtensionMotor.setPower(0);
         }
 
         // half power on drivetrain
-        if(gamepad1.left_bumper){
+        if(gamepad2.a){
             leftFront.setPower(0.35 * frontLeftPower);
             rightFront.setPower(0.35 * frontRightPower);
             leftBack.setPower(0.35 * backLeftPower);
