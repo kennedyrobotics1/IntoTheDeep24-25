@@ -49,6 +49,5 @@ public class AutonomousTracker {
             r += rotation;
         }
         return r;
-
     }
 }
