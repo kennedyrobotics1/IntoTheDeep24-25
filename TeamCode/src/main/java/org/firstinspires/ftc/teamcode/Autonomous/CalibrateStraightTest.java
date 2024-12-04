@@ -45,14 +45,6 @@ public class CalibrateStraightTest extends LinearOpMode {
 
                 .build();
 
-//                .splineToConstantHeading(new Vector2d(-45, 13), Math.toRadians(270))
-//
-//                .strafeTo(new Vector2d(-46, 13))
-//
-//                .splineToConstantHeading(new Vector2d(60, 43), Math.toRadians(270))
-//
-//                .build();
-
         while (!isStopRequested() && !opModeIsActive()) {
 
         }

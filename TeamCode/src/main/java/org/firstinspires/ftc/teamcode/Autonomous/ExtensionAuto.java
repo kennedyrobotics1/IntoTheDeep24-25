@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Action;
 
 // Non-RR imports
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -20,7 +21,8 @@ public class ExtensionAuto {
 
     public ExtensionAuto(HardwareMap hardwareMap, Telemetry telemetryB){
         extensionMotor = hardwareMap.get(DcMotor.class, "slideExtensionMotor");
-        extensionMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extensionMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry = telemetryB;
     }

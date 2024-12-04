@@ -14,41 +14,46 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
-import java.util.Vector;
-
 
 @Config
-@Autonomous(name = "ThreeSampleScoreAuto", group = "23393 Auto")
-public class ThreeSampleScoreAuto extends LinearOpMode {
+@Autonomous(name = "PreloadHighBasket", group = "23393 Auto")
+public class PreloadHighBasket extends LinearOpMode {
 
-
-    private SlidesRotationAuto armLeft;
-    private SlidesRotationAuto armRight;
-    private IntakeWristRotation wrist;
+    private SlidesRotationAuto slideLeft;
+    private SlidesRotationAuto slideRight;
     private ExtensionAuto extensionMotor;
+    private IntakeWristRotation wrist;
+    private Intake claw;
 
 
     @Override
     public void runOpMode() {
 
-         armRight = new SlidesRotationAuto(hardwareMap);
-         armLeft = new SlidesRotationAuto(hardwareMap);
-         wrist = new IntakeWristRotation(hardwareMap, telemetry);
+        slideRight = new SlidesRotationAuto(hardwareMap);
+        slideLeft = new SlidesRotationAuto(hardwareMap);
         extensionMotor = new ExtensionAuto(hardwareMap, telemetry);
+        wrist = new IntakeWristRotation(hardwareMap, telemetry);
+        claw = new Intake(hardwareMap, telemetry);
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(35, 60, Math.toRadians(270)));
 
-        Action MoveToScore = drive.actionBuilder(drive.pose)
-
+        Action MoveToHighBasket = drive.actionBuilder(drive.pose)
                 .strafeTo(new Vector2d(35, 50))
-                .strafeToLinearHeading(new Vector2d(50, 50), Math.toRadians(45))
-                .strafeTo(new Vector2d(55, 55))
+                .strafeToLinearHeading(new Vector2d(55, 55), Math.toRadians(45))
+                .build();
 
+        Action InnerSampleToNetZone = drive.actionBuilder(new Pose2d(55, 55, Math.toRadians(45)))
+                .strafeToLinearHeading(new Vector2d(30, 38), Math.toRadians(0))
+                .strafeTo(new Vector2d(35, 10))
+                .strafeTo(new Vector2d(42, 10))
+                .strafeToLinearHeading(new Vector2d(55, 55), Math.toRadians(-45))
+                .build();
+
+        Action Park = drive.actionBuilder(new Pose2d(55, 55, Math.toRadians(-45)))
+                .strafeToLinearHeading(new Vector2d(-58, 60), Math.toRadians(0))
                 .build();
 
         while (!isStopRequested() && !opModeIsActive()) {
@@ -61,18 +66,25 @@ public class ThreeSampleScoreAuto extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                     new ParallelAction(
-                            MoveToScore,
-                            armLeft.highBasket(),
-                            armRight.highBasket()
+                            MoveToHighBasket,
+                            slideLeft.highBasket(),
+                            slideRight.highBasket()
                         ),
-                        new SequentialAction(
-                                extensionMotor.extensionHigh(),
-                                wrist.out(),
-                                //claw unload into basket
-                                wrist.home(),
-                                extensionMotor.extensionLow()
 
-                        ),
+                    extensionMotor.extensionHigh(),
+                    wrist.out(),
+                    //maybe parallel to each individual one if it doesnt say up
+                    claw.open(),
+                    wrist.home(),
+                    //maybe parallel
+                    extensionMotor.extensionLow(),
+                    new ParallelAction(
+                            InnerSampleToNetZone,
+                            slideLeft.home(),
+                            slideRight.home()
+                    ),
+                    Park,
+
                         new Action() {
 
                             @Override

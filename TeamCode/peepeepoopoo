@@ -1,0 +1,63 @@
+package
+
+imports
+
+config
+autonomus: (name , group)
+class NameOfClass extends linar opmode{
+
+override
+runopmode{
+
+Action... start position at X:36, Y:60, degreeHeading:270
+
+Action ForwardToFirstPixel action (action ...)
+           go to position X:47, Y:40, degreeHeading:270.
+
+            build
+
+Action TakeFirstPixel action (action ...)
+           rotate slides on 180 degress
+           extend slides certain amount
+           take pixel
+           retract slides certain amount
+           push slides back to 0 degrees
+
+           build
+
+Action BackToBasketFirstTime(action...)
+           go to position  X:58, Y:56, degreeHeading:45
+
+           build
+
+Action pushToHightBasketFirstTime action(action ... )
+           push up slides on 30 degree angle
+           push slides forward on maximum value
+           get out pixel
+           push slides back in start position
+
+           build
+
+Action backToSecondPixel action(action...)
+           go to position X:58, Y:40, degreeHeating:270
+
+
+            build
+
+
+
+        while(stop requested){
+        }
+        wait  for start()
+        if(stop requested) return
+
+        Action block running(ForwardToFirstPixel, TakeFirstPixel, BackToBasketFirstTime,
+        pushToHightBasketFirstTime, backToSecondPixel...
+        override
+        AddTelemetry lines)
+     }
+}
+
+
+
+
