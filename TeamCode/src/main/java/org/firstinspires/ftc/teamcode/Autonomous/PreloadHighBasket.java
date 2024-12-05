@@ -22,8 +22,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name = "PreloadHighBasket", group = "23393 Auto")
 public class PreloadHighBasket extends LinearOpMode {
 
-    private SlidesRotationAuto slideLeft;
-    private SlidesRotationAuto slideRight;
+    private SlidesRotationAuto slideRotation;
     private ExtensionAuto extensionMotor;
     private IntakeWristRotation wrist;
     private Intake claw;
@@ -32,8 +31,8 @@ public class PreloadHighBasket extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        slideRight = new SlidesRotationAuto(hardwareMap);
-        slideLeft = new SlidesRotationAuto(hardwareMap);
+
+        slideRotation = new SlidesRotationAuto(hardwareMap);
         extensionMotor = new ExtensionAuto(hardwareMap, telemetry);
         wrist = new IntakeWristRotation(hardwareMap, telemetry);
         claw = new Intake(hardwareMap, telemetry);
@@ -56,6 +55,8 @@ public class PreloadHighBasket extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(-58, 60), Math.toRadians(0))
                 .build();
 
+
+
         while (!isStopRequested() && !opModeIsActive()) {
 
         }
@@ -67,24 +68,27 @@ public class PreloadHighBasket extends LinearOpMode {
                 new SequentialAction(
                     new ParallelAction(
                             MoveToHighBasket,
-                            slideLeft.highBasket(),
-                            slideRight.highBasket()
+                            slideRotation.highBasket()
                         ),
+new ParallelAction(
+        extensionMotor.extensionHigh(),
+        wrist.out()
+        ),
 
-                    extensionMotor.extensionHigh(),
-                    wrist.out(),
-                    //maybe parallel to each individual one if it doesnt say up
-                    claw.open(),
-                    wrist.home(),
-                    //maybe parallel
-                    extensionMotor.extensionLow(),
+new ParallelAction(
+        claw.open(),
+        wrist.home()
+),
+new ParallelAction(
+        extensionMotor.extensionLow(),
+        claw.close()
+),
+
+
                     new ParallelAction(
                             InnerSampleToNetZone,
-                            slideLeft.home(),
-                            slideRight.home()
-                    ),
-                    Park,
-
+                            slideRotation.home()
+                            ),
                         new Action() {
 
                             @Override

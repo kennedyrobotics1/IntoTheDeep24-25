@@ -9,7 +9,6 @@ import com.acmerobotics.roadrunner.Action;
 // Non-RR imports
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
@@ -28,12 +27,16 @@ public class IntakeWristRotation {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                intakeWristRotation.setPosition(0.80);
+                intakeWristRotation.setPosition(0.2);
                 initialized = true;
             }
             return true;
         }
     }
+    public Action out(){
+        return new Out();
+    }
+
 
     public class Home implements Action {
         private boolean initialized = false;
@@ -41,19 +44,17 @@ public class IntakeWristRotation {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                intakeWristRotation.setPosition(0.20);
+                intakeWristRotation.setPosition(0.9);
                 initialized = true;
             }
             return true;
         }
     }
 
-    public Action out(){
-        return new Out();
-    }
+//    public Action out(){
+//        return new Out();
+//    }
 
-    public Action home(){
-        return new Home();
-    }
+    public Action home(){return new Home();}
 
 }
