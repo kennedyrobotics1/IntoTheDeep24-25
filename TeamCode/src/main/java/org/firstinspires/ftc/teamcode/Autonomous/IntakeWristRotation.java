@@ -51,10 +51,6 @@ public class IntakeWristRotation {
         }
     }
 
-//    public Action out(){
-//        return new Out();
-//    }
-
     public Action home(){return new Home();}
 
 }

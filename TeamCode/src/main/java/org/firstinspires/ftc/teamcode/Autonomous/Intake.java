@@ -29,7 +29,8 @@ public class Intake {
             if (!initialized) {
                 intake.setPosition(0.3);
                 initialized = true;
-            }
+                }
+
             return true;
         }
     }

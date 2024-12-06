@@ -56,7 +56,6 @@ public class PreloadHighBasket extends LinearOpMode {
                 .build();
 
 
-
         while (!isStopRequested() && !opModeIsActive()) {
 
         }
@@ -64,47 +63,62 @@ public class PreloadHighBasket extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(
-                new SequentialAction(
-                    new ParallelAction(
-                            MoveToHighBasket,
-                            slideRotation.highBasket()
-                        ),
-new ParallelAction(
-        extensionMotor.extensionHigh(),
-        wrist.out()
-        ),
+        Actions.runBlocking(new ParallelAction(
+                MoveToHighBasket,
+                slideRotation.highBasket()
+        ));
+        Actions.runBlocking(extensionMotor.extensionHigh());
 
-new ParallelAction(
-        claw.open(),
-        wrist.home()
-),
-new ParallelAction(
-        extensionMotor.extensionLow(),
-        claw.close()
-),
+        Actions.runBlocking(wrist.out());
+
+        Actions.runBlocking(claw.open());
+
+        Actions.runBlocking(wrist.home());
+
+//        Actions.runBlocking(new ParallelAction(
+//                claw.open(),
+//                wrist.home()
+//        ));
 
 
-                    new ParallelAction(
-                            InnerSampleToNetZone,
-                            slideRotation.home()
-                            ),
-                        new Action() {
+//        Actions.runBlocking(
+//                new SequentialAction(
+//                    new ParallelAction(
+//                            MoveToHighBasket,
+//                            slideRotation.highBasket()
+//                        ),
+//                    new ParallelAction(
+//                            extensionMotor.extensionHigh(),
+//                            wrist.out()
+//                    ),
+//                    new ParallelAction(
+//                            claw.open(),
+//                            wrist.home()
+//                    ),
+//                    new ParallelAction(
+//                            extensionMotor.extensionLow(),
+//                            claw.close()
+//                    ),
+//                    new ParallelAction(
+//                            InnerSampleToNetZone,
+//                            slideRotation.home()
+//                            ),
+//        new Action() {
+//
+//            @Override
+//            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+//                telemetry.addLine("Action!");
+//                telemetry.update();
+//                return false;
+//            }
+////        },
+//                // Only that this action uses a Lambda expression to reduce complexity
+//                (telemetryPacket) -> {
+//                    telemetry.addLine("Action!");
+//                    telemetry.update();
+//                    return false; // Returning true causes the action to run again, returning false causes it to cease
+//                }
 
-                            @Override
-                            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                                telemetry.addLine("Action!");
-                                telemetry.update();
-                                return false;
-                            }
-                        },
-                        // Only that this action uses a Lambda expression to reduce complexity
-                        (telemetryPacket) -> {
-                            telemetry.addLine("Action!");
-                            telemetry.update();
-                            return false; // Returning true causes the action to run again, returning false causes it to cease
-                        }
-                )
-        );
     }
+
 }

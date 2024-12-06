@@ -38,7 +38,6 @@ public class ExtensionAuto {
                     // make faster after testing
                     initialized = true;
                 }
-//                initialized = true;
             }
             return true;
         }
