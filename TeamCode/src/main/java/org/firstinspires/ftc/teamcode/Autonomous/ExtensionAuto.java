@@ -33,35 +33,42 @@ public class ExtensionAuto {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                while(extensionMotor.getCurrentPosition() < 100) {
-                    extensionMotor.setPower(.5);
-                    // make faster after testing
+                extensionMotor.setPower(.5);
+                initialized = true;
+            }
+            if (extensionMotor.getCurrentPosition() < 100) {
+                return true;
+            } else {
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+        public Action extensionHigh() {return new ExtensionHigh();}
+
+
+        public class ExtensionLow implements Action {
+            private boolean initialized = false;
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    extensionMotor.setPower(-.5);
                     initialized = true;
                 }
+                if (extensionMotor.getCurrentPosition() > 10) {
+                    return true;
+                } else {
+                    extensionMotor.setPower(0);
+                    return false;
+                }
+
             }
-            return true;
         }
-    }
-    public Action extensionHigh(){
-        return new ExtensionHigh();
-    }
-
-
-    public class ExtensionLow implements Action {
-        private boolean initialized = false;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-               while(extensionMotor.getCurrentPosition() > 100) {
-                   extensionMotor.setPower(-.5);
-                   initialized = true;
-               }
-//                initialized = true;
-            }
-            return true;
+        public Action extensionLow() {
+            return new ExtensionLow();
         }
-    }
-    public Action extensionLow(){return new ExtensionLow();}
 
-}
+    }
+
+

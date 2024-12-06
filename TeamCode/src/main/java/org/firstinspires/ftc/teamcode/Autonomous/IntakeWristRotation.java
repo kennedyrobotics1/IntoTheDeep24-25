@@ -26,11 +26,8 @@ public class IntakeWristRotation {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                intakeWristRotation.setPosition(0.2);
-                initialized = true;
-            }
-            return true;
+            intakeWristRotation.setPosition(0.2);
+            return false;
         }
     }
     public Action out(){
@@ -43,11 +40,8 @@ public class IntakeWristRotation {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                intakeWristRotation.setPosition(0.9);
-                initialized = true;
-            }
-            return true;
+            intakeWristRotation.setPosition(0.9);
+            return false;
         }
     }
 
