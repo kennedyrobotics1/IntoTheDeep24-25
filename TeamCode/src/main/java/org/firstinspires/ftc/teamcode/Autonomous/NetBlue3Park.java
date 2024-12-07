@@ -55,28 +55,9 @@ public class NetBlue3Park extends LinearOpMode {
                 .strafeTo(new Vector2d(62, 55))
 
                 //Side to Park
-                .strafeTo(new Vector2d(-35
-                        , 65))
+                .strafeTo(new Vector2d(-35, 65))
 
                 .build();
-
-
-
-     /*
-        Action TrajectoryParkingObservation = drive.actionBuilder(drive.pose)
-                .lineToX(-50)
-                .build();
-*/
-
-     /*
-        Action TrajectoryAction1 = drive.actionBuilder(drive.pose)
-                .lineToX(10)
-                .build();
-
-        Action TrajectoryAction2 = drive.actionBuilder(new Pose2d(15, 20, 0))
-               .splineTo(new Vector2d(5, 5), Math.toRadians(90))
-                .build();
-        */
 
 
         while (!isStopRequested() && !opModeIsActive()) {
