@@ -81,11 +81,11 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         // wrist rotation
         // forward rotation
         if (gamepad2.left_bumper) {
-            intakeRotationPosition.update(0.008);
+            intakeRotationPosition.update(-0.008);
             intakeRotation.setPosition(intakeRotationPosition.position);
         // backward rotation
         } else if (gamepad2.right_bumper) {
-            intakeRotationPosition.update(-0.008);
+            intakeRotationPosition.update(0.008);
             intakeRotation.setPosition(intakeRotationPosition.position);
         }
 
@@ -95,6 +95,14 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         // close claw
         } else if (gamepad2.x) {
             claw.setPosition(0.25);
+        }
+        //twist rotation
+        if (gamepad2.right_trigger > 0.5) {
+            //horizontal
+            clawRotation.setPosition(0.05);
+       } else if (gamepad2.left_trigger > 0.5) {
+            //vertical
+            clawRotation.setPosition(0);
         }
 
         // forward slide rotation (toward floor)
@@ -131,6 +139,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             leftBack.setPower(backLeftPower);
             rightBack.setPower(backRightPower);
 
+
+
+            telemetry.addData("twistPosition", clawRotationPosition);
             telemetry.addData("frontLeftPower ", frontLeftPower);
             telemetry.addData("frontRightPower ", frontRightPower);
             telemetry.addData("backLeftPower ", backLeftPower);
