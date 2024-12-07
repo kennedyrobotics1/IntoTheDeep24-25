@@ -41,6 +41,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeRotation = hardwareMap.get(Servo.class, "servo5");
         clawRotation = hardwareMap.get(Servo.class, "servo4");
@@ -87,15 +88,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intakeRotationPosition.update(-0.008);
             intakeRotation.setPosition(intakeRotationPosition.position);
         }
-//
-//        // twist rotation
-//        if (gamepad2.x) {
-//            clawRotationPosition -= 0.008;
-//            clawRotation.setPosition(clawRotationPosition);
-//        } else if (gamepad2.b) {
-//            clawRotationPosition += 0.008;
-//            clawRotation.setPosition(clawRotationPosition);
-//        }
 
         // open claw
         if (gamepad2.a) {
@@ -125,7 +117,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             slideExtensionMotor.setPower(-1.0);
         } else {
             slideExtensionMotor.setPower(0);
-            slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
         // half power on drivetrain
