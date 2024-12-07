@@ -41,6 +41,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeRotation = hardwareMap.get(Servo.class, "servo5");
         clawRotation = hardwareMap.get(Servo.class, "servo4");
@@ -77,7 +78,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         backLeftPower   = (y - x + r) / denominator;
         backRightPower  = (y + x - r) / denominator;
 
-        // rotating entire intake
+        // wrist rotation
         // forward rotation
         if (gamepad2.left_bumper) {
             intakeRotationPosition.update(0.008);
@@ -88,39 +89,30 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intakeRotation.setPosition(intakeRotationPosition.position);
         }
 
-//        // rotating claw
-//        if (gamepad2.x) {
-//            clawRotationPosition -= 0.008;
-//            clawRotation.setPosition(clawRotationPosition);
-//        } else if (gamepad2.b) {
-//            clawRotationPosition += 0.008;
-//            clawRotation.setPosition(clawRotationPosition);
-//        }
-
         // open claw
         if (gamepad2.a) {
-            claw.setPosition(0.75);
+            claw.setPosition(0.30);
         // close claw
         } else if (gamepad2.x) {
             claw.setPosition(0.25);
         }
 
-        // forward arm rotation (toward floor)
+        // forward slide rotation (toward floor)
         if (gamepad2.dpad_right) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(0.005);
-        // backward arm rotation
+            armPosition.update(0.002);
+        // backward slide rotation (Up position)
         } else if (gamepad2.dpad_left) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(-0.005);
+            armPosition.update(-0.002);
         }
 
-        // slides go up (must hold button to hold slide position)
+        // slides extend up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
             slideExtensionMotor.setPower(1.0);
-        // slides go down (must hold button to hold slide position)
+        // slides extend down (must hold button to hold slide position)
         } else if (gamepad2.dpad_down) {
             slideExtensionMotor.setPower(-1.0);
         } else {
