@@ -33,6 +33,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     double clawRotationPosition;
 
+    boolean twistHorizontal = true;
+    boolean clawClosed = true;
+
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -89,33 +92,41 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intakeRotation.setPosition(intakeRotationPosition.position);
         }
 
-        // open claw
+
+        //Claw
         if (gamepad2.a) {
+            //CLAW OPEN
             claw.setPosition(0.30);
-        // close claw
         } else if (gamepad2.x) {
+            //CLAW CLOSE
             claw.setPosition(0.25);
         }
+
+
         //twist rotation
         if (gamepad2.right_trigger > 0.5) {
             //horizontal
             clawRotation.setPosition(0.05);
-       } else if (gamepad2.left_trigger > 0.5) {
+        } else if (gamepad2.left_trigger > 0.5) {
             //vertical
             clawRotation.setPosition(0);
         }
+
+
 
         // forward slide rotation (toward floor)
         if (gamepad2.dpad_right) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(0.002);
+            armPosition.update(0.004);
         // backward slide rotation (Up position)
         } else if (gamepad2.dpad_left) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(-0.002);
+            armPosition.update(-0.004);
         }
+
+
 
         // slides extend up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
@@ -125,6 +136,25 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             slideExtensionMotor.setPower(-1.0);
         } else {
             slideExtensionMotor.setPower(0);
+        }
+
+
+
+        //MACROS:
+
+        //Pick up SPECIMEN from HUMAN PLAYER
+
+        if (gamepad2.back) {
+
+            //slides rotate down
+            armPosition = new ServoController(0.6);
+            armLeftFront.setPosition(armPosition.position);
+            armRightFront.setPosition(1 - armPosition.position);
+            //intake wrist up
+            intakeRotation.setPosition(0.4);
+
+            //claw open
+            claw.setPosition(0.30);
         }
 
         // half power on drivetrain
