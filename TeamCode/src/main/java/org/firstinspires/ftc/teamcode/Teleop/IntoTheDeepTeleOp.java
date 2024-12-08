@@ -33,8 +33,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     double clawRotationPosition;
 
-    boolean twistHorizontal = true;
-    boolean clawClosed = true;
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
