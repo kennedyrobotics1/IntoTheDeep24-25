@@ -35,23 +35,15 @@ public class ActionTestPaths extends LinearOpMode {
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
 
-
-
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-12, 60, Math.toRadians(90)));
 
         Action MoveToHighBar = drive.actionBuilder(drive.pose)
-
                 .strafeTo(new Vector2d(3, 20))
-
                 .build();
 
         Action Park = drive.actionBuilder(drive.pose)
-
                 .strafeTo(new Vector2d(-20, 60))
-
                 .build();
-
-
 
         while (!isStopRequested() && !opModeIsActive()) {
 
@@ -60,20 +52,23 @@ public class ActionTestPaths extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-
         //Actions.runBlocking(new SequentialAction(
             //    new ParallelAction (slideRotation.highSpecimen(), extensionMotor.specimenHigh(), MoveToHighBar),
             //    new SequentialAction(claw.open()),
            //     new SequentialAction(Park))
       //  );
-        Actions.runBlocking(new SequentialAction (
-                slideRotation.highSpecimen()
+
+        /* Actions.runBlocking(new SequentialAction (
+                slideRotation.highBasket()
         ));
 
         Actions.runBlocking(new SequentialAction (
                 slideRotation.home()
-        ));
+        )); */
 
+        Actions.runBlocking(new SequentialAction(slideRotation.home(), slideRotation.highSpecimen(), slideRotation.highBasket()));
+
+        //Actions.runBlocking(new SequentialAction(slideRotation.highSpecimen(), slideRotation.highBasket()));
 
     }
 }

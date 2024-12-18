@@ -10,29 +10,32 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 @Config
 public class SlidesRotationClass{
     private Servo slideLeft;
     private Servo slideRight;
-
     private AnalogInput armLeftFrontEncoder;
-
+    public ElapsedTime time = new ElapsedTime();
 
 
     public SlidesRotationClass(HardwareMap hardwareMap){
         slideLeft = hardwareMap.get(Servo.class, "servo1");
         slideRight = hardwareMap.get(Servo.class, "servo2");
-
         armLeftFrontEncoder = hardwareMap.get(AnalogInput.class, "armLeftFrontEncoder");
         setArmRotationPosition(0);
+        time.reset();
     }
-
 
 
     public class HighBasket implements Action {
         private boolean initialized = false;
+        public double initialTime = time.milliseconds();
+
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
@@ -46,6 +49,8 @@ public class SlidesRotationClass{
             if (position > 255) {
                 // true causes the action to rerun
                 return true;
+            } else if ((time.milliseconds() - initialTime) >= 3000) {
+                return false;
             } else {
                 // false stops action rerun
                 return false;
@@ -54,11 +59,10 @@ public class SlidesRotationClass{
     }
 
 
-
-
-
     public class HighSpecimen implements Action {
         private boolean initialized = false;
+        private double initialTime = time.milliseconds();
+
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
@@ -69,23 +73,17 @@ public class SlidesRotationClass{
             // checks lift's current position
             double position = armLeftFrontEncoder.getVoltage() / 3.3 * 360;
             packet.put("liftPos", position);
-            if (position >= 150) {
+            if (position > 150) {
                 // true causes the action to rerun
                 return true;
+            }  else if ((time.milliseconds() - initialTime) >= 3000) {
+                return false;
             } else {
                 // false stops action rerun
                 return false;
             }
         }
     }
-
-
-
-
-
-
-
-
 
 
     public class Home implements Action {
@@ -95,10 +93,6 @@ public class SlidesRotationClass{
             return false;
         }
     }
-
-
-
-
 
 
     public Action highBasket(){return new HighBasket();}

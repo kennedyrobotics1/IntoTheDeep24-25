@@ -79,7 +79,6 @@ public class ExtensionClass {
     }
 
 
-
     public class SpecimenHighLittle implements Action {
         private boolean initialized = false;
 
@@ -104,12 +103,6 @@ public class ExtensionClass {
         return new SpecimenHigh();
     }
 
-
-
-
-
-
-
 //
 //    public class ExtensionHigh implements Action {
 //        private boolean initialized = false;
@@ -129,8 +122,6 @@ public class ExtensionClass {
 //        }
 //    }
 //    public Action extensionHigh() {return new ExtensionHigh();}
-
-
 
     public class ExtensionLow implements Action {
         private boolean initialized = false;
