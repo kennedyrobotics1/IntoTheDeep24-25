@@ -1,18 +1,17 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
-import org.firstinspires.ftc.teamcode.Teleop.ServoController;
 
 @TeleOp(name = "IntoTheDeepTeleOp", group = "Iterative OpMode")
 
-public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
+public class IntoTheDeepTeleOp2 extends BasicOpMode_Iterative {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
@@ -83,46 +82,49 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             intakeRotationPosition.update(0.008);
             intakeRotation.setPosition(intakeRotationPosition.position);
         // backward rotation
-        } else if (gamepad2.right_bumper) {
+        } else if (gamepad1.right_bumper) {
             intakeRotationPosition.update(-0.008);
             intakeRotation.setPosition(intakeRotationPosition.position);
         }
 
 //        // rotating claw
-        if (gamepad2.x) {
+        /*if (gamepad1.x) {
             clawRotation.setPosition(0.10);
-        } else if (gamepad2.b) {
+        } else if (gamepad1.b) {
             clawRotation.setPosition(0.50);
         }
 
+
+         */
         // open claw
         if (gamepad2.a) {
             claw.setPosition(0.75);
         // close claw
-        } else if (gamepad2.x) {
+        } else if (gamepad2.b) {
             claw.setPosition(0.25);
         }
 
         // forward arm rotation (toward floor)
-        if (gamepad2.dpad_right) {
+        if (gamepad2.left_stick_x > 0.1) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             armPosition.update(0.005);
         // backward arm rotation
-        } else if (gamepad2.dpad_left) {
+        } else if (gamepad2.left_stick_x < 0.1) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             armPosition.update(-0.005);
         }
 
         // slides go up (must hold button to hold slide position)
-        if (gamepad2.dpad_up) {
+        if (gamepad2.right_trigger != 0.1) {
             slideExtensionMotor.setPower(1.0);
         // slides go down (must hold button to hold slide position)
-        } else if (gamepad2.dpad_down) {
+        } else if (gamepad2.right_trigger < 0.1) {
             slideExtensionMotor.setPower(-1.0);
         } else {
             slideExtensionMotor.setPower(0);
+            slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
         // slow power on drivetrain
