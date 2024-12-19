@@ -35,8 +35,6 @@ public class HighSpecimenParkAuto extends LinearOpMode {
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
 
-
-
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-12, 60, Math.toRadians(90)));
 
         Action MoveToHighBar = drive.actionBuilder(drive.pose)
@@ -74,6 +72,7 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         Park
                 )
                 ));
+
 
     }
 }

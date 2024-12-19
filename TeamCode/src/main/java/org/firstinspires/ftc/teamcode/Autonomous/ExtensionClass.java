@@ -42,8 +42,7 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 21
-                    * TICKSPERINCH) {
+            if (pos < 21 * TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
@@ -61,6 +60,7 @@ public class ExtensionClass {
 
 
     public class retractSlides implements Action {
+
         private boolean initialized = false;
 
         @Override
@@ -88,7 +88,4 @@ public class ExtensionClass {
                 new SleepAction(2)
         );
     }
-
-
-
 }

@@ -31,7 +31,7 @@ public class BasketToPark extends LinearOpMode {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(270)));
 
-        double MOVE_RIGHT_TO_PARK = 70;
+        double MOVE_RIGHT_TO_PARK = 50;
 
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 

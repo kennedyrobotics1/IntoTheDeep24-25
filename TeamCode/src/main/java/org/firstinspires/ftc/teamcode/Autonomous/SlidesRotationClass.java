@@ -12,13 +12,15 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 @Config
 public class SlidesRotationClass{
     private Servo slideLeft;
     private Servo slideRight;
-
     private AnalogInput armLeftFrontEncoder;
 
     public SlidesRotationClass(HardwareMap hardwareMap){
@@ -41,6 +43,7 @@ public class SlidesRotationClass{
         );
     }
 
+
     public class rotateBack implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -55,8 +58,6 @@ public class SlidesRotationClass{
                 new SleepAction(2)
         );
     }
-
-
 
     public void setArmRotationPosition (double position) {
         slideLeft.setPosition(position);
