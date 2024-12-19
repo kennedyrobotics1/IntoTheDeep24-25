@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -28,6 +29,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     private Servo armLeftFront;
     private Servo armRightFront;
+
+    //get our analog input from the hardwareMap
+    private AnalogInput armLeftFrontEncoder;
+
     private ServoController armPosition;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
@@ -52,6 +57,13 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         armLeftFront = hardwareMap.get(Servo.class, "servo1");
         armRightFront = hardwareMap.get(Servo.class, "servo2");
+        //get our analog input from the hardwareMap
+        armLeftFrontEncoder = hardwareMap.get(AnalogInput.class, "armLeftFrontEncoder");
+// get the voltage of our analog line
+// divide by 3.3 (the max voltage) to get a value between 0 and 1
+// multiply by 360 to convert it to 0 to 360 degrees
+
+
 
         armPosition = new ServoController(0);
         armLeftFront.setPosition(armPosition.position);
@@ -180,6 +192,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
             telemetry.addData("claw position: ", claw.getPosition());
             telemetry.addData("armPosition", armPosition.position);
+
+            telemetry.addData("armLeftFrontEncoder", armLeftFrontEncoder.getVoltage() / 3.3 * 360);
+
             telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
             telemetry.update();
         }

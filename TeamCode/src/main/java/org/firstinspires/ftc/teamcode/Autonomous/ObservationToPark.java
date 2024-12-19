@@ -22,7 +22,6 @@ public class ObservationToPark extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         AutonomousTracker auto = new AutonomousTracker(0, 0, 0);
         auto.invertY = true;
         auto.invertX = true;
