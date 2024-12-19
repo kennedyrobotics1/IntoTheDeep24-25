@@ -17,7 +17,7 @@ public class AutonomousTracker {
     public AutonomousTracker(double newx, double newy, double newr) {
         x = newx;
         y = newy;
-        r = newr;
+        r = Math.toRadians(newr);
 
         invertY=false;
         invertX=false;
@@ -30,7 +30,6 @@ public class AutonomousTracker {
         else {
             x += new_incrementx;
         }
-
         if (invertY) {
             y -= new_incrementy;
         }
@@ -39,6 +38,23 @@ public class AutonomousTracker {
         }
 
         return new Vector2d(x, y);
+    }
+
+    public  Vector2d moveForward(double distance){
+        if (invertX) {
+            x -= (distance * Math.cos(r));
+        }
+        else {
+            x += (distance * Math.cos(r));
+        }
+        if (invertY) {
+            y -= (distance * Math.sin(r));
+        }
+        else {
+            y += (distance * Math.sin(r));
+        }
+
+        return  new Vector2d(x, y);
     }
 
     public double updateRotation(double new_incrementr) {

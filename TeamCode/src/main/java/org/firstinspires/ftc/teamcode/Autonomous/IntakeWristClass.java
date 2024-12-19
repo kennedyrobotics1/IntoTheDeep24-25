@@ -7,6 +7,8 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
 // Non-RR imports
+import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -22,22 +24,22 @@ public class IntakeWristClass {
     }
 
     public class Out implements Action {
-        private boolean initialized = false;
-
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            intakeWristRotation.setPosition(0.2);
+            intakeWristRotation.setPosition(0.85);
             return false;
         }
     }
-    public Action out(){
-        return new Out();
+
+    public Action out() {
+        return new ParallelAction(
+                new Out(),
+                new SleepAction(2)
+        );
     }
 
 
-    public class Home implements Action {
-        private boolean initialized = false;
-
+    public class forwardToPlaceSpecimen implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             intakeWristRotation.setPosition(0.9);
@@ -45,6 +47,26 @@ public class IntakeWristClass {
         }
     }
 
-    public Action home(){return new Home();}
+    public Action forwardToPlaceSpecimen() {
+        return new ParallelAction(
+                new forwardToPlaceSpecimen(),
+                new SleepAction(2)
+        );
+    }
 
+
+    public class Home implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intakeWristRotation.setPosition(0.2);
+            return false;
+        }
+    }
+
+    public Action home() {
+        return new ParallelAction(
+                new Home(),
+                new SleepAction(2)
+        );
+    }
 }

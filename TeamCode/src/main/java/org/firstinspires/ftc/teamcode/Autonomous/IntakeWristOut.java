@@ -11,15 +11,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
 @Config
-@Autonomous(name = "ClawAutoOpen", group = "Mechanism Tests")
-public class ClawAutoOpen extends LinearOpMode {
+@Autonomous(name = "IntakeWristOut", group = "Mechanism Tests")
+public class IntakeWristOut extends LinearOpMode {
 
-    private ClawClass claw;
-
+    private IntakeWristClass wrist;
 
     @Override
     public void runOpMode() {
-        claw = new ClawClass(hardwareMap);
+        wrist = new IntakeWristClass(hardwareMap, telemetry);
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
@@ -27,10 +26,10 @@ public class ClawAutoOpen extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        //run action
-        Actions.runBlocking(new SequentialAction(claw.open()));
+        Actions.runBlocking(new SequentialAction(wrist.out()));
 
 
     }
 }
+
 

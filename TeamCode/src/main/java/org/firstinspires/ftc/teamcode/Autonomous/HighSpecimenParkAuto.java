@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 // RR-specific imports
 import com.acmerobotics.dashboard.config.Config;
-        import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 @Config
 @Autonomous(name = "ActionTestPaths", group = "23393 Auto")
-public class ActionTestPaths extends LinearOpMode {
+public class HighSpecimenParkAuto extends LinearOpMode {
 
     private SlidesRotationClass slideRotation;
     private ExtensionClass extensionMotor;
@@ -41,39 +41,39 @@ public class ActionTestPaths extends LinearOpMode {
 
         Action MoveToHighBar = drive.actionBuilder(drive.pose)
 
-                .strafeTo(new Vector2d(3, 20))
+                .strafeTo(new Vector2d(0, 31))
 
                 .build();
 
         Action Park = drive.actionBuilder(drive.pose)
 
-                .strafeTo(new Vector2d(-20, 60))
+                .strafeTo(new Vector2d(-35, 60))
 
                 .build();
 
-
-
         while (!isStopRequested() && !opModeIsActive()) {
-
         }
+
         waitForStart();
 
         if (isStopRequested()) return;
 
-
-        //Actions.runBlocking(new SequentialAction(
-            //    new ParallelAction (slideRotation.highSpecimen(), extensionMotor.specimenHigh(), MoveToHighBar),
-            //    new SequentialAction(claw.open()),
-           //     new SequentialAction(Park))
-      //  );
-        Actions.runBlocking(new SequentialAction (
-                slideRotation.highSpecimen()
-        ));
-
-        Actions.runBlocking(new SequentialAction (
-                slideRotation.home()
-        ));
-
+        Actions.runBlocking(new SequentialAction(
+                new ParallelAction(
+                        claw.close(),
+                        MoveToHighBar,
+                        slideRotation.highBarSpecimen(),
+                        new SequentialAction(
+                                new SleepAction(0.6),
+                                extensionMotor.highBarSpecimen()
+                        )
+                ),
+                new ParallelAction(
+                        claw.open(),
+                        extensionMotor.retractSlides(),
+                        Park
+                )
+                ));
 
     }
 }

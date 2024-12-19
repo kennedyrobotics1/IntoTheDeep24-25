@@ -7,68 +7,45 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
 // Non-RR imports
+import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class ClawClass {
-    private Servo servo;
+    private Servo claw;
 
     public ClawClass(HardwareMap hardwareMap) {
-        servo = hardwareMap.get(Servo.class, "servo3");
+        claw = hardwareMap.get(Servo.class, "servo3");
     }
 
     public class Open implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            servo.setPosition(0.3);
-            return true;
+            claw.setPosition(0.3);
+            return false;
         }
     }
-
     public Action open() {
-        return new Open();
+        return new ParallelAction(
+                new Open(),
+                new SleepAction(0.8)
+        );
     }
 
     public class Close implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            servo.setPosition(0.25);
-            return true;
+            claw.setPosition(0.25);
+            return false;
         }
     }
-
     public Action close() {
-        return new Close();
+        return new ParallelAction(
+                new Close(),
+                new SleepAction(2)
+        );
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//public class Close implements Action {
-//        private boolean initialized = false;
-//        @Override
-//        public boolean run(@NonNull TelemetryPacket packet) {
-//            intake.setPosition(0.25);
-//            return false;
-//        }
-//    }
-//
-//    public Action close() {
-//        return new Close();
-//    }
-//
-//}
