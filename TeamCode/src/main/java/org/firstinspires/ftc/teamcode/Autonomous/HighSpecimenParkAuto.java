@@ -43,6 +43,30 @@ public class HighSpecimenParkAuto extends LinearOpMode {
 
                 .build();
 
+        Action Push3IntoObservation = drive.actionBuilder(drive.pose)
+
+                .strafeTo(new Vector2d(-35, 60))
+
+                .strafeToLinearHeading(new Vector2d(-35,12), Math.toRadians(90))
+
+                .strafeTo(new Vector2d(-42, 12))
+
+                .strafeTo(new Vector2d(-42, 55))
+
+                .strafeTo(new Vector2d(-42, 12))
+
+                .strafeTo(new Vector2d(-54, 12))
+
+                .strafeTo(new Vector2d(-54, 53))
+
+                .strafeTo(new Vector2d(-54, 12))
+
+                .strafeTo(new Vector2d(-62, 12))
+
+                .strafeTo(new Vector2d(-62, 55))
+
+                .build();
+
         Action Park = drive.actionBuilder(drive.pose)
 
                 .strafeTo(new Vector2d(-35, 60))
@@ -69,8 +93,14 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 new ParallelAction(
                         claw.open(),
                         extensionMotor.retractSlides(),
-                        Park
+                        Push3IntoObservation
                 )
+
+
+
+
+
+
                 ));
 
 

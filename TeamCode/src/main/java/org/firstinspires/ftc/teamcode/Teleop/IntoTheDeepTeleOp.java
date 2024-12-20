@@ -41,9 +41,20 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -149,7 +160,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         }
 
 
-
         //MACROS:
 
         //Pick up SPECIMEN from HUMAN PLAYER
@@ -168,35 +178,40 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         }
 
         // half power on drivetrain
-        if(gamepad1.left_bumper){
-            leftFront.setPower(0.35 * frontLeftPower);
-            rightFront.setPower(0.35 * frontRightPower);
-            leftBack.setPower(0.35 * backLeftPower);
-            rightBack.setPower(0.35 * backRightPower);
+        if(gamepad1.left_bumper) {
+            leftFront.setPower(0.4 * frontLeftPower);
+            rightFront.setPower(0.4 * frontRightPower);
+            leftBack.setPower(0.4 * backLeftPower);
+            rightBack.setPower(0.4 * backRightPower);
         } else {
-            leftFront.setPower(frontLeftPower);
-            rightFront.setPower(frontRightPower);
-            leftBack.setPower(backLeftPower);
-            rightBack.setPower(backRightPower);
-
-
-
-            telemetry.addData("twistPosition", clawRotationPosition);
-            telemetry.addData("frontLeftPower ", frontLeftPower);
-            telemetry.addData("frontRightPower ", frontRightPower);
-            telemetry.addData("backLeftPower ", backLeftPower);
-            telemetry.addData("backRightPower ", backRightPower);
-            telemetry.addData("slideExtensionPower", slideExtensionMotor.getPower());
-            telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
-            telemetry.addData("armRightFront: ", armRightFront.getPosition());
-            telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
-            telemetry.addData("claw position: ", claw.getPosition());
-            telemetry.addData("armPosition", armPosition.position);
-
-            telemetry.addData("armLeftFrontEncoder", armLeftFrontEncoder.getVoltage() / 3.3 * 360);
-
-            telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
-            telemetry.update();
+            leftFront.setPower(0.8 * frontLeftPower);
+            rightFront.setPower(0.8 * frontRightPower);
+            leftBack.setPower(0.8 * backLeftPower);
+            rightBack.setPower(0.8 * backRightPower);
         }
+
+
+        telemetry.addData("twistPosition", clawRotationPosition);
+        telemetry.addData("frontLeftPower ", frontLeftPower);
+        telemetry.addData("frontRightPower ", frontRightPower);
+        telemetry.addData("backLeftPower ", backLeftPower);
+        telemetry.addData("backRightPower ", backRightPower);
+        telemetry.addData("slideExtensionPower", slideExtensionMotor.getPower());
+        telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
+        telemetry.addData("armRightFront: ", armRightFront.getPosition());
+        telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
+        telemetry.addData("claw position: ", claw.getPosition());
+        telemetry.addData("armPosition", armPosition.position);
+
+        telemetry.addData("armLeftFrontEncoder", armLeftFrontEncoder.getVoltage() / 3.3 * 360);
+
+        telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
+
+        telemetry.addData("LeftFront", leftFront.getCurrentPosition());
+        telemetry.addData("LeftBack", leftBack.getCurrentPosition());
+        telemetry.addData("RightFront", rightFront.getCurrentPosition());
+        telemetry.addData("RightBack", rightBack.getCurrentPosition());
+
+        telemetry.update();
     }
 }
