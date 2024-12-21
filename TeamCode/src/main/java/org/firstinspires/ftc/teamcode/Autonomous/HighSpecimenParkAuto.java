@@ -43,6 +43,12 @@ public class HighSpecimenParkAuto extends LinearOpMode {
 
                 .build();
 
+        Action MoveToSpecimenPickup = drive.actionBuilder(drive.pose)
+
+                .strafeToLinearHeading(new Vector2d(-42, 56), Math.toRadians(270))
+
+                .build();
+
         Action Push3IntoObservation = drive.actionBuilder(drive.pose)
 
                 .strafeTo(new Vector2d(-35, 60))
@@ -92,17 +98,32 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 ),
                 new ParallelAction(
                         claw.open(),
-                        extensionMotor.retractSlides(),
+                        extensionMotor.retractSlides()
+                ),
+                new ParallelAction(
+                        MoveToSpecimenPickup,
+                        slideRotation.pickUpSpecimenFromHumanPlayer(),
+                        new SequentialAction(
+                                new SleepAction(0.6),
+                                claw.close(),
+                                wrist.pickUpSpecimenFromHumanPlayer()
+                        )
+                ),
+                new ParallelAction(
+                        MoveToHighBar,
+                        slideRotation.highBarSpecimen(),
+                        new SequentialAction(
+                                new SleepAction(0.6),
+                                extensionMotor.highBarSpecimen()
+                        )
+                ),
+                new ParallelAction(
+                        claw.open(),
+                        extensionMotor.retractSlides()
+                ),
+                new ParallelAction(
                         Push3IntoObservation
                 )
-
-
-
-
-
-
                 ));
-
-
     }
 }

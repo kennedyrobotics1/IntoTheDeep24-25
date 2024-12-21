@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Teleop.ServoController;
 
 
 @Config
@@ -43,6 +44,20 @@ public class SlidesRotationClass{
         );
     }
 
+    public class PickUpSpecimenFromHumanPlayer implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            setArmRotationPosition(0.6);
+            return false;
+        }
+    }
+
+    public Action pickUpSpecimenFromHumanPlayer() {
+        return new ParallelAction(
+                new PickUpSpecimenFromHumanPlayer(),
+                new SleepAction(2)
+        );
+    }
 
     public class rotateBack implements Action {
         @Override
