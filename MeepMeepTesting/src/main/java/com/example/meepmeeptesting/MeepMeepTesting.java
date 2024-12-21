@@ -22,7 +22,36 @@ public class MeepMeepTesting {
                     .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                     .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(new Pose2d(36, 60, Math.toRadians(270)))
-                                    .strafeTo(new Vector2d(40,40))
+
+                                    //Up to Outside Sample
+                                    .strafeTo(new Vector2d(36, 8))
+
+                                    //side to Outside Sample
+                                    .strafeTo(new Vector2d(47, 8))
+
+                                    //Down to Score Outside Sample
+                                    .strafeTo(new Vector2d(47, 60))
+
+                                    //up to Middle Sample
+                                    .strafeTo(new Vector2d(47,8))
+
+                                    //Side to Middle Sample
+                                    .strafeTo(new Vector2d(57,8))
+
+                                    //Down to Score Middle Sample
+                                    .strafeTo(new Vector2d(57, 57))
+
+                                    //Up to Last Sample
+                                    .strafeTo(new Vector2d(57, 8))
+
+                                    //Side to Last Sample
+                                    .strafeTo(new Vector2d(65, 8))
+
+                                    //Down To Last Sample
+                                    .strafeTo(new Vector2d(65, 55))
+
+                                    //Side to Park
+                                    .strafeTo(new Vector2d(-50, 60))
                                     .build()
                     );
 
@@ -36,5 +65,3 @@ public class MeepMeepTesting {
                     .start();
         }
     }
-
-

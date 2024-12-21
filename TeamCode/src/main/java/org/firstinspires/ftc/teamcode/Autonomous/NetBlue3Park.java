@@ -16,6 +16,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 
 @Config
 @Autonomous(name = "NetBlue3Park", group = "23393 Auto")
@@ -66,11 +70,11 @@ public class NetBlue3Park extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-
         Actions.runBlocking(
                 new SequentialAction(
                         TrajectoryForwardToSample,
-                        new Action() {
+                        new Action()
+                        {
                             // This action and the following action do the same thing
 
                             @Override

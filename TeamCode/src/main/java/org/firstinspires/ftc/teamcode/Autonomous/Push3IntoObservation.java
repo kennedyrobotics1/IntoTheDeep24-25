@@ -24,7 +24,7 @@ public class Push3IntoObservation extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-12, 60, Math.toRadians(270)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 31, Math.toRadians(270)));
 
         Action TrajectoryForwardToSample = drive.actionBuilder(drive.pose)
 
