@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "ActionTestPaths", group = "23393 Auto")
+@Autonomous(name = "HighSpecimenParkAuto", group = "23393 Auto")
 public class HighSpecimenParkAuto extends LinearOpMode {
 
     private SlidesRotationClass slideRotation;
