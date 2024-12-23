@@ -21,37 +21,36 @@ public class MeepMeepTesting {
                     // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                     .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                     .followTrajectorySequence(drive ->
-                            drive.trajectorySequenceBuilder(new Pose2d(36, 60, Math.toRadians(270)))
-
-                                    //Up to Outside Sample
-                                    .strafeTo(new Vector2d(36, 8))
-
-                                    //side to Outside Sample
-                                    .strafeTo(new Vector2d(47, 8))
-
-                                    //Down to Score Outside Sample
-                                    .strafeTo(new Vector2d(47, 60))
-
-                                    //up to Middle Sample
-                                    .strafeTo(new Vector2d(47,8))
-
-                                    //Side to Middle Sample
-                                    .strafeTo(new Vector2d(57,8))
-
-                                    //Down to Score Middle Sample
-                                    .strafeTo(new Vector2d(57, 57))
-
-                                    //Up to Last Sample
-                                    .strafeTo(new Vector2d(57, 8))
-
-                                    //Side to Last Sample
-                                    .strafeTo(new Vector2d(65, 8))
-
-                                    //Down To Last Sample
-                                    .strafeTo(new Vector2d(65, 55))
-
-                                    //Side to Park
-                                    .strafeTo(new Vector2d(-50, 60))
+                            drive.trajectorySequenceBuilder(new Pose2d(-12, 60, Math.toRadians(90)))
+                                    // high bar with preloaded specimen
+                                    .lineToLinearHeading(new Pose2d(0, 31, Math.toRadians(90)))
+                                    // push 3 samples into observation zone
+                                    .strafeTo(new Vector2d(-35, 40))
+                                    .lineToLinearHeading(new Pose2d(-35,12, Math.toRadians(90)))
+                                    .strafeTo(new Vector2d(-42, 12))
+                                    .strafeTo(new Vector2d(-42, 55))
+                                    .strafeTo(new Vector2d(-42, 12))
+                                    .strafeTo(new Vector2d(-54, 12))
+                                    .strafeTo(new Vector2d(-54, 53))
+                                    .strafeTo(new Vector2d(-54, 12))
+                                    .strafeTo(new Vector2d(-62, 12))
+                                    .strafeTo(new Vector2d(-62, 55))
+                                    // pick up specimen 2 from human player
+                                    .lineToLinearHeading(new Pose2d(-42, 56, Math.toRadians(270)))
+                                    // high bar with specimen 2
+                                    .lineToLinearHeading(new Pose2d(0, 31, Math.toRadians(90)))
+                                    // pick up specimen 3 from human player
+                                    .lineToLinearHeading(new Pose2d(-42, 56, Math.toRadians(270)))
+                                    // high bar with specimen 3
+                                    .lineToLinearHeading(new Pose2d(0, 31, Math.toRadians(90)))
+                                    // pick up specimen 4 from human player
+                                    .lineToLinearHeading(new Pose2d(-42, 56, Math.toRadians(270)))
+                                    // high bar with specimen 4
+                                    .lineToLinearHeading(new Pose2d(0, 31, Math.toRadians(90)))
+                                    // pick up specimen 5 from human player
+                                    .lineToLinearHeading(new Pose2d(-42, 56, Math.toRadians(270)))
+                                    // high bar with specimen 5
+                                    .lineToLinearHeading(new Pose2d(0, 31, Math.toRadians(90)))
                                     .build()
                     );
 
