@@ -24,6 +24,7 @@ public class SlidesRotationClass{
     private Servo slideRight;
     private AnalogInput armLeftFrontEncoder;
 
+
     public SlidesRotationClass(HardwareMap hardwareMap){
         slideLeft = hardwareMap.get(Servo.class, "servo1");
         slideRight = hardwareMap.get(Servo.class, "servo2");
