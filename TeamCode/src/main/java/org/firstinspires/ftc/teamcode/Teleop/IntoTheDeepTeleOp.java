@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
@@ -92,10 +93,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
 
         //Claw
-        if (gamepad2.a) {
+        if (gamepad2.cross) {
             //CLAW OPEN
             claw.setPosition(0.30);
-        } else if (gamepad2.x) {
+        } else if (gamepad2.square) {
             //CLAW CLOSE
             claw.setPosition(0.25);
         }
@@ -142,7 +143,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         //Pick up SPECIMEN from HUMAN PLAYER
 
-        if (gamepad2.back) {
+        if (gamepad2.share) {
 
             //slides rotate down
             armPosition = new ServoController(0.6);
@@ -154,6 +155,20 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             //claw open
             claw.setPosition(0.30);
         }
+
+        //testing out LED Control
+
+        Gamepad.LedEffect bajaEffect = new Gamepad.LedEffect.Builder()
+                //rbg converted into integers between 0.0-1.0
+                .addStep(0.20392156862, 1, 0.72549019607, 1000)
+                .build();
+
+        gamepad1.runLedEffect(bajaEffect);
+        //not sure if this means that it will just run for a little bit when first initialized
+        //still trying to figure out how to run LED when an action is complete
+
+
+
 
         // half power on drivetrain
         if(gamepad1.left_bumper){
