@@ -30,9 +30,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private Servo armLeftFront;
     private Servo armRightFront;
 
-    //get our analog input from the hardwareMap
-    private AnalogInput armLeftFrontEncoder;
-
     private ServoController armPosition;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
@@ -186,9 +183,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
         telemetry.addData("claw position: ", claw.getPosition());
         telemetry.addData("armPosition", armPosition.position);
-
-        telemetry.addData("armLeftFrontEncoder", armLeftFrontEncoder.getVoltage() / 3.3 * 360);
-
+        
         telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
 
         telemetry.addData("LeftFront", leftFront.getCurrentPosition());
