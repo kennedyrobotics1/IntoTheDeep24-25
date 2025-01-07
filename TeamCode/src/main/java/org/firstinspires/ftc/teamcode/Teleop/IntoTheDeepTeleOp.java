@@ -41,20 +41,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
-        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -68,11 +57,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         armLeftFront = hardwareMap.get(Servo.class, "servo1");
         armRightFront = hardwareMap.get(Servo.class, "servo2");
-        //get our analog input from the hardwareMap
-        armLeftFrontEncoder = hardwareMap.get(AnalogInput.class, "armLeftFrontEncoder");
-// get the voltage of our analog line
-// divide by 3.3 (the max voltage) to get a value between 0 and 1
-// multiply by 360 to convert it to 0 to 360 degrees
 
 
 
