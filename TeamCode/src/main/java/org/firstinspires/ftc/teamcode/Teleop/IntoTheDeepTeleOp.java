@@ -46,16 +46,14 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        intakeRotation = hardwareMap.get(Servo.class, "servo5");
-        clawRotation = hardwareMap.get(Servo.class, "servo4");
-        claw = hardwareMap.get(Servo.class, "servo3");
+        intakeRotation = hardwareMap.get(Servo.class, "servo1e");
+        clawRotation = hardwareMap.get(Servo.class, "servo2e");
+        claw = hardwareMap.get(Servo.class, "servo0e");
         intakeRotationPosition = new ServoController(0);
         clawRotationPosition = 0;
 
-        armLeftFront = hardwareMap.get(Servo.class, "servo1");
-        armRightFront = hardwareMap.get(Servo.class, "servo2");
-
-
+        armLeftFront = hardwareMap.get(Servo.class, "servo4");
+        armRightFront = hardwareMap.get(Servo.class, "servo5");
 
         armPosition = new ServoController(0);
         armLeftFront.setPosition(armPosition.position);
@@ -120,12 +118,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         if (gamepad2.dpad_right) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(0.004);
+            armPosition.update(0.008);
         // backward slide rotation (Up position)
         } else if (gamepad2.dpad_left) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(-0.004);
+            armPosition.update(-0.008);
         }
 
 
@@ -183,7 +181,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
         telemetry.addData("claw position: ", claw.getPosition());
         telemetry.addData("armPosition", armPosition.position);
-        
+
         telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
 
         telemetry.addData("LeftFront", leftFront.getCurrentPosition());
