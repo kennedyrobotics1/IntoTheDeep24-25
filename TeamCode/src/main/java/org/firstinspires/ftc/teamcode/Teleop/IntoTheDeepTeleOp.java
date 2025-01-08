@@ -41,17 +41,16 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
-        slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        intakeRotation = hardwareMap.get(Servo.class, "servo5");
-        clawRotation = hardwareMap.get(Servo.class, "servo4");
-        claw = hardwareMap.get(Servo.class, "servo3");
+        intakeRotation = hardwareMap.get(Servo.class, "servo1e");
+        clawRotation = hardwareMap.get(Servo.class, "servo2e");
+        claw = hardwareMap.get(Servo.class, "servo0e");
         intakeRotationPosition = new ServoController(0);
         clawRotationPosition = 0;
 
-        armLeftFront = hardwareMap.get(Servo.class, "servo1");
-        armRightFront = hardwareMap.get(Servo.class, "servo2");
+        armLeftFront = hardwareMap.get(Servo.class, "servo4");
+        armRightFront = hardwareMap.get(Servo.class, "servo5");
 
         armPosition = new ServoController(0);
         armLeftFront.setPosition(armPosition.position);
@@ -124,14 +123,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             armPosition.update(-0.004);
         }
 
-
-
         // slides extend up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
             slideExtensionMotor.setPower(1.0);
         // slides extend down (must hold button to hold slide position)
         } else if (gamepad2.dpad_down) {
-            slideExtensionMotor.setPower(-1.0);
+            slideExtensionMotor.setPower(-0.5);
         } else {
             slideExtensionMotor.setPower(0);
         }
@@ -155,33 +152,33 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             claw.setPosition(0.30);
         }
 
+
+
         // half power on drivetrain
         if(gamepad1.left_bumper){
-            leftFront.setPower(0.35 * frontLeftPower);
-            rightFront.setPower(0.35 * frontRightPower);
-            leftBack.setPower(0.35 * backLeftPower);
-            rightBack.setPower(0.35 * backRightPower);
+            leftFront.setPower(0.4 * frontLeftPower);
+            rightFront.setPower(0.4 * frontRightPower);
+            leftBack.setPower(0.4 * backLeftPower);
+            rightBack.setPower(0.4 * backRightPower);
         } else {
-            leftFront.setPower(frontLeftPower);
-            rightFront.setPower(frontRightPower);
-            leftBack.setPower(backLeftPower);
-            rightBack.setPower(backRightPower);
-
-
-
-            telemetry.addData("twistPosition", clawRotationPosition);
-            telemetry.addData("frontLeftPower ", frontLeftPower);
-            telemetry.addData("frontRightPower ", frontRightPower);
-            telemetry.addData("backLeftPower ", backLeftPower);
-            telemetry.addData("backRightPower ", backRightPower);
-            telemetry.addData("slideExtensionPower", slideExtensionMotor.getPower());
-            telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
-            telemetry.addData("armRightFront: ", armRightFront.getPosition());
-            telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
-            telemetry.addData("claw position: ", claw.getPosition());
-            telemetry.addData("armPosition", armPosition.position);
-            telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
-            telemetry.update();
+            leftFront.setPower(0.8 * frontLeftPower);
+            rightFront.setPower(0.8 * frontRightPower);
+            leftBack.setPower(0.8 * backLeftPower);
+            rightBack.setPower(0.8 * backRightPower);
         }
+
+        telemetry.addData("twistPosition", clawRotationPosition);
+        telemetry.addData("frontLeftPower ", frontLeftPower);
+        telemetry.addData("frontRightPower ", frontRightPower);
+        telemetry.addData("backLeftPower ", backLeftPower);
+        telemetry.addData("backRightPower ", backRightPower);
+        telemetry.addData("slideExtensionPower", slideExtensionMotor.getPower());
+        telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
+        telemetry.addData("armRightFront: ", armRightFront.getPosition());
+        telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
+        telemetry.addData("claw position: ", claw.getPosition());
+        telemetry.addData("armPosition", armPosition.position);
+        telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
+        telemetry.update();
     }
 }
