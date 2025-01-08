@@ -125,7 +125,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         // slides extend up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
-            slideExtensionMotor.setPower(0.5);
+            slideExtensionMotor.setPower(1.0);
         // slides extend down (must hold button to hold slide position)
         } else if (gamepad2.dpad_down) {
             slideExtensionMotor.setPower(-0.5);
@@ -152,11 +152,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             claw.setPosition(0.30);
         }
 
-        // Rotate to position for high specimen hang
-        if(gamepad2.y) {
-            armLeftFront.setPosition(0.0639);
-            armRightFront.setPosition(0.9356);
-        }
+
 
         // half power on drivetrain
         if(gamepad1.left_bumper){
