@@ -24,7 +24,6 @@ public class ExtensionClass {
 
     public ExtensionClass(HardwareMap hardwareMap, Telemetry telemetryB) {
         extensionMotor = hardwareMap.get(DcMotor.class, "slideExtensionMotor");
-        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         telemetry = telemetryB;
     }
