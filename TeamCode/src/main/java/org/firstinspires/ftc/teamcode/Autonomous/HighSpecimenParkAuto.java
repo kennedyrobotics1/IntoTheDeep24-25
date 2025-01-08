@@ -34,33 +34,16 @@ public class HighSpecimenParkAuto extends LinearOpMode {
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-12, 60, Math.toRadians(90)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-12, 60, Math.toRadians(270)));
 
         Action MoveToHighBar = drive.actionBuilder(drive.pose)
-                .strafeToLinearHeading(new Vector2d(0, 31), Math.toRadians(90))
+                .strafeTo(new Vector2d(0, 31))
                 .build();
 
-        Action Push3IntoObservation = drive.actionBuilder(drive.pose)
-                // 40 may be catch on sub, can try less if not to reduce time
-                .strafeTo(new Vector2d(-35, 40))
-                .strafeToLinearHeading(new Vector2d(-35,12), Math.toRadians(90))
-                .strafeTo(new Vector2d(-42, 12))
-                .strafeTo(new Vector2d(-42, 55))
-                .strafeTo(new Vector2d(-42, 12))
-                .strafeTo(new Vector2d(-54, 12))
-                .strafeTo(new Vector2d(-54, 53))
-                .strafeTo(new Vector2d(-54, 12))
-                .strafeTo(new Vector2d(-62, 12))
-                .strafeTo(new Vector2d(-62, 55))
+        Action MoveBackToPlaceSpecimen = drive.actionBuilder(drive.pose)
+                .strafeTo(new Vector2d(0, 50))
                 .build();
 
-        Action MoveToSpecimenPickup = drive.actionBuilder(drive.pose)
-                .strafeToLinearHeading(new Vector2d(-42, 56), Math.toRadians(270))
-                .build();
-
-        Action Park = drive.actionBuilder(drive.pose)
-                .strafeTo(new Vector2d(-35, 60))
-                .build();
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
@@ -69,18 +52,22 @@ public class HighSpecimenParkAuto extends LinearOpMode {
 
         if (isStopRequested()) return;
 
+
         Actions.runBlocking(new SequentialAction(
-                // high bar with preloaded specimen (specimen 1)
                 new ParallelAction(
-                        claw.close(),
                         MoveToHighBar,
                         slideRotation.highBarSpecimen(),
-                        new SequentialAction(
-                                new SleepAction(0.6),
-                                extensionMotor.highBarSpecimen()
-                        )
+                        claw.close(),
+                        wrist.out()
+                ),
+                new ParallelAction(
+                        MoveBackToPlaceSpecimen
+                ),
+                new ParallelAction(
+
                 )
-            )
-        );
+        ));
+
+
     }
 }

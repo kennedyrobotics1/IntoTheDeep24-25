@@ -19,14 +19,14 @@ public class IntakeWristClass {
     private Telemetry telemetry;
 
     public IntakeWristClass(HardwareMap hardwareMap, Telemetry telemetryB){
-        intakeWristRotation = hardwareMap.get(Servo.class, "servo5");
+        intakeWristRotation = hardwareMap.get(Servo.class, "servo1e");
         telemetry = telemetryB;
     }
 
     public class Out implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            intakeWristRotation.setPosition(0.85);
+            intakeWristRotation.setPosition(1);
             return false;
         }
     }

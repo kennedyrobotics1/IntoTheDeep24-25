@@ -22,18 +22,16 @@ import org.firstinspires.ftc.teamcode.Teleop.ServoController;
 public class SlidesRotationClass{
     private Servo slideLeft;
     private Servo slideRight;
-    private AnalogInput armLeftFrontEncoder;
-
 
     public SlidesRotationClass(HardwareMap hardwareMap){
-        slideLeft = hardwareMap.get(Servo.class, "servo1");
-        slideRight = hardwareMap.get(Servo.class, "servo2");
+        slideLeft = hardwareMap.get(Servo.class, "servo4");
+        slideRight = hardwareMap.get(Servo.class, "servo5");
     }
 
     public class highSpecimen implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setArmRotationPosition(0.18);
+            setArmRotationPosition(0.184);
             return false;
         }
     }
@@ -48,7 +46,7 @@ public class SlidesRotationClass{
     public class PickUpSpecimenFromHumanPlayer implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setArmRotationPosition(0.6);
+            setArmRotationPosition(.7);
             return false;
         }
     }

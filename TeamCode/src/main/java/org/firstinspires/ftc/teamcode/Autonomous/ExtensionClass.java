@@ -41,7 +41,7 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 21 * TICKSPERINCH) {
+            if (pos < 50 * TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
@@ -53,9 +53,50 @@ public class ExtensionClass {
     public Action highBarSpecimen() {
         return new ParallelAction(
                 new SpecimenHighBar(),
-                new SleepAction(1.2)
+                new SleepAction(2)
         );
     }
+
+
+
+
+
+    public class PickupFromHumanPlayer implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                extensionMotor.setPower(1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 5 * TICKSPERINCH) {
+                return true;
+            } else {
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+
+    public Action pickupFromHumanPlayer() {
+        return new ParallelAction(
+                new PickupFromHumanPlayer(),
+                new SleepAction(2)
+        );
+    }
+
+
+
+
+
+
+
+
 
 
     public class retractSlides implements Action {
@@ -65,14 +106,14 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(-0.9);
+                extensionMotor.setPower(-0.5);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos > 3000) {
+            if (pos > 100 * TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(-0.4);

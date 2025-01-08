@@ -18,7 +18,7 @@ public class ClawClass {
     private Servo claw;
 
     public ClawClass(HardwareMap hardwareMap) {
-        claw = hardwareMap.get(Servo.class, "servo3");
+        claw = hardwareMap.get(Servo.class, "servo0e");
     }
 
     public class Open implements Action {
