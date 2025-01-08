@@ -33,6 +33,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     double clawRotationPosition;
 
+    private static final double TICKSPERINCH = 107.744107744;
+
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -142,17 +144,29 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         if (gamepad2.back) {
 
             //slides rotate down
-            armPosition = new ServoController(0.6);
+            armPosition = new ServoController(0.792);
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             //intake wrist up
-            intakeRotation.setPosition(0.4);
-
+            intakeRotation.setPosition(0.2478);
             //claw open
             claw.setPosition(0.30);
+            // claw rotation in horizontal position
+            clawRotation.setPosition(0.05);
+            // slides are extended
+            double pos = slideExtensionMotor.getCurrentPosition();
+            if (pos < 6 * TICKSPERINCH) {
+                slideExtensionMotor.setPower(1);
+            } else {
+                slideExtensionMotor.setPower(0);
+            }
         }
 
-
+        // Rotate to position for high specimen hang
+        if(gamepad2.y) {
+            armLeftFront.setPosition(0.0639);
+            armRightFront.setPosition(0.9356);
+        }
 
         // half power on drivetrain
         if(gamepad1.left_bumper){
