@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
-import org.firstinspires.ftc.teamcode.Teleop.ServoController;
 
 @TeleOp(name = "IntoTheDeepTeleOp", group = "Iterative OpMode")
 
@@ -43,7 +39,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
-        slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeRotation = hardwareMap.get(Servo.class, "servo1e");
@@ -126,14 +121,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             armPosition.update(-0.008);
         }
 
-
-
         // slides extend up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
             slideExtensionMotor.setPower(1.0);
         // slides extend down (must hold button to hold slide position)
         } else if (gamepad2.dpad_down) {
-            slideExtensionMotor.setPower(-1.0);
+            slideExtensionMotor.setPower(-0.5);
         } else {
             slideExtensionMotor.setPower(0);
         }
@@ -156,6 +149,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             claw.setPosition(0.30);
         }
 
+
+
         // half power on drivetrain
         if(gamepad1.left_bumper) {
             leftFront.setPower(0.4 * frontLeftPower);
@@ -168,7 +163,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             leftBack.setPower(0.8 * backLeftPower);
             rightBack.setPower(0.8 * backRightPower);
         }
-
 
         telemetry.addData("twistPosition", clawRotationPosition);
         telemetry.addData("frontLeftPower ", frontLeftPower);
