@@ -43,10 +43,7 @@ public class HighSpecimenParkAuto extends LinearOpMode {
         Action MoveBackToPlaceSpecimen = drive.actionBuilder(drive.pose)
                 .strafeTo(new Vector2d(0, 50))
                 .build();
-
-
-        while (!isStopRequested() && !opModeIsActive()) {
-        }
+        
 
         waitForStart();
 
@@ -60,11 +57,8 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         claw.close(),
                         wrist.out()
                 ),
-                new ParallelAction(
+                new SequentialAction(
                         MoveBackToPlaceSpecimen
-                ),
-                new ParallelAction(
-
                 )
         ));
 
