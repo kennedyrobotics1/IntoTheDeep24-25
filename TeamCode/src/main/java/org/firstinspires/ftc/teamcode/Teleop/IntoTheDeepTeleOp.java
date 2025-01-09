@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
@@ -42,6 +43,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeRotation = hardwareMap.get(Servo.class, "servo1e");
         clawRotation = hardwareMap.get(Servo.class, "servo2e");
@@ -56,6 +58,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         armLeftFront.setPosition(armPosition.position);
         armRightFront.setPosition(1 - armPosition.position);
 
+        // need to correct reversed forward and backward
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
@@ -115,12 +118,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         if (gamepad2.dpad_right) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(0.004);
+            armPosition.update(0.006);
         // backward slide rotation (Up position)
         } else if (gamepad2.dpad_left) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(-0.004);
+            armPosition.update(-0.006);
         }
 
         // slides extend up (must hold button to hold slide position)
@@ -138,6 +141,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         //Pick up SPECIMEN from HUMAN PLAYER
 
+        // need to fix
         if (gamepad2.back) {
 
             //slides rotate down
@@ -160,9 +164,11 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         }
 
         // Rotate to position for high specimen hang
+        // need to fix
         if(gamepad2.y) {
             armLeftFront.setPosition(0.0639);
             armRightFront.setPosition(0.9356);
+            // add intake rotation
         }
 
         // half power on drivetrain
