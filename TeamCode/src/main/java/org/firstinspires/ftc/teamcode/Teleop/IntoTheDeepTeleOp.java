@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
-import org.firstinspires.ftc.teamcode.Teleop.ServoController;
 
 @TeleOp(name = "IntoTheDeepTeleOp", group = "Iterative OpMode")
 
@@ -28,6 +25,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     private Servo armLeftFront;
     private Servo armRightFront;
+
     private ServoController armPosition;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
@@ -136,7 +134,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         }
 
 
-
         //MACROS:
 
         //Pick up SPECIMEN from HUMAN PLAYER
@@ -169,7 +166,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         }
 
         // half power on drivetrain
-        if(gamepad1.left_bumper){
+        if(gamepad1.left_bumper) {
             leftFront.setPower(0.4 * frontLeftPower);
             rightFront.setPower(0.4 * frontRightPower);
             leftBack.setPower(0.4 * backLeftPower);
@@ -192,7 +189,14 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
         telemetry.addData("claw position: ", claw.getPosition());
         telemetry.addData("armPosition", armPosition.position);
+
         telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
+
+        telemetry.addData("LeftFront", leftFront.getCurrentPosition());
+        telemetry.addData("LeftBack", leftBack.getCurrentPosition());
+        telemetry.addData("RightFront", rightFront.getCurrentPosition());
+        telemetry.addData("RightBack", rightBack.getCurrentPosition());
+
         telemetry.update();
     }
 }
