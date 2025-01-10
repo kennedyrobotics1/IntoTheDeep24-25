@@ -57,7 +57,90 @@ public class ExtensionClass {
         );
     }
 
+    public class  SampleHighBasket implements Action{
+        private boolean initialized = false;
 
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            if (!initialized){
+                extensionMotor.setPower(-0.8);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 20 *TICKSPERINCH){
+                return true;
+            } else{
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+
+    }
+
+    public Action highBasketSample(){
+        return new ParallelAction(
+                new SampleHighBasket(),
+                new SleepAction(2)
+        );
+    }
+    public class  LevelOneAscent implements Action{
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            if (!initialized){
+                extensionMotor.setPower(-0.8);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 15 *TICKSPERINCH){
+                return true;
+            } else{
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+
+    }
+
+    public Action ascentLevelOne(){
+        return new ParallelAction(
+                new LevelOneAscent(),
+                new SleepAction(2)
+        );
+    }
+
+    public class  YellowSamplePickUp implements Action{
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            if (!initialized){
+                extensionMotor.setPower(-0.8);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 20 *TICKSPERINCH){
+                return true;
+            } else{
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+
+    }
+    public Action sampleYellowPickUp(){
+        return new ParallelAction(
+                new YellowSamplePickUp(),
+                new SleepAction(2)
+        );
+    }
 
 
 
@@ -89,12 +172,6 @@ public class ExtensionClass {
                 new SleepAction(2)
         );
     }
-
-
-
-
-
-
 
 
 
