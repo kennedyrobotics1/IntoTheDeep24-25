@@ -36,15 +36,15 @@ public class highBasketSampleAuto extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(38, 60, Math.toRadians(0)));
 
        Action MoveUpToBasketForFirst = drive.actionBuilder(new Pose2d(38, 60, Math.toRadians(0)))
-               .strafeTo(new Vector2d(50, 60))
+               .strafeTo(new Vector2d(58, 60))
                .build();
 
-       Action TurnToSecondSample = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(0)))
+      /* Action TurnToSecondSample = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(0)))
                        .turn(Math.toRadians(-90))
                                .build();
 
         Action MoveUpToBasketForSecond = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(-90)))
-                .turn(Math.toRadians(0))
+                .turn(Math.toRadians(90))
                 .build();
 
         Action TurnToThirdSample = drive.actionBuilder(drive.pose)
@@ -52,7 +52,7 @@ public class highBasketSampleAuto extends LinearOpMode {
                 .build();
 
         Action MoveUpToBasketForThird = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(-70)))
-                .strafeToLinearHeading(new Vector2d(50,60), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(50,60), Math.toRadians(70))
                 .build();
 
         Action TurnToFourthSample = drive.actionBuilder(drive.pose)
@@ -60,13 +60,13 @@ public class highBasketSampleAuto extends LinearOpMode {
                 .build();
 
         Action MoveUpToBasketForFourth = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(-90)))
-                .strafeToLinearHeading(new Vector2d(50,60), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(50,60), Math.toRadians(55))
                 .build();
 
         Action MoveToLevelOneAscent = drive.actionBuilder(drive.pose)
                 .strafeToLinearHeading(new Vector2d(20,0), Math.toRadians(180))
                 .build();
-
+*/
         waitForStart();
 
         if (isStopRequested()) return;
