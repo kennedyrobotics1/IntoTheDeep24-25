@@ -28,20 +28,27 @@ public class ExtensionClass {
         telemetry = telemetryB;
     }
 
+
+
+
+
+
+
+
     public class SpecimenHighBar implements Action {
         private boolean initialized = false;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(1);
+                extensionMotor.setPower(-1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 50 * TICKSPERINCH) {
+            if (pos < 7 * TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
@@ -146,6 +153,48 @@ public class ExtensionClass {
 
 
 
+
+
+
+
+
+    public class SpecimenHighBarOuttake implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                extensionMotor.setPower(-1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 15 * TICKSPERINCH) {
+                return true;
+            } else {
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+
+    public Action specimenHighBarOuttake() {
+        return new ParallelAction(
+                new SpecimenHighBarOuttake(),
+                new SleepAction(2)
+        );
+    }
+
+
+
+
+
+
+
+
+
     public class PickupFromHumanPlayer implements Action {
         private boolean initialized = false;
 
@@ -174,7 +223,6 @@ public class ExtensionClass {
                 new SleepAction(2)
         );
     }
-
 
 
 

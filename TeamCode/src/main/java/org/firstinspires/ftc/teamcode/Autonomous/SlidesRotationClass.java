@@ -31,7 +31,7 @@ public class SlidesRotationClass{
     public class highSpecimen implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setArmRotationPosition(0.184);
+            setArmRotationPosition(0);
             return false;
         }
     }
@@ -42,7 +42,6 @@ public class SlidesRotationClass{
                 new SleepAction(2)
         );
     }
-
     //need to test
     public class YellowPickUp implements  Action {
         @Override
@@ -103,21 +102,6 @@ public class SlidesRotationClass{
     public Action pickUpSpecimenFromHumanPlayer() {
         return new ParallelAction(
                 new PickUpSpecimenFromHumanPlayer(),
-                new SleepAction(2)
-        );
-    }
-
-    public class rotateBack implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            setArmRotationPosition(0.1);
-            return false;
-        }
-    }
-
-    public Action rotateBack() {
-        return new ParallelAction(
-                new rotateBack(),
                 new SleepAction(2)
         );
     }
