@@ -28,7 +28,7 @@ public class SlidesRotationClass{
         slideRight = hardwareMap.get(Servo.class, "servo5");
     }
 
-    public class highSpecimen implements Action {
+    public class highBarSpecimen implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             setArmRotationPosition(0);
@@ -38,7 +38,7 @@ public class SlidesRotationClass{
 
     public Action highBarSpecimen() {
         return new ParallelAction(
-                new highSpecimen(),
+                new highBarSpecimen(),
                 new SleepAction(2)
         );
     }
@@ -54,7 +54,7 @@ public class SlidesRotationClass{
     public class PickUpSpecimenFromHumanPlayer implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setArmRotationPosition(.7);
+            setArmRotationPosition(.7678);
             return false;
         }
     }
@@ -65,6 +65,11 @@ public class SlidesRotationClass{
                 new SleepAction(2)
         );
     }
+
+
+
+
+
 
     public void setArmRotationPosition (double position) {
         slideLeft.setPosition(position);

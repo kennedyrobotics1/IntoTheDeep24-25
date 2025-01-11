@@ -59,8 +59,8 @@ public class ExtensionClass {
 
     public Action highBarSpecimen() {
         return new ParallelAction(
-                new SpecimenHighBar(),
-                new SleepAction(2)
+                new SpecimenHighBar()
+//                new SleepAction(2)
         );
     }
 
@@ -73,7 +73,7 @@ public class ExtensionClass {
 
 
 
-    public class SpecimenHIGHERBar implements Action {
+    public class SpecimenHighBarOuttake implements Action {
         private boolean initialized = false;
 
         @Override
@@ -95,12 +95,48 @@ public class ExtensionClass {
         }
     }
 
-    public Action specimenHIGHERBar() {
+    public Action specimenHighBarOuttake() {
         return new ParallelAction(
-                new SpecimenHIGHERBar(),
+                new SpecimenHighBarOuttake(),
                 new SleepAction(2)
         );
     }
+
+
+
+
+
+
+
+    public class retraction implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                extensionMotor.setPower(1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos > 0 * TICKSPERINCH) {
+                return true;
+            } else {
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+
+    public Action retraction() {
+        return new ParallelAction(
+                new retraction(),
+                new SleepAction(2)
+        );
+    }
+
 
 
 

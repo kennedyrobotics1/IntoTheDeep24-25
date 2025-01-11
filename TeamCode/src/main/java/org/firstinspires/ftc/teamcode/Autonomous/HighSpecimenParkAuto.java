@@ -40,9 +40,22 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
-        Action MoveBackToPlaceSpecimen = drive.actionBuilder(drive.pose)
-                .strafeTo(new Vector2d(-35, 55))
+//        Action UpALittle = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+//                .strafeTo(new Vector2d(0, 35))
+//                .build();
+
+        Action HumanPlayerFarWall = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-65, 35))
                 .build();
+
+        Action FarWallUpALittle = drive.actionBuilder(new Pose2d(-65, 35, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-65, 55))
+                .build();
+
+        Action SecondSpecimenPlace = drive.actionBuilder(new Pose2d(-65, 55, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-20, 30))
+                .build();
+
 
         waitForStart();
 
@@ -57,9 +70,30 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         claw.close()
                 ),
                 new SequentialAction(
-                        extensionMotor.specimenHIGHERBar()
+                        extensionMotor.specimenHighBarOuttake()
+                ),
+                new ParallelAction(
+                        HumanPlayerFarWall,
+                        extensionMotor.retraction(),
+                        slideRotation.pickUpSpecimenFromHumanPlayer(),
+                        wrist.pickUpSpecimenFromHumanPlayer(),
+                        claw.open()
+                ),
+                new SequentialAction(
+                        FarWallUpALittle
                 )
-
+//                new SequentialAction(
+//                        claw.close()
+//                ),
+//                new ParallelAction(
+//                        SecondSpecimenPlace,
+//                        slideRotation.highBarSpecimen(),
+//                        extensionMotor.highBarSpecimen(),
+//                        claw.close()
+//                ),
+//                new SequentialAction(
+//                        extensionMotor.specimenHIGHERBar()
+//                )
         ));
 
     }
