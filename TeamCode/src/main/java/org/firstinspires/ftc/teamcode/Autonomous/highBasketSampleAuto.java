@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 // RR-specific imports
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -47,7 +44,7 @@ public class highBasketSampleAuto extends LinearOpMode {
                                .build();
 
         Action MoveUpToBasketForSecond = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(-90)))
-                .strafeToLinearHeading(new Vector2d(50,60), Math.toRadians(0))
+                .turn(Math.toRadians(0))
                 .build();
 
         Action TurnToThirdSample = drive.actionBuilder(drive.pose)
