@@ -155,14 +155,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             twist.setPosition(0.05);
         }
 
-        // Rotate to position for high specimen hang
-        if(gamepad2.y) {
-            armLeftFront.setPosition(0.0639);
-            armRightFront.setPosition(0.9356);
-            wristPosition.position = 0;
-            wrist.setPosition(wristPosition.position);
-        }
-
         // half power on drivetrain
         if(gamepad1.left_bumper) {
             leftFront.setPower(0.5 * frontLeftPower);
