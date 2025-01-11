@@ -36,8 +36,7 @@ public class highBasketSampleAuto extends LinearOpMode {
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(38, 60, Math.toRadians(0)));
-
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(38, 60, Math.toRadians(180)));
 
        Action MoveUpToBasket = drive.actionBuilder(drive.pose)
                .strafeTo(new Vector2d(45, 60))

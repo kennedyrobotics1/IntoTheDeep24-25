@@ -43,6 +43,7 @@ public class SlidesRotationClass{
         );
     }
 
+    //need to test
     public class YellowPickUp implements  Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
@@ -59,6 +60,7 @@ public class SlidesRotationClass{
         );
     }
 
+    //test values
     public class LevelOneAscent implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
