@@ -57,7 +57,7 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         claw.close()
                 ),
                 new SequentialAction(
-                        extensionMotor.specimenHIGHERBar()
+                        extensionMotor.specimenHighBarOuttake()
                 )
 
         ));

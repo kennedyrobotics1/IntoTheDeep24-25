@@ -73,7 +73,7 @@ public class ExtensionClass {
 
 
 
-    public class SpecimenHIGHERBar implements Action {
+    public class SpecimenHighBarOuttake implements Action {
         private boolean initialized = false;
 
         @Override
@@ -95,9 +95,9 @@ public class ExtensionClass {
         }
     }
 
-    public Action specimenHIGHERBar() {
+    public Action specimenHighBarOuttake() {
         return new ParallelAction(
-                new SpecimenHIGHERBar(),
+                new SpecimenHighBarOuttake(),
                 new SleepAction(2)
         );
     }

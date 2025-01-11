@@ -26,7 +26,7 @@ public class IntakeWristClass {
     public class Out implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            intakeWristRotation.setPosition(0.9);
+            intakeWristRotation.setPosition(1);
             return false;
         }
     }
