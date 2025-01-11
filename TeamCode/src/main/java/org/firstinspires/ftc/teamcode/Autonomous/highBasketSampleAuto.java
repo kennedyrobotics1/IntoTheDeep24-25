@@ -39,34 +39,6 @@ public class highBasketSampleAuto extends LinearOpMode {
                .strafeTo(new Vector2d(58, 60))
                .build();
 
-      /* Action TurnToSecondSample = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(0)))
-                       .turn(Math.toRadians(-90))
-                               .build();
-
-        Action MoveUpToBasketForSecond = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(-90)))
-                .turn(Math.toRadians(90))
-                .build();
-
-        Action TurnToThirdSample = drive.actionBuilder(drive.pose)
-                .turn(Math.toRadians(-70))
-                .build();
-
-        Action MoveUpToBasketForThird = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(-70)))
-                .strafeToLinearHeading(new Vector2d(50,60), Math.toRadians(70))
-                .build();
-
-        Action TurnToFourthSample = drive.actionBuilder(drive.pose)
-                .turn(Math.toRadians(-55))
-                .build();
-
-        Action MoveUpToBasketForFourth = drive.actionBuilder(new Pose2d(50, 60, Math.toRadians(-90)))
-                .strafeToLinearHeading(new Vector2d(50,60), Math.toRadians(55))
-                .build();
-
-        Action MoveToLevelOneAscent = drive.actionBuilder(drive.pose)
-                .strafeToLinearHeading(new Vector2d(20,0), Math.toRadians(180))
-                .build();
-*/
         waitForStart();
 
         if (isStopRequested()) return;
@@ -89,102 +61,6 @@ public class highBasketSampleAuto extends LinearOpMode {
                         extensionMotor.retractSlides()
                         //rotate wrist back and retract slides at same time
                 )
-                /*,
-                new ParallelAction(
-                        TurnToSecondSample,
-                        slideRotation.yellowSamplePickUp()
-                        //turn and move towards angle of first pickup at the same time
-                ),
-                new SequentialAction(
-                        extensionMotor.sampleYellowPickUp(),
-                        wrist.out(),
-                        claw.close()
-                        //grab second sample
-                ),
-                new ParallelAction(
-                        extensionMotor.retractSlides(),
-                        MoveUpToBasketForSecond,
-                        slideRotation.highBasketSample()
-                       // retract, turn, and rotate angle to basket at same time
-                ),
-                new SequentialAction(
-                        extensionMotor.highBasketSample(),
-                        wrist.out(),
-                        claw.open()
-                        //drop second yellow sample
-                ),
-                new ParallelAction(
-                        wrist.home(),
-                        extensionMotor.retractSlides()
-                        //rotate wrist back and retract slides at same time
-                ),
-                new ParallelAction(
-                        TurnToThirdSample,
-                        slideRotation.yellowSamplePickUp()
-                        //turn and move towards angle of second pickup at the same time
-                ),
-                new SequentialAction(
-                        extensionMotor.sampleYellowPickUp(),
-                        wrist.out(),
-                        claw.close()
-                        //grab third sample
-                ),
-                new ParallelAction(
-                        extensionMotor.retractSlides(),
-                        MoveUpToBasketForThird,
-                        slideRotation.highBasketSample()
-                        // retract, turn, and rotate angle to basket at same time
-                ),
-                new SequentialAction(
-                        extensionMotor.highBasketSample(),
-                        wrist.out(),
-                        claw.open()
-                        //drop third yellow sample
-                ),
-                new ParallelAction(
-                        wrist.home(),
-                        extensionMotor.retractSlides()
-                        //rotate wrist back and retract slides at same time
-                ),
-                new ParallelAction(
-                        TurnToFourthSample,
-                        slideRotation.yellowSamplePickUp()
-                        //turn and move towards angle of third pickup at the same time
-                ),
-                new SequentialAction(
-                        extensionMotor.sampleYellowPickUp(),
-                        wrist.out(),
-                        claw.close()
-                        //grab fourth sample
-                ),
-                new ParallelAction(
-                        extensionMotor.retractSlides(),
-                        MoveUpToBasketForFourth,
-                        slideRotation.highBasketSample()
-                        // retract, turn, and rotate angle to basket at same time
-                ),
-                new SequentialAction(
-                        extensionMotor.highBasketSample(),
-                        wrist.out(),
-                        claw.open()
-                        //drop fourth yellow sample
-                )
-                /*,
-                new ParallelAction(
-                        wrist.home(),
-                        extensionMotor.retractSlides()
-                        //rotate wrist back and retract slides at same time
-                ),
-                new ParallelAction(
-                        MoveToLevelOneAscent,
-                        extensionMotor.ascentLevelOne()
-                        //move to level one ascent and extend towards level 1 ascent
-                ),
-                new SequentialAction(
-                        slideRotation.ascentLevelOne()
-                        //rotate towards angle when it gets to level 1 ascent
-                )
-                //done yay mega happy ending */
         ));
     }
 
