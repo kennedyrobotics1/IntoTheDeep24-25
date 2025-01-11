@@ -32,6 +32,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     double twistPosition;
+    double slidesStartingPosition;
 
     private static final double TICKSPERINCH = 75.71;
 
@@ -45,6 +46,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideExtensionMotor.setDirection(DcMotor.Direction.REVERSE);
+        slidesStartingPosition = slideExtensionMotor.getCurrentPosition();
 
         wrist = hardwareMap.get(Servo.class, "servo1e");
         twist = hardwareMap.get(Servo.class, "servo2e");
@@ -128,7 +130,17 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         // slides extend up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
-            slideExtensionMotor.setPower(1.0);
+            /// extension limit
+            if (armPosition.position > 0.1) {
+                double pos = slideExtensionMotor.getCurrentPosition();
+                if (pos < -16 * TICKSPERINCH + slidesStartingPosition) {
+                    slideExtensionMotor.setPower(0);
+                } else {
+                    slideExtensionMotor.setPower(1.0);
+                }
+            } else {
+                slideExtensionMotor.setPower(1.0);
+            }
         // slides extend down (must hold button to hold slide position)
         } else if (gamepad2.dpad_down) {
             slideExtensionMotor.setPower(-0.5);
