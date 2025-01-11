@@ -30,8 +30,6 @@ public class SlideExtendDown extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(extensionMotor.retractSlides()));
-
     }
 }
 

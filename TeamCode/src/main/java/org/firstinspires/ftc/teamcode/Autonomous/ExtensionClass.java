@@ -71,6 +71,40 @@ public class ExtensionClass {
 
 
 
+    public class SecondSpecimenBar implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                extensionMotor.setPower(-1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 13 * TICKSPERINCH) {
+                return true;
+            } else {
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+
+    public Action secondSpecimenBar() {
+        return new ParallelAction(
+                new SecondSpecimenBar(),
+                new SleepAction(2)
+        );
+    }
+
+
+
+
+
+
 
 
     public class SpecimenHighBarOuttake implements Action {

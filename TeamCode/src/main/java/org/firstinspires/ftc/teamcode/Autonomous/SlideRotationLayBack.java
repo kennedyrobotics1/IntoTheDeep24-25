@@ -29,7 +29,6 @@ public class SlideRotationLayBack extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(slideRotation.rotateBack()));
 
     }
 }

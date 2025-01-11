@@ -30,7 +30,7 @@ public class SlideExtendUp extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(extensionMotor.highBarSpecimen()));
+        Actions.runBlocking(new SequentialAction(extensionMotor.retraction()));
 
     }
 }
