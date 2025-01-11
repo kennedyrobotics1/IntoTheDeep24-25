@@ -174,7 +174,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         if(gamepad2.y) {
             // claw close
             claw.setPosition(0.25);
-            wrist.setPosition(0.2);
+            wristPosition.position = 0;
+            wrist.setPosition(wristPosition.position);
             armPosition.position = 0;
             // add function for rotation from auto to teleop
             armLeftFront.setPosition(armPosition.position);
