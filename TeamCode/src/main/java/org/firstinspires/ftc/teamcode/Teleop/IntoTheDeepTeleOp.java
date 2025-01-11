@@ -153,19 +153,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             claw.setPosition(0.30);
             // claw rotation in horizontal position
             twist.setPosition(0.05);
-            // slide extension (not needed currently)
-            /* slide extension position becomes more negative as slides extend
-            double pos = slideExtensionMotor.getCurrentPosition();
-            // 209
-            if (pos < 2.76053361511 * TICKSPERINCH) {
-                slideExtensionMotor.setPower(1);
-            } else {
-                slideExtensionMotor.setPower(0);
-            } */
         }
 
         // Rotate to position for high specimen hang
-        // FIX positions
         if(gamepad2.y) {
             armLeftFront.setPosition(0.0639);
             armRightFront.setPosition(0.9356);
