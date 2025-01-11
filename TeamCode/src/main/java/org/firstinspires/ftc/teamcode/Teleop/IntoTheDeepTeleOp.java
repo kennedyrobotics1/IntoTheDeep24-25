@@ -19,9 +19,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     private DcMotor slideExtensionMotor = null;
 
-    private Servo intakeRotation;
-    private ServoController intakeRotationPosition;
-    private Servo clawRotation;
+    private Servo wrist;
+    private ServoController wristPosition;
+
+    private Servo twist;
     private Servo claw;
 
     private Servo armLeftFront;
@@ -30,9 +31,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private ServoController armPosition;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
-    double clawRotationPosition;
+    double twistPosition;
 
-    private static final double TICKSPERINCH = 107.744107744;
+    private static final double TICKSPERINCH = 75.71;
 
 
     public void init() {
@@ -45,20 +46,19 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        intakeRotation = hardwareMap.get(Servo.class, "servo1e");
-        clawRotation = hardwareMap.get(Servo.class, "servo2e");
+        wrist = hardwareMap.get(Servo.class, "servo1e");
+        twist = hardwareMap.get(Servo.class, "servo2e");
         claw = hardwareMap.get(Servo.class, "servo0e");
-        intakeRotationPosition = new ServoController(0);
-        clawRotationPosition = 0;
+        wristPosition = new ServoController(0);
+        twistPosition = 0;
 
         armLeftFront = hardwareMap.get(Servo.class, "servo4");
         armRightFront = hardwareMap.get(Servo.class, "servo5");
 
-        armPosition = new ServoController(0);
+        armPosition = new ServoController(0.75);
         armLeftFront.setPosition(armPosition.position);
         armRightFront.setPosition(1 - armPosition.position);
 
-        // need to correct reversed forward and backward
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
@@ -84,12 +84,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         // wrist rotation
         // forward rotation
         if (gamepad2.left_bumper) {
-            intakeRotationPosition.update(-0.008);
-            intakeRotation.setPosition(intakeRotationPosition.position);
+            wristPosition.update(-0.008);
+            wrist.setPosition(wristPosition.position);
         // backward rotation
         } else if (gamepad2.right_bumper) {
-            intakeRotationPosition.update(0.008);
-            intakeRotation.setPosition(intakeRotationPosition.position);
+            wristPosition.update(0.008);
+            wrist.setPosition(wristPosition.position);
         }
 
 
@@ -106,24 +106,23 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         //twist rotation
         if (gamepad2.right_trigger > 0.5) {
             //horizontal
-            clawRotation.setPosition(0.05);
+            twist.setPosition(0.05);
         } else if (gamepad2.left_trigger > 0.5) {
             //vertical
-            clawRotation.setPosition(0);
+            twist.setPosition(0);
         }
-
 
 
         // forward slide rotation (toward floor)
         if (gamepad2.dpad_right) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(0.006);
+            armPosition.update(0.008);
         // backward slide rotation (Up position)
         } else if (gamepad2.dpad_left) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(-0.006);
+            armPosition.update(-0.008);
         }
 
         // slides extend up (must hold button to hold slide position)
@@ -141,67 +140,71 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         //Pick up SPECIMEN from HUMAN PLAYER
 
-        // need to fix
         if (gamepad2.back) {
 
             //slides rotate down
-            armPosition = new ServoController(0.792);
+            armPosition = new ServoController(0.7678);
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             //intake wrist up
-            intakeRotation.setPosition(0.2478);
+            wristPosition.position = 0.2317;
+            wrist.setPosition(wristPosition.position);
             //claw open
             claw.setPosition(0.30);
             // claw rotation in horizontal position
-            clawRotation.setPosition(0.05);
-            // slides are extended
+            twist.setPosition(0.05);
+            // slide extension (not needed currently)
+            /* slide extension position becomes more negative as slides extend
             double pos = slideExtensionMotor.getCurrentPosition();
-            if (pos < 6 * TICKSPERINCH) {
+            // 209
+            if (pos < 2.76053361511 * TICKSPERINCH) {
                 slideExtensionMotor.setPower(1);
             } else {
                 slideExtensionMotor.setPower(0);
-            }
+            } */
         }
 
         // Rotate to position for high specimen hang
-        // need to fix
+        // FIX positions
         if(gamepad2.y) {
             armLeftFront.setPosition(0.0639);
             armRightFront.setPosition(0.9356);
-            // add intake rotation
+            wristPosition.position = 0;
+            wrist.setPosition(wristPosition.position);
         }
 
         // half power on drivetrain
         if(gamepad1.left_bumper) {
-            leftFront.setPower(0.4 * frontLeftPower);
-            rightFront.setPower(0.4 * frontRightPower);
-            leftBack.setPower(0.4 * backLeftPower);
-            rightBack.setPower(0.4 * backRightPower);
+            leftFront.setPower(0.5 * frontLeftPower);
+            rightFront.setPower(0.5 * frontRightPower);
+            leftBack.setPower(0.5 * backLeftPower);
+            rightBack.setPower(0.5 * backRightPower);
         } else {
-            leftFront.setPower(0.8 * frontLeftPower);
-            rightFront.setPower(0.8 * frontRightPower);
-            leftBack.setPower(0.8 * backLeftPower);
-            rightBack.setPower(0.8 * backRightPower);
+            leftFront.setPower(frontLeftPower);
+            rightFront.setPower(frontRightPower);
+            leftBack.setPower(backLeftPower);
+            rightBack.setPower(backRightPower);
         }
 
-        telemetry.addData("twistPosition", clawRotationPosition);
-        telemetry.addData("frontLeftPower ", frontLeftPower);
-        telemetry.addData("frontRightPower ", frontRightPower);
-        telemetry.addData("backLeftPower ", backLeftPower);
-        telemetry.addData("backRightPower ", backRightPower);
-        telemetry.addData("slideExtensionPower", slideExtensionMotor.getPower());
+        telemetry.addData("twistPosition: ", twist.getPosition());
+        telemetry.addData("slideExtensionPosition: ", slideExtensionMotor.getCurrentPosition());
+        telemetry.addData("frontLeftPower: ", frontLeftPower);
+        telemetry.addData("frontRightPower: ", frontRightPower);
+        telemetry.addData("backLeftPower: ", backLeftPower);
+        telemetry.addData("backRightPower: ", backRightPower);
+        telemetry.addData("slideExtensionPower: ", slideExtensionMotor.getPower());
         telemetry.addData("armLeftFront: ", armLeftFront.getPosition());
         telemetry.addData("armRightFront: ", armRightFront.getPosition());
-        telemetry.addData("intake rotation position: ", intakeRotation.getPosition());
+        telemetry.addData("intake rotation position: ", wrist.getPosition());
         telemetry.addData("claw position: ", claw.getPosition());
-        telemetry.addData("armPosition", armPosition.position);
+        telemetry.addData("armPosition: ", armPosition.position);
 
-        telemetry.addData("intakeArmRotationPosition" , intakeRotationPosition.position);
+        telemetry.addData("wristPosition: " , wristPosition.position);
 
-        telemetry.addData("LeftFront", leftFront.getCurrentPosition());
-        telemetry.addData("LeftBack", leftBack.getCurrentPosition());
-        telemetry.addData("RightFront", rightFront.getCurrentPosition());
-        telemetry.addData("RightBack", rightBack.getCurrentPosition());
+        telemetry.addData("LeftFront: ", leftFront.getCurrentPosition());
+        telemetry.addData("LeftBack: ", leftBack.getCurrentPosition());
+        telemetry.addData("RightFront: ", rightFront.getCurrentPosition());
+        telemetry.addData("RightBack: ", rightBack.getCurrentPosition());
 
         telemetry.update();
     }
