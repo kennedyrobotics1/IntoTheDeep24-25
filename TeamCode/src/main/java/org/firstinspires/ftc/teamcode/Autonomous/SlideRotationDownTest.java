@@ -8,13 +8,11 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @Config
-@Autonomous(name = "SlideRotationUpright", group = "Mechanism Tests")
-public class SlideRotationUpright extends LinearOpMode {
+@Autonomous(name = "SlideRotationLayBack", group = "Mechanism Tests")
+public class SlideRotationDownTest extends LinearOpMode {
 
     private SlidesRotationClass slideRotation;
 
@@ -29,7 +27,8 @@ public class SlideRotationUpright extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(slideRotation.highBarSpecimen()));
+
+        Actions.runBlocking(new SequentialAction(slideRotation.pickUpSpecimenFromHumanPlayer()));
 
     }
 }

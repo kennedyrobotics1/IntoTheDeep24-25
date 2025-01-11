@@ -8,13 +8,11 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @Config
 @Autonomous(name = "SlideExtendUp", group = "Mechanism Tests")
-public class SlideExtendUp extends LinearOpMode {
+public class SlideExtendUpTest extends LinearOpMode {
 
     private ExtensionClass extensionMotor;
 
@@ -30,7 +28,8 @@ public class SlideExtendUp extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(extensionMotor.retraction()));
+
+        Actions.runBlocking(new SequentialAction(extensionMotor.sampleYellowPickUp()));
 
     }
 }

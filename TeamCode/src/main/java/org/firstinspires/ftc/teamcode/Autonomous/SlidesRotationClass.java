@@ -42,13 +42,53 @@ public class SlidesRotationClass{
                 new SleepAction(2)
         );
     }
+    //need to test
+    public class YellowPickUp implements  Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setArmRotationPosition(0.65);
+            //set the actual values, value in rn is arbitrary value
+            return false;
+        }
+    }
 
+    public Action yellowSamplePickUp (){
+        return new ParallelAction(
+                new YellowPickUp(),
+                new SleepAction(2)
+        );
+    }
 
+    //test values
+    public class LevelOneAscent implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setArmRotationPosition(0.1);
+            return false;
+        }
+    }
 
+    public Action ascentLevelOne (){
+        return new ParallelAction(
+                new LevelOneAscent(),
+                new SleepAction(2)
+        );
+    }
 
+    public class highSample implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setArmRotationPosition(0.05);
+            return false;
+        }
+    }
 
-
-
+    public Action highBasketSample (){
+        return new ParallelAction(
+                new highSample(),
+                new SleepAction(2)
+        );
+    }
 
 
     public class PickUpSpecimenFromHumanPlayer implements Action {
