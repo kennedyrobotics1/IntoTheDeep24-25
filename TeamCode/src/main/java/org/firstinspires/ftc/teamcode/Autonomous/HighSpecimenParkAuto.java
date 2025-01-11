@@ -34,16 +34,15 @@ public class HighSpecimenParkAuto extends LinearOpMode {
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-12, 60, Math.toRadians(270)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(90)));
 
         Action MoveToHighBar = drive.actionBuilder(drive.pose)
-                .strafeTo(new Vector2d(0, 31))
+                .strafeTo(new Vector2d(0, 30))
                 .build();
 
         Action MoveBackToPlaceSpecimen = drive.actionBuilder(drive.pose)
-                .strafeTo(new Vector2d(0, 50))
+                .strafeTo(new Vector2d(-35, 55))
                 .build();
-        
 
         waitForStart();
 
@@ -54,14 +53,14 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 new ParallelAction(
                         MoveToHighBar,
                         slideRotation.highBarSpecimen(),
-                        claw.close(),
-                        wrist.out()
+                        extensionMotor.highBarSpecimen(),
+                        claw.close()
                 ),
                 new SequentialAction(
-                        MoveBackToPlaceSpecimen
+                        extensionMotor.specimenHighBarOuttake()
                 )
-        ));
 
+        ));
 
     }
 }

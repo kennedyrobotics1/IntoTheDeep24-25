@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ExtensionClass {
     private DcMotor extensionMotor;
     private Telemetry telemetry;
-    private static final double TICKSPERINCH = 107.744107744;
+    private static final double TICKSPERINCH = 75.71;
 
     public ExtensionClass(HardwareMap hardwareMap, Telemetry telemetryB) {
         extensionMotor = hardwareMap.get(DcMotor.class, "slideExtensionMotor");
@@ -28,20 +28,27 @@ public class ExtensionClass {
         telemetry = telemetryB;
     }
 
+
+
+
+
+
+
+
     public class SpecimenHighBar implements Action {
         private boolean initialized = false;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(1);
+                extensionMotor.setPower(-1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 50 * TICKSPERINCH) {
+            if (pos < 7 * TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
@@ -56,6 +63,48 @@ public class ExtensionClass {
                 new SleepAction(2)
         );
     }
+
+
+
+
+
+
+
+
+
+
+    public class SpecimenHighBarOuttake implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                extensionMotor.setPower(-1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 15 * TICKSPERINCH) {
+                return true;
+            } else {
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+
+    public Action specimenHighBarOuttake() {
+        return new ParallelAction(
+                new SpecimenHighBarOuttake(),
+                new SleepAction(2)
+        );
+    }
+
+
+
+
 
 
 
@@ -86,45 +135,6 @@ public class ExtensionClass {
     public Action pickupFromHumanPlayer() {
         return new ParallelAction(
                 new PickupFromHumanPlayer(),
-                new SleepAction(2)
-        );
-    }
-
-
-
-
-
-
-
-
-
-
-    public class retractSlides implements Action {
-
-        private boolean initialized = false;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                extensionMotor.setPower(-0.5);
-                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                initialized = true;
-            }
-
-            double pos = extensionMotor.getCurrentPosition();
-            packet.put("liftPos", pos);
-            if (pos > 100 * TICKSPERINCH) {
-                return true;
-            } else {
-                extensionMotor.setPower(-0.4);
-                return false;
-            }
-        }
-    }
-
-    public Action retractSlides() {
-        return new ParallelAction(
-                new retractSlides(),
                 new SleepAction(2)
         );
     }
