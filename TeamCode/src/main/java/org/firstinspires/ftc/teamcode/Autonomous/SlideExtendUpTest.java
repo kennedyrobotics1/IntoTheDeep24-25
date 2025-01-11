@@ -11,14 +11,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
 @Config
-@Autonomous(name = "IntakeWristHome", group = "Mechanism Tests")
-public class IntakeWristHome extends LinearOpMode {
+@Autonomous(name = "SlideExtendUp", group = "Mechanism Tests")
+public class SlideExtendUpTest extends LinearOpMode {
 
-    private IntakeWristClass wrist;
+    private ExtensionClass extensionMotor;
+
 
     @Override
     public void runOpMode() {
-        wrist = new IntakeWristClass(hardwareMap, telemetry);
+        extensionMotor = new ExtensionClass(hardwareMap, telemetry);
+
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
@@ -26,10 +28,8 @@ public class IntakeWristHome extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(wrist.home()));
-
+        Actions.runBlocking(new SequentialAction(extensionMotor.highBarSpecimen()));
 
     }
 }
-
 
