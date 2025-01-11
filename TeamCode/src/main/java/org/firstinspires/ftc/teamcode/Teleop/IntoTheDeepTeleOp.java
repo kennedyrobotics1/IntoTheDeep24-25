@@ -50,6 +50,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         twist = hardwareMap.get(Servo.class, "servo2e");
         claw = hardwareMap.get(Servo.class, "servo0e");
         wristPosition = new ServoController(0);
+        wrist.setPosition(wristPosition.position);
         twistPosition = 0;
 
         armLeftFront = hardwareMap.get(Servo.class, "servo4");
@@ -143,6 +144,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         if (gamepad2.back) {
 
             //slides rotate down
+            // use armPosition.position = 0.7678;
             armPosition = new ServoController(0.7678);
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
@@ -153,6 +155,25 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             claw.setPosition(0.30);
             // claw rotation in horizontal position
             twist.setPosition(0.05);
+        }
+
+        // Rotate to position for high specimen hang
+        // need to hold down y for slide extension
+        if(gamepad2.y) {
+            // claw close
+            claw.setPosition(0.25);
+            armPosition.position = 0;
+            // add function for rotation from auto to teleop
+            armLeftFront.setPosition(armPosition.position);
+            armRightFront.setPosition(1 - armPosition.position);
+            if (armLeftFront.getPosition() == armPosition.position) {
+                double pos = slideExtensionMotor.getCurrentPosition();
+                if (pos < 7 * TICKSPERINCH) {
+                    slideExtensionMotor.setPower(1);
+                } else {
+                    slideExtensionMotor.setPower(0);
+                }
+            }
         }
 
         // half power on drivetrain
