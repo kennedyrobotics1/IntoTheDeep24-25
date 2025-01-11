@@ -158,6 +158,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         }
 
         // Rotate to position for high specimen hang
+        // need to hold down y for slide extension
         if(gamepad2.y) {
             // claw close
             claw.setPosition(0.25);
