@@ -44,7 +44,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideExtensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideExtensionMotor.setDirection(DcMotor.Direction.REVERSE);
 
         wrist = hardwareMap.get(Servo.class, "servo1e");
         twist = hardwareMap.get(Servo.class, "servo2e");
