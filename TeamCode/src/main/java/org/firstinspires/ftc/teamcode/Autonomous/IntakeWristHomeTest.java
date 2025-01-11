@@ -8,21 +8,17 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @Config
-@Autonomous(name = "SlideExtendDown", group = "Mechanism Tests")
-public class SlideExtendDown extends LinearOpMode {
+@Autonomous(name = "IntakeWristHome", group = "Mechanism Tests")
+public class IntakeWristHomeTest extends LinearOpMode {
 
-    private ExtensionClass extensionMotor;
-
+    private IntakeWristClass wrist;
 
     @Override
     public void runOpMode() {
-        extensionMotor = new ExtensionClass(hardwareMap, telemetry);
-
+        wrist = new IntakeWristClass(hardwareMap, telemetry);
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
@@ -30,8 +26,10 @@ public class SlideExtendDown extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(extensionMotor.retractSlides()));
+        Actions.runBlocking(new SequentialAction(wrist.home()));
+
 
     }
 }
+
 
