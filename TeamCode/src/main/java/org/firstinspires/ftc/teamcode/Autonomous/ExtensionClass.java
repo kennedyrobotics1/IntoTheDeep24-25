@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ExtensionClass {
     private DcMotor extensionMotor;
     private Telemetry telemetry;
-    private static final double TICKSPERINCH = 107.744107744;
+    private static final double TICKSPERINCH = 75.71;
 
     public ExtensionClass(HardwareMap hardwareMap, Telemetry telemetryB) {
         extensionMotor = hardwareMap.get(DcMotor.class, "slideExtensionMotor");
@@ -82,7 +82,7 @@ public class ExtensionClass {
     public Action highBasketSample(){
         return new ParallelAction(
                 new SampleHighBasket(),
-                new SleepAction(2)
+                new SleepAction(3)
         );
     }
     //test out
@@ -185,17 +185,17 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(-0.5);
+                extensionMotor.setPower(0.5);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos > 100 * TICKSPERINCH) {
+            if (pos < 100 * TICKSPERINCH) {
                 return true;
             } else {
-                extensionMotor.setPower(-0.4);
+                extensionMotor.setPower(0);
                 return false;
             }
         }

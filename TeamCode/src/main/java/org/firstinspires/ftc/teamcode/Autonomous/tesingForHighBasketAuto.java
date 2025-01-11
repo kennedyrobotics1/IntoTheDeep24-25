@@ -34,10 +34,10 @@ public class tesingForHighBasketAuto extends LinearOpMode{
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(38, 60, Math.toRadians(180)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(38, 60, Math.toRadians(0)));
 
         Action MoveUpToBasket = drive.actionBuilder(drive.pose)
-                .strafeTo(new Vector2d(45, 60))
+                .strafeTo(new Vector2d(53, 60))
                 .build();
 
         waitForStart();
@@ -49,13 +49,15 @@ public class tesingForHighBasketAuto extends LinearOpMode{
                 new ParallelAction(
                         MoveUpToBasket,
                         slideRotation.highBasketSample(),
-                        extensionMotor.highBasketSample()
-                        //move to basket, move slides to angle and raise slides at the same time
+                        extensionMotor.highBasketSample(),
+                        claw.close()
                 ),
                 new SequentialAction(
                         wrist.out(),
                         claw.open()
-                        //rotate wrist and open claw once we get to basket
+                ),
+                new SequentialAction(
+                        wrist.home()
                 )
               /*  new ParallelAction(
                         slideRotation.yellowSamplePickUp(),
