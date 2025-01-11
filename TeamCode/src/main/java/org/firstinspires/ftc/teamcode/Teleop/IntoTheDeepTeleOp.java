@@ -131,7 +131,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         // slides extend up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
             /// extension limit
-            if (armPosition.position > 0.1) {
+            if (armPosition.position > 0.2) {
                 double pos = slideExtensionMotor.getCurrentPosition();
                 if (pos < -16 * TICKSPERINCH + slidesStartingPosition) {
                     slideExtensionMotor.setPower(0);
@@ -174,13 +174,15 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         if(gamepad2.y) {
             // claw close
             claw.setPosition(0.25);
+            wristPosition.position = 0;
+            wrist.setPosition(wristPosition.position);
             armPosition.position = 0;
             // add function for rotation from auto to teleop
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
             if (armLeftFront.getPosition() == armPosition.position) {
                 double pos = slideExtensionMotor.getCurrentPosition();
-                if (pos < 7 * TICKSPERINCH) {
+                if (pos > -7 * TICKSPERINCH + slidesStartingPosition) {
                     slideExtensionMotor.setPower(1);
                 } else {
                     slideExtensionMotor.setPower(0);
