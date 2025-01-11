@@ -72,7 +72,7 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 new SequentialAction(
                         extensionMotor.specimenHighBarOuttake()
                 ),
-                new ParallelAction(
+                new ParallelAction( 
                         HumanPlayerFarWall,
                         extensionMotor.retraction(),
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
