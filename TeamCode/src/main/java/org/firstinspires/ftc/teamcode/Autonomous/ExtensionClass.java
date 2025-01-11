@@ -229,10 +229,12 @@ public class ExtensionClass {
     public class retractSlides implements Action {
 
         private boolean initialized = false;
+        double slidesStartingPosition;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
+                slidesStartingPosition = extensionMotor.getCurrentPosition();
                 extensionMotor.setPower(0.5);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
@@ -240,7 +242,7 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 100 * TICKSPERINCH) {
+            if (pos <= slidesStartingPosition + 1 *TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
