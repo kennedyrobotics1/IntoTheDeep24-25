@@ -247,12 +247,6 @@ public class ExtensionClass {
             } else {
                 return false;
             }
-            /* if (pos <= slidesStartingPosition + 1 *TICKSPERINCH) {
-                return true;
-            } else {
-                extensionMotor.setPower(0);
-                return false;
-            } */
         }
     }
 
