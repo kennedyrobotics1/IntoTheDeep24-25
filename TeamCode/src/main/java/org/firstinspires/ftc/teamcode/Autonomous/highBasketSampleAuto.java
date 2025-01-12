@@ -49,19 +49,19 @@ public class highBasketSampleAuto extends LinearOpMode {
                 //side to Outside Sample
                 .strafeTo(new Vector2d(47, 8))
                 //Down to Score Outside Sample
-                .strafeTo(new Vector2d(49, 60))
+                .strafeTo(new Vector2d(53, 60))
                 //up to Middle Sample
                 .strafeTo(new Vector2d(49,8)) // 47
                 //Side to Middle Sample
-                .strafeTo(new Vector2d(57,8))
+                .strafeTo(new Vector2d(59,8))
                 //Down to Score Middle Sample
                 .strafeTo(new Vector2d(59, 57))
                 //Up to Last Sample
                 .strafeTo(new Vector2d(59, 8)) // 57
                 //Side to Last Sample
-                .strafeTo(new Vector2d(62, 8))
+                .strafeTo(new Vector2d(70, 8))
                 //Down To Last Sample
-                .strafeTo(new Vector2d(64, 55))
+                .strafeTo(new Vector2d(70, 55))
                 .build();
 
         waitForStart();
