@@ -242,12 +242,17 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos <= slidesStartingPosition + 1 *TICKSPERINCH) {
+            if (pos > slidesStartingPosition) {
+                return true;
+            } else {
+                return false;
+            }
+            /* if (pos <= slidesStartingPosition + 1 *TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
                 return false;
-            }
+            } */
         }
     }
 
