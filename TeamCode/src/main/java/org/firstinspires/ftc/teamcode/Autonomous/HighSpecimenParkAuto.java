@@ -40,9 +40,18 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
-        Action MoveBackToPlaceSpecimen = drive.actionBuilder(drive.pose)
-                .strafeTo(new Vector2d(-35, 55))
+        Action HumanPlayerFarWall = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-65, 35))
                 .build();
+
+        Action FarWallUpALittle = drive.actionBuilder(new Pose2d(-65, 35, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-65, 57))
+                .build();
+
+        Action SecondSpecimenPlace = drive.actionBuilder(new Pose2d(-65, 57, Math.toRadians(90)))
+                .strafeTo(new Vector2d(00, 30))
+                .build();
+
 
         waitForStart();
 
@@ -58,8 +67,30 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 ),
                 new SequentialAction(
                         extensionMotor.specimenHighBarOuttake()
+                ),
+                new ParallelAction( 
+                        HumanPlayerFarWall,
+                        extensionMotor.retraction(),
+                        slideRotation.pickUpSpecimenFromHumanPlayer(),
+                        wrist.pickUpSpecimenFromHumanPlayer(),
+                        claw.open()
+                ),
+                new SequentialAction(
+                        FarWallUpALittle
+                ),
+                new SequentialAction(
+                        claw.close(),
+                        slideRotation.highBarSpecimen()
+                ),
+                new ParallelAction(
+                        SecondSpecimenPlace,
+                        extensionMotor.highBarSpecimen(),
+                        claw.close(),
+                        wrist.home()
+                ),
+                new SequentialAction(
+                        extensionMotor.specimenHighBarOuttake()
                 )
-
         ));
 
     }

@@ -64,6 +64,17 @@ public class ExtensionClass {
         );
     }
 
+
+
+
+
+
+
+
+
+
+
+
     public class  SampleHighBasket implements Action{
         private boolean initialized = false;
 
@@ -186,6 +197,42 @@ public class ExtensionClass {
                 new SleepAction(2)
         );
     }
+
+
+
+
+
+
+
+    public class Retraction implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                extensionMotor.setPower(1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos > 0 * TICKSPERINCH) {
+                return true;
+            } else {
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+
+    public Action retraction() {
+        return new ParallelAction(
+                new Retraction(),
+                new SleepAction(2)
+        );
+    }
+
 
 
 
