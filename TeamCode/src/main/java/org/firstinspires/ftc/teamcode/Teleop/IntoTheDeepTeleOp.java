@@ -120,12 +120,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         if (gamepad2.dpad_right) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(0.008);
+            armPosition.update(0.010);
         // backward slide rotation (Up position)
         } else if (gamepad2.dpad_left) {
             armLeftFront.setPosition(armPosition.position);
             armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(-0.008);
+            armPosition.update(-0.010);
         }
 
         // slides extend up (must hold button to hold slide position)
@@ -189,6 +189,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
                 }
             }
         }
+
+        // high basket macro: slide rotation, wrist rotation
+
+
 
         // half power on drivetrain
         if(gamepad1.left_bumper) {
