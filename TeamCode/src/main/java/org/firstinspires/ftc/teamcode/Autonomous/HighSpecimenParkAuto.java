@@ -42,10 +42,14 @@ public class HighSpecimenParkAuto extends LinearOpMode {
 
 
         Action PushSpecimenIntoObservation = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 30))
                 .strafeTo(new Vector2d(0, 40))
                 .strafeTo(new Vector2d(-35, 40))
                 .strafeTo(new Vector2d(-35, 10))
                 .strafeTo(new Vector2d(-47, 10))
+                .strafeTo(new Vector2d(-47, 60))
+                .strafeTo(new Vector2d(0, 30))
+                .strafeTo(new Vector2d(-47, 50))
                 .strafeTo(new Vector2d(-47, 60))
                 .build();
 
