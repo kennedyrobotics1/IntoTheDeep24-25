@@ -204,7 +204,7 @@ public class ExtensionClass {
 
 
 
-    public class retraction implements Action {
+    public class Retraction implements Action {
         private boolean initialized = false;
 
         @Override
@@ -228,7 +228,7 @@ public class ExtensionClass {
 
     public Action retraction() {
         return new ParallelAction(
-                new retraction(),
+                new Retraction(),
                 new SleepAction(2)
         );
     }
