@@ -27,7 +27,6 @@ public class SlideRotationDownTest extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-
         Actions.runBlocking(new SequentialAction(slideRotation.pickUpSpecimenFromHumanPlayer()));
 
     }
