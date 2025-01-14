@@ -84,4 +84,12 @@ public class IntakeWristClass {
                 new SleepAction(2)
         );
     }
+
+    public class SampleIntoHighBasket implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            intakeWristRotation.setPosition(1);
+            return false;
+        }
+    }
 }

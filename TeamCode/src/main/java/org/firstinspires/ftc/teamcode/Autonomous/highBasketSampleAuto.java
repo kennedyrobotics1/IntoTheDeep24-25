@@ -43,6 +43,12 @@ public class highBasketSampleAuto extends LinearOpMode {
                .strafeTo(new Vector2d(41, 60))
                .build();
 
+       Action MoveToSecondSample = drive.actionBuilder(new Pose2d(41, 60, Math.toRadians(0)))
+               .strafeToLinearHeading(new Vector2d(45,50), Math.toRadians(180))
+               .build();
+
+      // Action MoveToThirdSample =
+
         Action MoveForwardToSample = drive.actionBuilder(new Pose2d(41, 60, Math.toRadians(0)))
                 //Up to Outside Sample
                 .strafeTo(new Vector2d(41, 8))
@@ -74,7 +80,7 @@ public class highBasketSampleAuto extends LinearOpMode {
                         slideRotation.highBasketSample(),
                         extensionMotor.highBasketSample(),
                         claw.close()
-                        //move to basket, move slides to angle and raise slides at the same time
+                        //move to basket backwards, move slides to angle and raise slides at the same time
                 ),
                 new SequentialAction(
                         wrist.out(),
@@ -87,11 +93,23 @@ public class highBasketSampleAuto extends LinearOpMode {
                         //rotate wrist back and retract slides at same time
                 ),
                 new ParallelAction(
-                        MoveToNetPushPosition
+                        MoveToSecondSample,
+                        slideRotation.yellowSamplePickUp()
+                ),
+                new SequentialAction(
+                        extensionMotor.sampleYellowPickUp(),
+                        wrist.out(),
+                        claw.close(),
+                        wrist.home()
                 ),
                 new ParallelAction(
-                        MoveForwardToSample
+                        extensionMotor.retractSlides(),
+                        slideRotation.highBasketSample()
+                ),
+                new ParallelAction(
+
                 )
+
         ));
     }
 
