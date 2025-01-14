@@ -58,7 +58,7 @@ public class IntakeWristClass {
     public class Home implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            intakeWristRotation.setPosition(0.2);
+            intakeWristRotation.setPosition(0.0);
             return false;
         }
     }
