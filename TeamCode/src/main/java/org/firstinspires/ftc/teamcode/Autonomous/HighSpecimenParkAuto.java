@@ -40,17 +40,19 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
-        Action HumanPlayerFarWall = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-65, 35))
+
+        Action PushSpecimenIntoObservation = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 40))
+                .strafeTo(new Vector2d(-35, 40))
+                .strafeTo(new Vector2d(-35, 10))
+                .strafeTo(new Vector2d(-47, 10))
+                .strafeTo(new Vector2d(-47, 60))
                 .build();
 
-        Action FarWallUpALittle = drive.actionBuilder(new Pose2d(-65, 35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-65, 57))
+        Action SecondSpecimenPlace = drive.actionBuilder(new Pose2d(-47, 60, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 30))
                 .build();
 
-        Action SecondSpecimenPlace = drive.actionBuilder(new Pose2d(-65, 57, Math.toRadians(90)))
-                .strafeTo(new Vector2d(00, 30))
-                .build();
 
 
         waitForStart();
@@ -59,39 +61,47 @@ public class HighSpecimenParkAuto extends LinearOpMode {
 
 
         Actions.runBlocking(new SequentialAction(
-                new ParallelAction(
-                        MoveToHighBar,
-                        slideRotation.highBarSpecimen(),
-                        extensionMotor.highBarSpecimen(),
-                        claw.close()
-                ),
-                new SequentialAction(
-                        extensionMotor.specimenHighBarOuttake()
-                ),
-                new ParallelAction( 
-                        HumanPlayerFarWall,
-                        extensionMotor.retraction(),
-                        slideRotation.pickUpSpecimenFromHumanPlayer(),
-                        wrist.pickUpSpecimenFromHumanPlayer(),
-                        claw.open()
-                ),
-                new SequentialAction(
-                        FarWallUpALittle
-                ),
-                new SequentialAction(
-                        claw.close(),
-                        slideRotation.highBarSpecimen()
-                ),
-                new ParallelAction(
-                        SecondSpecimenPlace,
-                        extensionMotor.highBarSpecimen(),
-                        claw.close(),
-                        wrist.home()
-                ),
-                new SequentialAction(
-                        extensionMotor.specimenHighBarOuttake()
-                )
+                MoveToHighBar,
+                PushSpecimenIntoObservation,
+                SecondSpecimenPlace
         ));
+
+
+//        Actions.runBlocking(new SequentialAction(
+//                new ParallelAction(
+//                        MoveToHighBar,
+//                        slideRotation.highBarSpecimen(),
+//                        extensionMotor.highBarSpecimen(),
+//                        claw.close()
+//                ),
+//                new SequentialAction(
+//                        extensionMotor.specimenHighBarOuttake()
+//                ),
+//                new ParallelAction(
+//                        HumanPlayerFarWall,
+//                        extensionMotor.retraction(),
+//                        slideRotation.pickUpSpecimenFromHumanPlayer(),
+//                        wrist.pickUpSpecimenFromHumanPlayer(),
+//                        claw.open()
+//                ),
+//                new SequentialAction(
+//                        FarWallUpALittle
+//                ),
+//                new SequentialAction(
+//                        claw.close(),
+//                        slideRotation.highBarSpecimen()
+//                ),
+//                new ParallelAction(
+//                        SecondSpecimenPlace,
+//                        extensionMotor.highBarSpecimen(),
+//                        claw.close(),
+//                        wrist.home()
+//                ),
+//                new SequentialAction(
+//                        extensionMotor.specimenHighBarOuttake()
+//                )
+//
+//        ));
 
     }
 }
