@@ -39,7 +39,7 @@ public class SlidesRotationClass{
     public Action highBarSpecimen() {
         return new ParallelAction(
                 new HighBarSpecimen(),
-                new SleepAction(2)
+                new SleepAction(1)
         );
     }
     //need to test
@@ -102,7 +102,7 @@ public class SlidesRotationClass{
     public Action pickUpSpecimenFromHumanPlayer() {
         return new ParallelAction(
                 new PickUpSpecimenFromHumanPlayer(),
-                new SleepAction(2)
+                new SleepAction(1)
         );
     }
 

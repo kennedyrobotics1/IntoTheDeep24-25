@@ -66,7 +66,7 @@ public class IntakeWristClass {
     public Action home() {
         return new ParallelAction(
                 new Home(),
-                new SleepAction(2)
+                new SleepAction(1)
         );
     }
 
@@ -81,7 +81,7 @@ public class IntakeWristClass {
     public Action pickUpSpecimenFromHumanPlayer() {
         return new ParallelAction(
                 new PickUpSpecimenFromHumanPlayer(),
-                new SleepAction(2)
+                new SleepAction(1)
         );
     }
 }

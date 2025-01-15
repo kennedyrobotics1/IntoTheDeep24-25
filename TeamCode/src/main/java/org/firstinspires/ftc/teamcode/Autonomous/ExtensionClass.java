@@ -100,7 +100,7 @@ public class ExtensionClass {
     public Action highBasketSample(){
         return new ParallelAction(
                 new SampleHighBasket(),
-                new SleepAction(3)
+                new SleepAction(0.75)
         );
     }
     //test out
@@ -194,7 +194,7 @@ public class ExtensionClass {
     public Action specimenHighBarOuttake() {
         return new ParallelAction(
                 new SpecimenHighBarOuttake(),
-                new SleepAction(2)
+                new SleepAction(0.5)
         );
     }
 
