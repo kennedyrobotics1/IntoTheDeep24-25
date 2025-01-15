@@ -45,23 +45,24 @@ public class HighSpecimenParkAuto extends LinearOpMode {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(90)));
 
-
-
         Action MoveToHighBar = drive.actionBuilder(drive.pose)
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
-
         Action PushSpecimenIntoObservation = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 40))
-                .strafeTo(new Vector2d(-35, 40))
-                .strafeTo(new Vector2d(-35, 10))
-                .strafeTo(new Vector2d(-47, 10))
+                .strafeTo(new Vector2d(0, 35))
+                .strafeTo(new Vector2d(-35, 35))
+                .strafeTo(new Vector2d(-35, 15))
+                .strafeTo(new Vector2d(-47, 15))
                 .strafeTo(new Vector2d(-47, 60))
+                .strafeTo(new Vector2d(-47, 15))
+                .strafeTo(new Vector2d(-53, 15))
+                .strafeTo(new Vector2d(-53, 60))
                 .build();
 
+
         Action PlaceSecondSpecimen = drive.actionBuilder(new Pose2d(-47, 60, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-47, 50))
+                .strafeTo(new Vector2d(-53, 50))
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
@@ -74,6 +75,14 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
+        Action PickupFourthSpecimen = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-47, 50))
+                .strafeTo(new Vector2d(-47, 60))
+                .build();
+
+        Action PlaceFourthSpecimen = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 30))
+                .build();
 
 
         waitForStart();
@@ -128,6 +137,27 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 ),
                 new ParallelAction(
                         PlaceThirdSpecimen,
+                        extensionMotor.highBarSpecimen()
+                ),
+                new SequentialAction(
+                        extensionMotor.specimenHighBarOuttake()
+                ),
+                new ParallelAction(
+                        PickupFourthSpecimen,
+                        extensionMotor.retraction(),
+                        slideRotation.pickUpSpecimenFromHumanPlayer(),
+                        wrist.pickUpSpecimenFromHumanPlayer(),
+                        claw.open()
+                ),
+                new SequentialAction(
+                        claw.close()
+                ),
+                new ParallelAction(
+                        slideRotation.highBarSpecimen(),
+                        wrist.home()
+                ),
+                new ParallelAction(
+                        PlaceFourthSpecimen,
                         extensionMotor.highBarSpecimen()
                 ),
                 new SequentialAction(
