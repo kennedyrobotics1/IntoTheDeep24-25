@@ -45,7 +45,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideExtensionMotor.setDirection(DcMotor.Direction.REVERSE);
         slidesStartingPosition = slideExtensionMotor.getCurrentPosition();
 
         wrist = hardwareMap.get(Servo.class, "servo1e");
@@ -59,8 +58,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         armRightFront = hardwareMap.get(Servo.class, "servo5");
 
         armPosition = new ServoController(0.75);
-        armLeftFront.setPosition(armPosition.position);
-        armRightFront.setPosition(1 - armPosition.position);
+        setArmRotationPosition(armPosition.position);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -118,14 +116,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         // forward slide rotation (toward floor)
         if (gamepad2.dpad_right) {
-            armLeftFront.setPosition(armPosition.position);
-            armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(0.008);
+            setArmRotationPosition(armPosition.position);
+            armPosition.update(0.010);
         // backward slide rotation (Up position)
         } else if (gamepad2.dpad_left) {
-            armLeftFront.setPosition(armPosition.position);
-            armRightFront.setPosition(1 - armPosition.position);
-            armPosition.update(-0.008);
+            setArmRotationPosition(armPosition.position);
+            armPosition.update(-0.010);
         }
 
         // slides extend up (must hold button to hold slide position)
@@ -133,7 +129,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             /// extension limit
             if (armPosition.position > 0.2) {
                 double pos = slideExtensionMotor.getCurrentPosition();
-                if (pos < -16 * TICKSPERINCH + slidesStartingPosition) {
+                if (pos > 16 * TICKSPERINCH + slidesStartingPosition) {
                     slideExtensionMotor.setPower(0);
                 } else {
                     slideExtensionMotor.setPower(1.0);
@@ -156,10 +152,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         if (gamepad2.back) {
 
             //slides rotate down
-            // use armPosition.position = 0.7678;
-            armPosition = new ServoController(0.7678);
-            armLeftFront.setPosition(armPosition.position);
-            armRightFront.setPosition(1 - armPosition.position);
+            setArmRotationPosition(0.7678);
             //intake wrist up
             wristPosition.position = 0.2317;
             wrist.setPosition(wristPosition.position);
@@ -176,19 +169,25 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             claw.setPosition(0.25);
             wristPosition.position = 0;
             wrist.setPosition(wristPosition.position);
-            armPosition.position = 0;
-            // add function for rotation from auto to teleop
-            armLeftFront.setPosition(armPosition.position);
-            armRightFront.setPosition(1 - armPosition.position);
+            setArmRotationPosition(0);
             if (armLeftFront.getPosition() == armPosition.position) {
                 double pos = slideExtensionMotor.getCurrentPosition();
-                if (pos > -7 * TICKSPERINCH + slidesStartingPosition) {
+                if (pos < 7 * TICKSPERINCH + slidesStartingPosition) {
                     slideExtensionMotor.setPower(1);
                 } else {
                     slideExtensionMotor.setPower(0);
                 }
             }
         }
+
+        // high basket macro: slide rotation, wrist rotation
+        if (gamepad2.b) {
+            setArmRotationPosition(0.075);
+            wristPosition.position = 0.75;
+            wrist.setPosition(wristPosition.position);
+
+        }
+
 
         // half power on drivetrain
         if(gamepad1.left_bumper) {
@@ -225,4 +224,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         telemetry.update();
     }
+
+    // slide rotation function
+    public void setArmRotationPosition (double position) {
+        armPosition.position = position;
+        armLeftFront.setPosition(armPosition.position);
+        armRightFront.setPosition(1 - armPosition.position);
+    }
+
 }
