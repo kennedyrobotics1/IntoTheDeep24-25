@@ -45,7 +45,6 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         slideExtensionMotor = hardwareMap.get(DcMotorEx.class, "slideExtensionMotor");
         slideExtensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideExtensionMotor.setDirection(DcMotor.Direction.REVERSE);
         slidesStartingPosition = slideExtensionMotor.getCurrentPosition();
 
         wrist = hardwareMap.get(Servo.class, "servo1e");
@@ -130,7 +129,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             /// extension limit
             if (armPosition.position > 0.2) {
                 double pos = slideExtensionMotor.getCurrentPosition();
-                if (pos < -16 * TICKSPERINCH + slidesStartingPosition) {
+                if (pos > 16 * TICKSPERINCH + slidesStartingPosition) {
                     slideExtensionMotor.setPower(0);
                 } else {
                     slideExtensionMotor.setPower(1.0);
@@ -173,7 +172,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             setArmRotationPosition(0);
             if (armLeftFront.getPosition() == armPosition.position) {
                 double pos = slideExtensionMotor.getCurrentPosition();
-                if (pos > -7 * TICKSPERINCH + slidesStartingPosition) {
+                if (pos < 7 * TICKSPERINCH + slidesStartingPosition) {
                     slideExtensionMotor.setPower(1);
                 } else {
                     slideExtensionMotor.setPower(0);
@@ -186,6 +185,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             setArmRotationPosition(0.075);
             wristPosition.position = 0.75;
             wrist.setPosition(wristPosition.position);
+
         }
 
 

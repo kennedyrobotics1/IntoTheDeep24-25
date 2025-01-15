@@ -41,7 +41,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(-1);
+                extensionMotor.setPower(1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -70,7 +70,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
             if (!initialized){
-                extensionMotor.setPower(-0.8);
+                extensionMotor.setPower(0.8);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -99,7 +99,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
             if (!initialized){
-                extensionMotor.setPower(-0.8);
+                extensionMotor.setPower(0.8);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -129,7 +129,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
             if (!initialized){
-                extensionMotor.setPower(-0.8);
+                extensionMotor.setPower(0.8);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -164,7 +164,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(-1);
+                extensionMotor.setPower(1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -235,7 +235,7 @@ public class ExtensionClass {
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
                 slidesStartingPosition = extensionMotor.getCurrentPosition();
-                extensionMotor.setPower(0.5);
+                extensionMotor.setPower(-0.5);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
