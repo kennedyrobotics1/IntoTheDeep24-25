@@ -93,7 +93,7 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 ),
                 new ParallelAction(
                         PushSpecimenIntoObservation,
-                        extensionMotor.retraction(),
+                        extensionMotor.retract(),
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open()
@@ -114,7 +114,7 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 ),
                 new ParallelAction(
                         PickupThirdSpecimen,
-                        extensionMotor.retraction(),
+                        extensionMotor.retract(),
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open()
