@@ -48,7 +48,7 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 7 * TICKSPERINCH) {
+            if (pos < 8.5 * TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
@@ -60,11 +60,9 @@ public class ExtensionClass {
     public Action highBarSpecimen() {
         return new ParallelAction(
                 new SpecimenHighBar(),
-                new SleepAction(2)
+                new SleepAction(0.05)
         );
     }
-
-
 
 
 
@@ -182,7 +180,7 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 15 * TICKSPERINCH) {
+            if (pos < 13 * TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
@@ -210,7 +208,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(1);
+                extensionMotor.setPower(-1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
 @Config
-@Autonomous(name = "SlideRotationLayBack", group = "Mechanism Tests")
+@Autonomous(name = "SlideRotationDownTest", group = "Mechanism Tests")
 public class SlideRotationDownTest extends LinearOpMode {
 
     private SlidesRotationClass slideRotation;

@@ -44,10 +44,10 @@ public class TrajectoryTest extends LinearOpMode {
                 .strafeTo(new Vector2d(-35, 35))
                 .strafeTo(new Vector2d(-35, 15))
                 .strafeTo(new Vector2d(-47, 15))
-                .strafeTo(new Vector2d(-47, 60))
+                .strafeTo(new Vector2d(-47, 57))
                 .strafeTo(new Vector2d(-47, 15))
                 .strafeTo(new Vector2d(-53, 15))
-                .strafeTo(new Vector2d(-53, 60))
+                .strafeTo(new Vector2d(-53, 57))
                 .build();
 
 
@@ -58,7 +58,7 @@ public class TrajectoryTest extends LinearOpMode {
 
         Action PickupThirdSpecimen = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
                 .strafeTo(new Vector2d(-47, 50))
-                .strafeTo(new Vector2d(-47, 60))
+                .strafeTo(new Vector2d(-47, 57))
                 .build();
 
         Action PlaceThirdSpecimen = drive.actionBuilder(new Pose2d(-47, 60, Math.toRadians(90)))
@@ -67,7 +67,7 @@ public class TrajectoryTest extends LinearOpMode {
 
         Action PickupFourthSpecimen = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
                 .strafeTo(new Vector2d(-47, 50))
-                .strafeTo(new Vector2d(-47, 60))
+                .strafeTo(new Vector2d(-47, 57))
                 .build();
 
         Action PlaceFourthSpecimen = drive.actionBuilder(new Pose2d(-47, 60, Math.toRadians(90)))

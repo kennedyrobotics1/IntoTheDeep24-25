@@ -39,7 +39,7 @@ public class SlidesRotationClass{
     public Action highBarSpecimen() {
         return new ParallelAction(
                 new HighBarSpecimen(),
-                new SleepAction(1)
+                new SleepAction(0.2375)
         );
     }
     //need to test
@@ -94,7 +94,7 @@ public class SlidesRotationClass{
     public class PickUpSpecimenFromHumanPlayer implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setArmRotationPosition(.7678);
+            setArmRotationPosition(.73);
             return false;
         }
     }
