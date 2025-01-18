@@ -35,43 +35,34 @@ public class TrajectoryTest extends LinearOpMode {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(90)));
 
-        Action MoveToHighBar = drive.actionBuilder(drive.pose)
+        Action FirstSpecimenPlace = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
-        Action PushSpecimenIntoObservation = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 35))
-                .strafeTo(new Vector2d(-35, 35))
-                .strafeTo(new Vector2d(-35, 15))
-                .strafeTo(new Vector2d(-47, 15))
-                .strafeTo(new Vector2d(-47, 57))
-                .strafeTo(new Vector2d(-47, 15))
-                .strafeTo(new Vector2d(-53, 15))
-                .strafeTo(new Vector2d(-53, 57))
+        Action UpToThirdSpecimen = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(-30, 40), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-40, 12), Math.toRadians(215))
+                .strafeTo(new Vector2d(-40, 55))
+                .splineToConstantHeading(new Vector2d(-50, 15), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-50, 58), Math.toRadians(90))
                 .build();
-
-
-        Action PlaceSecondSpecimen = drive.actionBuilder(new Pose2d(-47, 60, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-53, 50))
-                .strafeTo(new Vector2d(0, 30))
+//
+        Action UpALittle = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-50, 50))
                 .build();
-
-        Action PickupThirdSpecimen = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-47, 50))
-                .strafeTo(new Vector2d(-47, 57))
+//
+        Action ScoreSecond = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(0, 32), Math.toRadians(270))
+                .strafeTo(new Vector2d(-40, 57))
                 .build();
-
-        Action PlaceThirdSpecimen = drive.actionBuilder(new Pose2d(-47, 60, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 30))
+//
+        Action ScoreThird = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(0, 32), Math.toRadians(270))
+                .strafeTo(new Vector2d(-40, 57))
                 .build();
-
-        Action PickupFourthSpecimen = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-47, 50))
-                .strafeTo(new Vector2d(-47, 57))
-                .build();
-
-        Action PlaceFourthSpecimen = drive.actionBuilder(new Pose2d(-47, 60, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 30))
+//
+        Action ScoreFourth = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(0, 32), Math.toRadians(270))
                 .build();
 
         waitForStart();
@@ -80,13 +71,12 @@ public class TrajectoryTest extends LinearOpMode {
 
 
         Actions.runBlocking(new SequentialAction(
-                MoveToHighBar,
-                PushSpecimenIntoObservation,
-                PlaceSecondSpecimen,
-                PickupThirdSpecimen,
-                PlaceThirdSpecimen,
-                PickupFourthSpecimen,
-                PlaceFourthSpecimen
+              FirstSpecimenPlace,
+                UpToThirdSpecimen,
+                UpALittle,
+                ScoreSecond,
+                ScoreThird,
+                ScoreFourth
         ));
 
     }
