@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
@@ -22,6 +23,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import java.net.PasswordAuthentication;
 import java.util.Arrays;
 
 
@@ -45,41 +47,60 @@ public class HighSpecimenParkAuto extends LinearOpMode {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(90)));
 
-        Action FirstSpecimenPlace = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
+        Action PlaceFirst = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
-        Action UpToThirdSpecimen = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
-                .splineToConstantHeading(new Vector2d(-30, 40), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-40, 12), Math.toRadians(215))
-                .strafeTo(new Vector2d(-40, 55))
-                .splineToConstantHeading(new Vector2d(-50, 15), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-50, 58), Math.toRadians(90))
-                .build();
-//
-        Action UpALittle = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-50, 50))
-                .build();
-//
-        Action ScoreSecond = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
-                .splineToConstantHeading(new Vector2d(0, 32), Math.toRadians(270))
+        Action Push2toObservation = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 37))
+
+                .strafeTo(new Vector2d(-35, 37))
+
+                .strafeTo(new Vector2d(-35, 13))
+
+                .strafeTo(new Vector2d(-42, 13))
+
+                .strafeTo(new Vector2d(-42, 50))
+
+                .strafeTo(new Vector2d(-42, 13))
+
+                .strafeTo(new Vector2d(-53, 13))
+
+                .strafeTo(new Vector2d(-51, 57))
                 .build();
 
-        Action BacktoThird = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-40, 57))
-                .build();
-//
-        Action ScoreThird = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
-                .splineToConstantHeading(new Vector2d(0, 32), Math.toRadians(270))
+        Action UpALittle = drive.actionBuilder(new Pose2d(-51, 57, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-51, 55))
                 .build();
 
-        Action BacktoFourth = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
+        Action ScoreSecond = drive.actionBuilder(new Pose2d(-51, 55, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 25))
+                .build();
+
+        Action BacktoThird = drive.actionBuilder(new Pose2d(0, 25, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-40, 50))
+                .build();
+
+        Action UptoThird = drive.actionBuilder(new Pose2d(-40, 50, Math.toRadians(90)))
                 .strafeTo(new Vector2d(-40, 57))
                 .build();
-//
-        Action ScoreFourth = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
-                .splineToConstantHeading(new Vector2d(0, 32), Math.toRadians(270))
+
+        Action ScoreThird = drive.actionBuilder(new Pose2d(-40, 57, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 25))
                 .build();
+
+        Action BacktoFourth = drive.actionBuilder(new Pose2d(0, 25, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-40, 50))
+                .build();
+
+        Action UptoFourth = drive.actionBuilder(new Pose2d(-40, 50, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-40, 57))
+                .build();
+
+        Action ScoreFourth = drive.actionBuilder(new Pose2d(-40, 57, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 25))
+                .build();
+
 
 
         waitForStart();
@@ -89,7 +110,7 @@ public class HighSpecimenParkAuto extends LinearOpMode {
 
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
-                        FirstSpecimenPlace,
+                        PlaceFirst,
                         claw.close(),
                         wrist.home(),
                         new SequentialAction(
@@ -101,11 +122,11 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         extensionMotor.specimenHighBarOuttake()
                 ),
                 new ParallelAction(
-                        UpToThirdSpecimen,
-                        extensionMotor.retraction(),
-                        slideRotation.pickUpSpecimenFromHumanPlayer(),
+                        Push2toObservation,
                         wrist.pickUpSpecimenFromHumanPlayer(),
-                        claw.open()
+                        claw.open(),
+                        extensionMotor.retraction(),
+                        slideRotation.pickUpSpecimenFromHumanPlayer()
                 ),
                 new SequentialAction(
                         claw.close()
@@ -132,6 +153,9 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         claw.open()
                 ),
                 new SequentialAction(
+                        UptoThird
+                ),
+                new SequentialAction(
                         claw.close()
                 ),
                 new ParallelAction(
@@ -151,6 +175,9 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open()
+                ),
+                new SequentialAction(
+                        UptoFourth
                 ),
                 new SequentialAction(
                         claw.close()

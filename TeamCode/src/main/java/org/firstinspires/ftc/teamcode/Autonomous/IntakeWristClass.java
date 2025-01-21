@@ -73,7 +73,7 @@ public class IntakeWristClass {
     public class PickUpSpecimenFromHumanPlayer implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            intakeWristRotation.setPosition(.49);
+            intakeWristRotation.setPosition(.528);
             return false;
         }
     }
@@ -81,7 +81,7 @@ public class IntakeWristClass {
     public Action pickUpSpecimenFromHumanPlayer() {
         return new ParallelAction(
                 new PickUpSpecimenFromHumanPlayer(),
-                new SleepAction(0.68)
+                new SleepAction(0.7)
         );
     }
 }
