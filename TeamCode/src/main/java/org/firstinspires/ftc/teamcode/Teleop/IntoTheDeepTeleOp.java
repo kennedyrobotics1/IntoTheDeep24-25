@@ -101,7 +101,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         } else if (gamepad2.square) {
             //CLAW CLOSE
             claw.setPosition(0.25);
-            gamepad2.rumble(1000);
+           // gamepad2.rumble(1000);
         }
 
 
