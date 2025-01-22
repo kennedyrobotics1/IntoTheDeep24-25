@@ -84,4 +84,19 @@ public class IntakeWristClass {
                 new SleepAction(1)
         );
     }
+
+    public class HighBasket implements Action {
+        @Override
+        public boolean run (@NonNull TelemetryPacket packet){
+            intakeWristRotation.setPosition(1);
+            return false;
+        }
+    }
+
+    public Action HighBasket(){
+        return new ParallelAction(
+                new HighBasket(),
+                new SleepAction(1)
+        );
+    }
 }
