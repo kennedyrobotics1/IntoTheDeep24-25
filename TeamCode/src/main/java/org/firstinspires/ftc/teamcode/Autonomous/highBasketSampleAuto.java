@@ -83,7 +83,7 @@ public class highBasketSampleAuto extends LinearOpMode {
                 ),
                 new ParallelAction(
                         wrist.home(),
-                        extensionMotor.retractSlides()
+                        extensionMotor.retract()
                         //rotate wrist back and retract slides at same time
                 ),
                 new ParallelAction(

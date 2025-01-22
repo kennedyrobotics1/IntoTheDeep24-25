@@ -202,12 +202,14 @@ public class ExtensionClass {
 
 
 
-    public class Retraction implements Action {
+    public class Retract implements Action {
         private boolean initialized = false;
+        double slidesStartingPosition;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
+                slidesStartingPosition = extensionMotor.getCurrentPosition();
                 extensionMotor.setPower(-1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
@@ -215,18 +217,17 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos > 0 * TICKSPERINCH) {
+            if (pos > slidesStartingPosition) {
                 return true;
             } else {
-                extensionMotor.setPower(0);
                 return false;
             }
         }
     }
 
-    public Action retraction() {
+    public Action retract() {
         return new ParallelAction(
-                new Retraction(),
+                new Retract(),
                 new SleepAction(2)
         );
     }
@@ -269,36 +270,4 @@ public class ExtensionClass {
         );
     }
 
-
-
-    public class retractSlides implements Action {
-
-        private boolean initialized = false;
-        double slidesStartingPosition;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                slidesStartingPosition = extensionMotor.getCurrentPosition();
-                extensionMotor.setPower(-0.5);
-                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                initialized = true;
-            }
-
-            double pos = extensionMotor.getCurrentPosition();
-            packet.put("liftPos", pos);
-            if (pos > slidesStartingPosition) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    public Action retractSlides() {
-        return new ParallelAction(
-                new retractSlides(),
-                new SleepAction(2)
-        );
-    }
 }
