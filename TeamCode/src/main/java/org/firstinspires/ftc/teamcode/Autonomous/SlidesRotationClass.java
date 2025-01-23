@@ -78,7 +78,7 @@ public class SlidesRotationClass{
     public class highSample implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            setArmRotationPosition(0.05);
+            setArmRotationPosition(0);
             return false;
         }
     }

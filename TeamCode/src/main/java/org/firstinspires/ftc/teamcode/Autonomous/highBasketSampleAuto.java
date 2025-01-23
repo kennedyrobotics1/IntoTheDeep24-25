@@ -38,7 +38,7 @@ public class highBasketSampleAuto extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(38, 60, Math.toRadians(180)));
 
        Action MoveUpToBasketForFirst = drive.actionBuilder(new Pose2d(38, 60, Math.toRadians(180)))
-               .strafeTo(new Vector2d(58, 60))
+               .strafeTo(new Vector2d(55, 60))
                .build();
        Action MoveToSecondSample = drive.actionBuilder(new Pose2d(38, 60, Math.toRadians(180)))
                .strafeToLinearHeading(new Vector2d(48, 50), Math.toRadians(270))
@@ -93,12 +93,13 @@ public class highBasketSampleAuto extends LinearOpMode {
                 new ParallelAction(
                         MoveUpToBasketForFirst,
                         slideRotation.highBasketSample(),
-                        extensionMotor.highBasketSample(),
+                        wrist.out(),
                         claw.close()
                         //move to basket, move slides to angle and raise slides at the same time
                 ),
                 new SequentialAction(
-                        wrist.out(),
+                        extensionMotor.highBasketSample(),
+                        wrist.highBasket(),
                         claw.open()
                         //rotate wrist and open claw once we get to basket
                 ),
