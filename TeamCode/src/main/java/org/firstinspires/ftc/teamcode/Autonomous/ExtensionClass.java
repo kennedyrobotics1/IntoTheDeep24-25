@@ -149,7 +149,7 @@ public class ExtensionClass {
             if (pos < 20 *TICKSPERINCH){
                 return true;
             } else{
-                extensionMotor.setPower(0);
+                extensionMotor.setPower(0.08);
                 return false;
             }
         }
