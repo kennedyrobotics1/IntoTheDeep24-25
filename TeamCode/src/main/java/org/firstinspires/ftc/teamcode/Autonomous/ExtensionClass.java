@@ -81,7 +81,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
             if (!initialized){
-                extensionMotor.setPower(0.8);
+                extensionMotor.setPower(1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -90,7 +90,7 @@ public class ExtensionClass {
             if (pos < 23.5 *TICKSPERINCH){
                 return true;
             } else{
-                extensionMotor.setPower(0);
+                extensionMotor.setPower(0.08);
                 return false;
             }
         }
