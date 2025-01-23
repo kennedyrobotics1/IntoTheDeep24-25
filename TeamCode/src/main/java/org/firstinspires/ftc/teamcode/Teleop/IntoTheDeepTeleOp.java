@@ -53,11 +53,13 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         wristPosition = new ServoController(0);
         wrist.setPosition(wristPosition.position);
         twistPosition = 0;
+        claw.setPosition(0.25);
 
         armLeftFront = hardwareMap.get(Servo.class, "servo4");
         armRightFront = hardwareMap.get(Servo.class, "servo5");
 
-        armPosition = new ServoController(.35);
+
+        armPosition = new ServoController(0.35);
         setArmRotationPosition(armPosition.position);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
