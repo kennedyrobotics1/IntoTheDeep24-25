@@ -41,7 +41,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(-1);
+                extensionMotor.setPower(1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -64,13 +64,24 @@ public class ExtensionClass {
         );
     }
 
+
+
+
+
+
+
+
+
+
+
+
     public class  SampleHighBasket implements Action{
         private boolean initialized = false;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
             if (!initialized){
-                extensionMotor.setPower(-0.8);
+                extensionMotor.setPower(0.8);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -89,7 +100,7 @@ public class ExtensionClass {
     public Action highBasketSample(){
         return new ParallelAction(
                 new SampleHighBasket(),
-                new SleepAction(3)
+                new SleepAction(0.75)
         );
     }
     //test out
@@ -99,7 +110,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
             if (!initialized){
-                extensionMotor.setPower(-0.8);
+                extensionMotor.setPower(0.8);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -129,7 +140,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
             if (!initialized){
-                extensionMotor.setPower(-0.8);
+                extensionMotor.setPower(0.8);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -164,7 +175,7 @@ public class ExtensionClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                extensionMotor.setPower(-1);
+                extensionMotor.setPower(1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -183,9 +194,46 @@ public class ExtensionClass {
     public Action specimenHighBarOuttake() {
         return new ParallelAction(
                 new SpecimenHighBarOuttake(),
+                new SleepAction(0.5)
+        );
+    }
+
+
+
+
+
+
+
+    public class Retract implements Action {
+        private boolean initialized = false;
+        double slidesStartingPosition;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                slidesStartingPosition = extensionMotor.getCurrentPosition();
+                extensionMotor.setPower(-1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos > slidesStartingPosition) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public Action retract() {
+        return new ParallelAction(
+                new Retract(),
                 new SleepAction(2)
         );
     }
+
 
 
 
@@ -224,36 +272,4 @@ public class ExtensionClass {
         );
     }
 
-
-
-    public class retractSlides implements Action {
-
-        private boolean initialized = false;
-        double slidesStartingPosition;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                slidesStartingPosition = extensionMotor.getCurrentPosition();
-                extensionMotor.setPower(0.5);
-                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                initialized = true;
-            }
-
-            double pos = extensionMotor.getCurrentPosition();
-            packet.put("liftPos", pos);
-            if (pos > slidesStartingPosition) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    public Action retractSlides() {
-        return new ParallelAction(
-                new retractSlides(),
-                new SleepAction(2)
-        );
-    }
 }
