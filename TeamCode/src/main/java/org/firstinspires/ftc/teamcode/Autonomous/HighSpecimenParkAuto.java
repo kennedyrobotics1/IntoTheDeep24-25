@@ -51,54 +51,59 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(0, 30))
                 .build();
 
-        Action Push2toObservation = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 37))
+        Action Push2 = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 31))
 
-                .strafeTo(new Vector2d(-35, 37))
+                .splineToConstantHeading(new Vector2d(-35, 33), Math.toRadians(225))
 
-                .strafeTo(new Vector2d(-35, 13))
+                .splineToConstantHeading(new Vector2d(-43, 12), Math.toRadians(180))
 
-                .strafeTo(new Vector2d(-42, 13))
+                .strafeTo(new Vector2d(-43, 50))
 
-                .strafeTo(new Vector2d(-42, 50))
+                .splineToConstantHeading(new Vector2d(-47, 50), Math.toRadians(270))
 
-                .strafeTo(new Vector2d(-42, 13))
+                .strafeTo(new Vector2d(-47, 12))
 
-                .strafeTo(new Vector2d(-53, 13))
+                .splineToConstantHeading(new Vector2d(-54, 12), Math.toRadians(90))
 
-                .strafeTo(new Vector2d(-51, 57))
+                .strafeTo(new Vector2d(-53, 50), new TranslationalVelConstraint(30))
+
                 .build();
 
-        Action UpALittle = drive.actionBuilder(new Pose2d(-51, 57, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-51, 55))
+        Action PlaceSecond = drive.actionBuilder(new Pose2d(-53, 55, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(-50, 50), Math.toRadians(0))
+
+                .strafeTo(new Vector2d(-5, 40))
+
+                .splineToConstantHeading(new Vector2d(-1, 30), Math.toRadians(270), new TranslationalVelConstraint(30))
                 .build();
 
-        Action ScoreSecond = drive.actionBuilder(new Pose2d(-51, 55, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 25))
+        Action BacktoThird = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 31))
+
+                .splineToConstantHeading(new Vector2d(-45, 55), Math.toRadians(90), new TranslationalVelConstraint(30))
                 .build();
 
-        Action BacktoThird = drive.actionBuilder(new Pose2d(0, 25, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-40, 50))
+        Action PlaceThird = drive.actionBuilder(new Pose2d(-45, 55, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(-40, 50), Math.toRadians(0))
+
+                .strafeTo(new Vector2d(-5, 40))
+
+                .splineToConstantHeading(new Vector2d(-2, 30), Math.toRadians(270), new TranslationalVelConstraint(30))
                 .build();
 
-        Action UptoThird = drive.actionBuilder(new Pose2d(-40, 50, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-40, 57))
+        Action BacktoFourth = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 31))
+
+                .splineToConstantHeading(new Vector2d(-45, 55), Math.toRadians(90), new TranslationalVelConstraint(30))
                 .build();
 
-        Action ScoreThird = drive.actionBuilder(new Pose2d(-40, 57, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 25))
-                .build();
+        Action PlaceFourth = drive.actionBuilder(new Pose2d(-45, 55, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(-40, 50), Math.toRadians(0))
 
-        Action BacktoFourth = drive.actionBuilder(new Pose2d(0, 25, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-40, 50))
-                .build();
+                .strafeTo(new Vector2d(-5, 40))
 
-        Action UptoFourth = drive.actionBuilder(new Pose2d(-40, 50, Math.toRadians(90)))
-                .strafeTo(new Vector2d(-40, 57))
-                .build();
-
-        Action ScoreFourth = drive.actionBuilder(new Pose2d(-40, 57, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 25))
+                .splineToConstantHeading(new Vector2d(-3, 30), Math.toRadians(270), new TranslationalVelConstraint(30))
                 .build();
 
 
@@ -122,76 +127,80 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         extensionMotor.specimenHighBarOuttake()
                 ),
                 new ParallelAction(
-                        Push2toObservation,
+                        Push2,
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open(),
-                        extensionMotor.retract(),
+                        new SequentialAction(
+                                extensionMotor.retract(),
+                                extensionMotor.humanPlayerSpecimenPickup()
+                        ),
                         slideRotation.pickUpSpecimenFromHumanPlayer()
                 ),
                 new SequentialAction(
                         claw.close()
                 ),
                 new ParallelAction(
+                        PlaceSecond,
+                        extensionMotor.highBarSpecimen(),
                         slideRotation.highBarSpecimen(),
                         wrist.home()
-                ),
-                new SequentialAction(
-                        UpALittle
-                ),
-                new ParallelAction(
-                        ScoreSecond,
-                        extensionMotor.highBarSpecimen()
                 ),
                 new SequentialAction(
                         extensionMotor.specimenHighBarOuttake()
                 ),
                 new ParallelAction(
                         BacktoThird,
-                        extensionMotor.retract(),
+                        new SequentialAction(
+                                extensionMotor.retract(),
+                                extensionMotor.humanPlayerSpecimenPickup()
+                        ),
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open()
                 ),
                 new SequentialAction(
-                        UptoThird
+                        BacktoThird
                 ),
                 new SequentialAction(
                         claw.close()
                 ),
                 new ParallelAction(
+                        PlaceThird,
+                        extensionMotor.highBarSpecimen(),
                         slideRotation.highBarSpecimen(),
                         wrist.home()
-                ),
-                new ParallelAction(
-                        ScoreThird,
-                        extensionMotor.highBarSpecimen()
                 ),
                 new SequentialAction(
                         extensionMotor.specimenHighBarOuttake()
                 ),
                 new ParallelAction(
                         BacktoFourth,
-                        extensionMotor.retract(),
+                        new SequentialAction(
+                                extensionMotor.retract(),
+                                extensionMotor.humanPlayerSpecimenPickup()
+                        ),
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open()
                 ),
                 new SequentialAction(
-                        UptoFourth
+                        BacktoFourth
                 ),
                 new SequentialAction(
                         claw.close()
                 ),
                 new ParallelAction(
+                        PlaceFourth,
+                        extensionMotor.highBarSpecimen(),
                         slideRotation.highBarSpecimen(),
                         wrist.home()
                 ),
-                new ParallelAction(
-                        ScoreFourth,
-                        extensionMotor.highBarSpecimen()
-                ),
                 new SequentialAction(
                         extensionMotor.specimenHighBarOuttake()
+                ),
+                new ParallelAction(
+                  claw.open(),
+                        extensionMotor.retract()
                 )
 
 

@@ -52,7 +52,8 @@ public class ParallelTesting extends LinearOpMode {
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
-                        wrist.pickUpSpecimenFromHumanPlayer()
+                        wrist.pickUpSpecimenFromHumanPlayer(),
+                        extensionMotor.humanPlayerSpecimenPickup()
                 )
         ));
 

@@ -33,9 +33,7 @@ public class ExtensionClass {
 
 
 
-
-
-    public class SpecimenHighBar implements Action {
+    public class HighBarSpecimen implements Action {
         private boolean initialized = false;
 
         @Override
@@ -48,7 +46,45 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 8 * TICKSPERINCH) {
+            if (pos < 7.5 * TICKSPERINCH) {
+                return true;
+            } else {
+                extensionMotor.setPower(0.05);
+                return false;
+            }
+        }
+    }
+
+    public Action highBarSpecimen() {
+        return new ParallelAction(
+                new HighBarSpecimen(),
+                new SleepAction(0.05)
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+    public class HumanPlayerSpecimenPickup implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                extensionMotor.setPower(1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 6.625 * TICKSPERINCH) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
@@ -57,12 +93,15 @@ public class ExtensionClass {
         }
     }
 
-    public Action highBarSpecimen() {
+    public Action humanPlayerSpecimenPickup() {
         return new ParallelAction(
-                new SpecimenHighBar(),
+                new HumanPlayerSpecimenPickup(),
                 new SleepAction(0.05)
         );
     }
+
+
+
 
 
 
@@ -101,6 +140,13 @@ public class ExtensionClass {
                 new SleepAction(0.75)
         );
     }
+
+
+
+
+
+
+
     //test out
     public class  LevelOneAscent implements Action{
         private boolean initialized = false;
@@ -228,7 +274,7 @@ public class ExtensionClass {
     public Action retract() {
         return new ParallelAction(
                 new Retract(),
-                new SleepAction(2)
+                new SleepAction(0.57)
         );
     }
 

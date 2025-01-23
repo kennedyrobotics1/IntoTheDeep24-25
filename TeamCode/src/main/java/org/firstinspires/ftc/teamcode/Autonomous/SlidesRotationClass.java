@@ -94,7 +94,7 @@ public class SlidesRotationClass{
     public class PickUpSpecimenFromHumanPlayer implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setArmRotationPosition(.65);
+            setArmRotationPosition(.63);
             return false;
         }
     }
