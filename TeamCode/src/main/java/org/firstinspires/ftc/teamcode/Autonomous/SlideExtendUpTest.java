@@ -28,7 +28,7 @@ public class SlideExtendUpTest extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(extensionMotor.sampleYellowPickUp()));
+        Actions.runBlocking(new SequentialAction(extensionMotor.highBarSpecimen()));
 
     }
 }

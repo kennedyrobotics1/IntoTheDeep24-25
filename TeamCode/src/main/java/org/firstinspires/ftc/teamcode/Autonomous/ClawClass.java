@@ -31,7 +31,7 @@ public class ClawClass {
     public Action open() {
         return new ParallelAction(
                 new Open(),
-                new SleepAction(0.7)
+                new SleepAction(0.3)
         );
     }
 
@@ -45,7 +45,7 @@ public class ClawClass {
     public Action close() {
         return new ParallelAction(
                 new Close(),
-                new SleepAction(0.7)
+                new SleepAction(0.3)
         );
     }
 }

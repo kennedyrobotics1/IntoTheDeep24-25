@@ -27,7 +27,9 @@ public class SlideRotationUprightTest extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(slideRotation.yellowSamplePickUp()));
+        Actions.runBlocking(new SequentialAction(
+                slideRotation.pickUpSpecimenFromHumanPlayer()
+        ));
 
     }
 }
