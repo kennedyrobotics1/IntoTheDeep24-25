@@ -97,10 +97,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
 
         //Claw
-        if (gamepad2.a) {
+        if (gamepad2.cross) {
             //CLAW OPEN
             claw.setPosition(0.30);
-        } else if (gamepad2.x) {
+        } else if (gamepad2.square) {
             //CLAW CLOSE
             claw.setPosition(0.25);
         }
@@ -151,7 +151,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         //Pick up SPECIMEN from HUMAN PLAYER
 
-        if (gamepad2.back) {
+        if (gamepad2.share) {
 
             //slides rotate down
             setArmRotationPosition(0.7678);
@@ -166,7 +166,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         // Rotate to position for high specimen hang
         // need to hold down y for slide extension
-        if(gamepad2.y) {
+        if(gamepad2.triangle) {
             // claw close
             claw.setPosition(0.25);
             wristPosition.position = 0;
@@ -183,7 +183,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         }
 
         // high basket macro: slide rotation, wrist rotation
-        if (gamepad2.b) {
+        if (gamepad2.circle) {
             setArmRotationPosition(0.075);
             wristPosition.position = 0.75;
             wrist.setPosition(wristPosition.position);
