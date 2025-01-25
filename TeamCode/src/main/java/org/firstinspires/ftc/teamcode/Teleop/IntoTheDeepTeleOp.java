@@ -33,7 +33,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     double slidesStartingPosition;
-    boolean twistToggle;
+    boolean twistModeActive;
+    boolean twistLock;
 
     private static final double TICKSPERINCH = 75.71;
 
@@ -56,7 +57,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         wristPosition = new ServoController(0);
         wrist.setPosition(wristPosition.position);
         twist.setPosition(0.05);
-        twistToggle = false;
+        twistModeActive = false;
+        twistLock = false;
         claw.setPosition(0.25);
 
         armLeftFront = hardwareMap.get(Servo.class, "servo4");
@@ -115,14 +117,18 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
 
         //twist rotation
-        if (gamepad2.right_trigger > 0.5) {
-            if (twistToggle && (twist.getPosition() != 0.05)) {
-                twist.setPosition(0.05);
-                twistToggle = false;
-            } else if (!twistToggle && (twist.getPosition() != 0)) {
-                twist.setPosition(0);
-                twistToggle = true;
-            }
+        if (gamepad2.right_trigger > 0.5 && !twistLock && !twistModeActive) {
+            // vertical
+            twist.setPosition(0);
+            twistLock = true;
+            twistModeActive = true;
+        } else if (gamepad2.right_trigger > 0.5 && !twistLock && twistModeActive) {
+            // horizontal
+            twist.setPosition(0.05);
+            twistModeActive = false;
+            twistLock = true;
+        } else if (!(gamepad2.right_trigger > 0.5) && twistLock) {
+            twistLock = false;
         }
 
 
