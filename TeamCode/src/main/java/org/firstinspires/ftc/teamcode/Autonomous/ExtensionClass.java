@@ -28,25 +28,23 @@ public class ExtensionClass {
         telemetry = telemetryB;
     }
 
-
-
-
-
-
     public class HighBarSpecimen implements Action {
         private boolean initialized = false;
+        double slidesStartingPosition;
+
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
                 extensionMotor.setPower(1);
+                slidesStartingPosition = extensionMotor.getCurrentPosition();
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 7.5 * TICKSPERINCH) {
+            if (pos < (7.5 * TICKSPERINCH) + slidesStartingPosition) {
                 return true;
             } else {
                 extensionMotor.setPower(0.05);
@@ -61,56 +59,6 @@ public class ExtensionClass {
                 new SleepAction(0.05)
         );
     }
-
-
-
-
-
-
-
-
-
-
-    public class HumanPlayerSpecimenPickup implements Action {
-        private boolean initialized = false;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                extensionMotor.setPower(1);
-                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                initialized = true;
-            }
-
-            double pos = extensionMotor.getCurrentPosition();
-            packet.put("liftPos", pos);
-            if (pos < 6.625 * TICKSPERINCH) {
-                return true;
-            } else {
-                extensionMotor.setPower(0);
-                return false;
-            }
-        }
-    }
-
-    public Action humanPlayerSpecimenPickup() {
-        return new ParallelAction(
-                new HumanPlayerSpecimenPickup(),
-                new SleepAction(0.05)
-        );
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 
     public class  SampleHighBasket implements Action{
         private boolean initialized = false;

@@ -33,28 +33,8 @@ public class TrajectoryTest extends LinearOpMode {
     public void runOpMode() {
 
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(90)));
+        MecanumDrive PlaceFirst = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(90)));
 
-        Action PlaceFirst = drive.actionBuilder(new Pose2d(0, 60, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 30))
-
-                .strafeTo(new Vector2d(0, 31))
-
-                .splineToConstantHeading(new Vector2d(-35, 33), Math.toRadians(225))
-
-                .splineToConstantHeading(new Vector2d(-43, 12), Math.toRadians(180))
-
-                .strafeTo(new Vector2d(-43, 50))
-
-                .splineToConstantHeading(new Vector2d(-47, 50), Math.toRadians(270))
-
-                .strafeTo(new Vector2d(-47, 12))
-
-                .splineToConstantHeading(new Vector2d(-54, 12), Math.toRadians(90))
-
-                .strafeTo(new Vector2d(-53, 55))
-
-                        .build();
 
 
 
@@ -64,7 +44,6 @@ public class TrajectoryTest extends LinearOpMode {
 
 
         Actions.runBlocking(new SequentialAction(
-                PlaceFirst
         ));
 
     }

@@ -42,58 +42,59 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 .build();
 
         Action Push2 = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+
                 .strafeTo(new Vector2d(0, 31))
 
                 .splineToConstantHeading(new Vector2d(-35, 33), Math.toRadians(225))
 
                 .splineToConstantHeading(new Vector2d(-43, 12), Math.toRadians(180))
 
-                .strafeTo(new Vector2d(-43, 50))
+                .strafeTo(new Vector2d(-43, 55))
 
                 .splineToConstantHeading(new Vector2d(-47, 50), Math.toRadians(270))
 
-                .strafeTo(new Vector2d(-47, 12))
+                .strafeTo(new Vector2d(-47, 15))
 
-                .splineToConstantHeading(new Vector2d(-54, 12), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-56, 15), Math.toRadians(90))
 
-                .strafeTo(new Vector2d(-53, 50), new TranslationalVelConstraint(30))
+                .strafeTo(new Vector2d(-53, 53), new TranslationalVelConstraint(30))
 
                 .build();
 
-        Action PlaceSecond = drive.actionBuilder(new Pose2d(-53, 55, Math.toRadians(90)))
+        Action PlaceSecond = drive.actionBuilder(new Pose2d(-53, 53, Math.toRadians(90)))
                 .splineToConstantHeading(new Vector2d(-50, 50), Math.toRadians(0))
 
                 .strafeTo(new Vector2d(-5, 40))
 
-                .splineToConstantHeading(new Vector2d(-1, 30), Math.toRadians(270), new TranslationalVelConstraint(30))
+                .splineToConstantHeading(new Vector2d(3, 28), Math.toRadians(270), new TranslationalVelConstraint(30))
                 .build();
 
-        Action BacktoThird = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
+        Action BacktoThird = drive.actionBuilder(new Pose2d(3, 28, Math.toRadians(90)))
                 .strafeTo(new Vector2d(0, 31))
 
-                .splineToConstantHeading(new Vector2d(-45, 55), Math.toRadians(90), new TranslationalVelConstraint(30))
+                .splineToConstantHeading(new Vector2d(-45, 53), Math.toRadians(90), new TranslationalVelConstraint(30))
                 .build();
 
-        Action PlaceThird = drive.actionBuilder(new Pose2d(-45, 55, Math.toRadians(90)))
+        Action PlaceThird = drive.actionBuilder(new Pose2d(-45, 53, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(-40, 55), Math.toRadians(0))
+
+                .strafeTo(new Vector2d(-5, 40))
+
+                .splineToConstantHeading(new Vector2d(6, 28), Math.toRadians(270), new TranslationalVelConstraint(30))
+                .build();
+
+        Action BacktoFourth = drive.actionBuilder(new Pose2d(6, 28, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0, 31))
+
+                .splineToConstantHeading(new Vector2d(-45, 53), Math.toRadians(90), new TranslationalVelConstraint(30))
+                .build();
+
+        Action PlaceFourth = drive.actionBuilder(new Pose2d(-45, 53, Math.toRadians(90)))
                 .splineToConstantHeading(new Vector2d(-40, 50), Math.toRadians(0))
 
                 .strafeTo(new Vector2d(-5, 40))
 
-                .splineToConstantHeading(new Vector2d(-2, 30), Math.toRadians(270), new TranslationalVelConstraint(30))
-                .build();
-
-        Action BacktoFourth = drive.actionBuilder(new Pose2d(0, 30, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 31))
-
-                .splineToConstantHeading(new Vector2d(-45, 55), Math.toRadians(90), new TranslationalVelConstraint(30))
-                .build();
-
-        Action PlaceFourth = drive.actionBuilder(new Pose2d(-45, 55, Math.toRadians(90)))
-                .splineToConstantHeading(new Vector2d(-40, 50), Math.toRadians(0))
-
-                .strafeTo(new Vector2d(-5, 40))
-
-                .splineToConstantHeading(new Vector2d(-3, 30), Math.toRadians(270), new TranslationalVelConstraint(30))
+                .splineToConstantHeading(new Vector2d(7, 28), Math.toRadians(270), new TranslationalVelConstraint(30))
                 .build();
 
 
@@ -120,10 +121,7 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                         Push2,
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open(),
-                        new SequentialAction(
-                                extensionMotor.retract(),
-                                extensionMotor.humanPlayerSpecimenPickup()
-                        ),
+                        extensionMotor.retract(),
                         slideRotation.pickUpSpecimenFromHumanPlayer()
                 ),
                 new SequentialAction(
@@ -131,44 +129,39 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 ),
                 new ParallelAction(
                         PlaceSecond,
-                        extensionMotor.highBarSpecimen(),
-                        slideRotation.highBarSpecimen(),
-                        wrist.home()
+                        wrist.home(),
+                        new SequentialAction(
+                                slideRotation.highBarSpecimen(),
+                                extensionMotor.highBarSpecimen()
+                        )
                 ),
                 new SequentialAction(
                         extensionMotor.specimenHighBarOuttake()
                 ),
                 new ParallelAction(
                         BacktoThird,
-                        new SequentialAction(
-                                extensionMotor.retract(),
-                                extensionMotor.humanPlayerSpecimenPickup()
-                        ),
+                        extensionMotor.retract(),
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open()
-                ),
-                new SequentialAction(
-                        BacktoThird
                 ),
                 new SequentialAction(
                         claw.close()
                 ),
                 new ParallelAction(
                         PlaceThird,
-                        extensionMotor.highBarSpecimen(),
-                        slideRotation.highBarSpecimen(),
-                        wrist.home()
+                        wrist.home(),
+                        new SequentialAction(
+                                slideRotation.highBarSpecimen(),
+                                extensionMotor.highBarSpecimen()
+                        )
                 ),
                 new SequentialAction(
                         extensionMotor.specimenHighBarOuttake()
                 ),
                 new ParallelAction(
                         BacktoFourth,
-                        new SequentialAction(
-                                extensionMotor.retract(),
-                                extensionMotor.humanPlayerSpecimenPickup()
-                        ),
+                        extensionMotor.retract(),
                         slideRotation.pickUpSpecimenFromHumanPlayer(),
                         wrist.pickUpSpecimenFromHumanPlayer(),
                         claw.open()
@@ -181,15 +174,17 @@ public class HighSpecimenParkAuto extends LinearOpMode {
                 ),
                 new ParallelAction(
                         PlaceFourth,
-                        extensionMotor.highBarSpecimen(),
-                        slideRotation.highBarSpecimen(),
-                        wrist.home()
+                        wrist.home(),
+                        new SequentialAction(
+                                slideRotation.highBarSpecimen(),
+                                extensionMotor.highBarSpecimen()
+                        )
                 ),
                 new SequentialAction(
                         extensionMotor.specimenHighBarOuttake()
                 ),
                 new ParallelAction(
-                  claw.open(),
+                        claw.open(),
                         extensionMotor.retract()
                 )
 

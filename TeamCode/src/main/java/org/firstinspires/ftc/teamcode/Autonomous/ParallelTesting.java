@@ -44,6 +44,17 @@ public class ParallelTesting extends LinearOpMode {
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
 
+
+
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(90)));
+        Action PlaceSecond = drive.actionBuilder(new Pose2d(-53, 58, Math.toRadians(90)))
+                .splineToConstantHeading(new Vector2d(-50, 50), Math.toRadians(0))
+
+                .strafeTo(new Vector2d(-5, 40))
+
+                .splineToConstantHeading(new Vector2d(3, 28), Math.toRadians(270), new TranslationalVelConstraint(30))
+                .build();
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -51,9 +62,11 @@ public class ParallelTesting extends LinearOpMode {
 
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
-                        slideRotation.pickUpSpecimenFromHumanPlayer(),
-                        wrist.pickUpSpecimenFromHumanPlayer(),
-                        extensionMotor.humanPlayerSpecimenPickup()
+                        wrist.home(),
+                        new SequentialAction(
+                                slideRotation.highBarSpecimen(),
+                                extensionMotor.highBarSpecimen()
+                        )
                 )
         ));
 
