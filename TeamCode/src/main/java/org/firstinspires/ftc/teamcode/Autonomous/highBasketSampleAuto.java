@@ -112,7 +112,13 @@ public class highBasketSampleAuto extends LinearOpMode {
                         /*,
                 new ParallelAction(
                         extensionMotor.retractSlides(),
-                        slideRotation.highBasketSample()
+                        slideRotation.highBasketSample(),
+                        MoveToSecondSample
+                ),
+                new SequentialAction(
+                    extensionMotor.highBasketSample(),
+                    wrist.out(),
+                    claw.open()
                 )
                 */
                 /*,
