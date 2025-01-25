@@ -117,17 +117,17 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
 
         //twist rotation
-        if (gamepad2.right_trigger > 0.5 && !twistLock && !twistModeActive) {
+        if (gamepad2.left_trigger > 0.5 && !twistLock && !twistModeActive) {
             // vertical
             twist.setPosition(0);
             twistLock = true;
             twistModeActive = true;
-        } else if (gamepad2.right_trigger > 0.5 && !twistLock && twistModeActive) {
+        } else if (gamepad2.left_trigger > 0.5 && !twistLock && twistModeActive) {
             // horizontal
             twist.setPosition(0.05);
             twistModeActive = false;
             twistLock = true;
-        } else if (!(gamepad2.right_trigger > 0.5) && twistLock) {
+        } else if (!(gamepad2.left_trigger > 0.5) && twistLock) {
             twistLock = false;
         }
 
