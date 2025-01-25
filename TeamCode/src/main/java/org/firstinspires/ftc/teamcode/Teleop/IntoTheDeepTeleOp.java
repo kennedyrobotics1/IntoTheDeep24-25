@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
@@ -31,10 +32,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
     private ServoController armPosition;
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
-    double twistPosition;
     double slidesStartingPosition;
+    boolean twistToggle;
 
     private static final double TICKSPERINCH = 75.71;
+
+    private DigitalChannel wristTouch;
 
 
     public void init() {
@@ -52,15 +55,18 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         claw = hardwareMap.get(Servo.class, "servo0e");
         wristPosition = new ServoController(0);
         wrist.setPosition(wristPosition.position);
-        twistPosition = 0;
+        twist.setPosition(0.05);
+        twistToggle = false;
         claw.setPosition(0.25);
 
         armLeftFront = hardwareMap.get(Servo.class, "servo4");
         armRightFront = hardwareMap.get(Servo.class, "servo5");
 
-
         armPosition = new ServoController(0.35);
         setArmRotationPosition(armPosition.position);
+
+        wristTouch = hardwareMap.get(DigitalChannel.class, "sensor1e");
+        wristTouch.setMode(DigitalChannel.Mode.INPUT);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -83,6 +89,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         frontRightPower = (y - x - r) / denominator;
         backLeftPower   = (y - x + r) / denominator;
         backRightPower  = (y + x - r) / denominator;
+
+        telemetry.update();
 
         // wrist rotation
         // forward rotation
@@ -108,11 +116,13 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         //twist rotation
         if (gamepad2.right_trigger > 0.5) {
-            //horizontal
-            twist.setPosition(0.05);
-        } else if (gamepad2.left_trigger > 0.5) {
-            //vertical
-            twist.setPosition(0);
+            if (twistToggle && (twist.getPosition() != 0.05)) {
+                twist.setPosition(0.05);
+                twistToggle = false;
+            } else if (!twistToggle && (twist.getPosition() != 0)) {
+                twist.setPosition(0);
+                twistToggle = true;
+            }
         }
 
 
@@ -126,9 +136,10 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             armPosition.update(-0.010);
         }
 
+
         // slides extend up (must hold button to hold slide position)
         if (gamepad2.dpad_up) {
-            /// extension limit
+            // extension limit
             if (armPosition.position > 0.2) {
                 double pos = slideExtensionMotor.getCurrentPosition();
                 if (pos > 16 * TICKSPERINCH + slidesStartingPosition) {
@@ -182,12 +193,12 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
             }
         }
 
+
         // high basket macro: slide rotation, wrist rotation
         if (gamepad2.circle) {
             setArmRotationPosition(0.075);
             wristPosition.position = 0.75;
             wrist.setPosition(wristPosition.position);
-
         }
 
 
@@ -216,6 +227,7 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
         telemetry.addData("intake rotation position: ", wrist.getPosition());
         telemetry.addData("claw position: ", claw.getPosition());
         telemetry.addData("armPosition: ", armPosition.position);
+        telemetry.addData("wristTouch: ", wristTouch.getState());
 
         telemetry.addData("wristPosition: " , wristPosition.position);
 
