@@ -13,6 +13,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Config
@@ -23,7 +24,7 @@ public class highBasketSampleAuto extends LinearOpMode {
     private ExtensionClass extensionMotor;
     private IntakeWristClass wrist;
     private ClawClass claw;
-
+    private Servo twist;
 
     @Override
     public void runOpMode() {
@@ -32,65 +33,112 @@ public class highBasketSampleAuto extends LinearOpMode {
         extensionMotor = new ExtensionClass(hardwareMap, telemetry);
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
+        twist = hardwareMap.get(Servo.class, "servo2e");
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(38, 60, Math.toRadians(0)));
 
        Action MoveUpToBasketForFirst = drive.actionBuilder(new Pose2d(38, 60, Math.toRadians(0)))
-               .strafeTo(new Vector2d(58, 60))
+               .strafeTo(new Vector2d(59, 60))
                .build();
 
-       Action MoveToNetPushPosition = drive.actionBuilder(new Pose2d(58, 60, Math.toRadians(0)))
-               .strafeTo(new Vector2d(41, 60))
+       Action MoveAwayFromBasketAfterFirst = drive.actionBuilder(new Pose2d(58, 60, Math.toRadians(0)))
+               .strafeTo(new Vector2d(35, 60))
                .build();
 
-        Action MoveForwardToSample = drive.actionBuilder(new Pose2d(41, 60, Math.toRadians(0)))
-                //Up to Outside Sample
-                .strafeTo(new Vector2d(41, 8))
-                //side to Outside Sample
-                .strafeTo(new Vector2d(47, 8))
-                //Down to Score Outside Sample
-                .strafeTo(new Vector2d(53, 60))
-                //up to Middle Sample
-                .strafeTo(new Vector2d(49,8)) // 47
-                //Side to Middle Sample
-                .strafeTo(new Vector2d(59,8))
-                //Down to Score Middle Sample
-                .strafeTo(new Vector2d(59, 57))
-                //Up to Last Sample
-                .strafeTo(new Vector2d(59, 8)) // 57
-                //Side to Last Sample
-                .strafeTo(new Vector2d(70, 8))
-                //Down To Last Sample
-                .strafeTo(new Vector2d(70, 55))
+        Action MoveToSecondSample = drive.actionBuilder(new Pose2d(35, 60, Math.toRadians(0)))
+                .strafeTo(new Vector2d(37, 26))
+               .build();
+
+        Action MoveUpToBasketForSecond = drive.actionBuilder(new Pose2d(37, 26, Math.toRadians(0)))
+                .strafeTo(new Vector2d(60, 62))
                 .build();
+
+        Action MoveToThirdSample = drive.actionBuilder(new Pose2d(60, 62, Math.toRadians(0)))
+                .strafeTo(new Vector2d(47, 60))
+                .strafeTo(new Vector2d(49, 26))
+                .build();
+
+        Action MoveUpToBasketForThird = drive.actionBuilder(new Pose2d(50, 26, Math.toRadians(0)))
+                .strafeTo(new Vector2d(60, 62))
+                .build();
+
+        Action MoveToFourthSample = drive.actionBuilder(new Pose2d(58, 63, Math.toRadians(0)))
+                .strafeTo(new Vector2d(57,26))
+                .build();
+
+        Action MoveToBasketForFourth = drive.actionBuilder(new Pose2d(57, 26, Math.toRadians(0)))
+                .strafeTo(new Vector2d(58, 60))
+                .build();
+
+        while (!isStopRequested() && !opModeIsActive()) {
+
+        }
 
         waitForStart();
 
         if (isStopRequested()) return;
 
+        twist.setPosition(0);
+
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
+
                         MoveUpToBasketForFirst,
                         slideRotation.highBasketSample(),
                         extensionMotor.highBasketSample(),
                         claw.close()
-                        //move to basket, move slides to angle and raise slides at the same time
+                        //move to basket backwards, move slides to angle and raise slides at the same time
                 ),
                 new SequentialAction(
                         wrist.out(),
-                        claw.open()
+                        claw.open(),
+                        wrist.home()
                         //rotate wrist and open claw once we get to basket
                 ),
                 new ParallelAction(
-                        wrist.home(),
+                        MoveAwayFromBasketAfterFirst,
                         extensionMotor.retract()
                         //rotate wrist back and retract slides at same time
                 ),
                 new ParallelAction(
-                        MoveToNetPushPosition
+                        MoveToSecondSample,
+                        wrist.pickUpSample(),
+                        slideRotation.halfSampleRotation()
+                ),
+                new SequentialAction(
+                        slideRotation.yellowSamplePickUp(),
+                        claw.close()
                 ),
                 new ParallelAction(
-                        MoveForwardToSample
+                        slideRotation.highBasketSample(),
+                        MoveUpToBasketForSecond
+                ),
+                new SequentialAction(
+                    extensionMotor.highBasketSample(),
+                        wrist.out(),
+                    claw.open(),
+                        wrist.home(),
+                        extensionMotor.retract()
+                ),
+                new ParallelAction(
+                        MoveToThirdSample,
+                        wrist.pickUpSample(),
+                        slideRotation.halfSampleRotation()
+                ),
+                new SequentialAction(
+                        slideRotation.yellowSamplePickUp(),
+                        claw.close()
+                ),
+                new ParallelAction(
+                        slideRotation.highBasketSample(),
+                        MoveUpToBasketForThird
+                ),
+                new SequentialAction(
+                        extensionMotor.highBasketSample(),
+                        wrist.out(),
+                        claw.open(),
+                        wrist.home(),
+                        extensionMotor.retract()
                 )
         ));
     }

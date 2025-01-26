@@ -42,11 +42,11 @@ public class SlidesRotationClass{
                 new SleepAction(0.2375)
         );
     }
-    //need to test
+
     public class YellowPickUp implements  Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            setArmRotationPosition(0.65);
+            setArmRotationPosition(1);
             //set the actual values, value in rn is arbitrary value
             return false;
         }
@@ -59,11 +59,27 @@ public class SlidesRotationClass{
         );
     }
 
+    public class HalfSampleRotation implements  Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setArmRotationPosition(0.5);
+            //set the actual values, value in rn is arbitrary value
+            return false;
+        }
+    }
+
+    public Action halfSampleRotation (){
+        return new ParallelAction(
+                new HalfSampleRotation(),
+                new SleepAction(2)
+        );
+    }
+
     //test values
     public class LevelOneAscent implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket packet){
-            setArmRotationPosition(0.1);
+            setArmRotationPosition(0.05);
             return false;
         }
     }

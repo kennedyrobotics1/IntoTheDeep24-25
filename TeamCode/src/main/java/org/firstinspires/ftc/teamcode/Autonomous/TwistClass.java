@@ -21,7 +21,7 @@ public class TwistClass {
     public class Horizontal implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            twist.setPosition(0.024);
+            twist.setPosition(0.05);
             return false;
         }
     }
