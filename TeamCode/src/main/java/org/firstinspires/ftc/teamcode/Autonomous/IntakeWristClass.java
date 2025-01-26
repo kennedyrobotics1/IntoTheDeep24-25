@@ -85,11 +85,19 @@ public class IntakeWristClass {
         );
     }
 
-    public class SampleIntoHighBasket implements Action{
+    public class PickUpSample implements Action {
         @Override
-        public boolean run(@NonNull TelemetryPacket packet){
-            intakeWristRotation.setPosition(1);
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intakeWristRotation.setPosition(0.75);
             return false;
         }
     }
+
+    public Action pickUpSample() {
+        return new ParallelAction(
+                new PickUpSample(),
+                new SleepAction(0.7)
+        );
+    }
+
 }

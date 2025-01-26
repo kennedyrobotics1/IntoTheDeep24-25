@@ -23,7 +23,7 @@ public class highBasketSampleAuto extends LinearOpMode {
     private ExtensionClass extensionMotor;
     private IntakeWristClass wrist;
     private ClawClass claw;
-
+    private TwistClass twist;
 
     @Override
     public void runOpMode() {
@@ -32,11 +32,12 @@ public class highBasketSampleAuto extends LinearOpMode {
         extensionMotor = new ExtensionClass(hardwareMap, telemetry);
         wrist = new IntakeWristClass(hardwareMap, telemetry);
         claw = new ClawClass(hardwareMap);
+        twist = new TwistClass(hardwareMap);
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(38, 60, Math.toRadians(0)));
 
        Action MoveUpToBasketForFirst = drive.actionBuilder(new Pose2d(38, 60, Math.toRadians(0)))
-               .strafeTo(new Vector2d(58, 60))
+               .strafeTo(new Vector2d(59, 60))
                .build();
 
        Action MoveAwayFromBasketAfterFirst = drive.actionBuilder(new Pose2d(58, 60, Math.toRadians(0)))
@@ -44,15 +45,16 @@ public class highBasketSampleAuto extends LinearOpMode {
                .build();
 
         Action MoveToSecondSample = drive.actionBuilder(new Pose2d(35, 60, Math.toRadians(0)))
-                .strafeTo(new Vector2d(35, 25))
+                .strafeTo(new Vector2d(37, 26))
                .build();
 
         Action MoveUpToBasketForSecond = drive.actionBuilder(new Pose2d(35, 25, Math.toRadians(0)))
-                .strafeTo(new Vector2d(58, 60))
+                .strafeTo(new Vector2d(59, 60))
                 .build();
 
         Action MoveToThirdSample = drive.actionBuilder(new Pose2d(58, 60, Math.toRadians(0)))
-                .strafeTo(new Vector2d(45, 25))
+                .strafeTo(new Vector2d(47, 60))
+                .strafeTo(new Vector2d(47, 26))
                 .build();
 
         Action MoveUpToBasketForThird = drive.actionBuilder(new Pose2d(45, 25, Math.toRadians(0)))
@@ -60,14 +62,16 @@ public class highBasketSampleAuto extends LinearOpMode {
                 .build();
 
         Action MoveToFourthSample = drive.actionBuilder(new Pose2d(58, 60, Math.toRadians(0)))
-                .strafeTo(new Vector2d(55,25))
+                .strafeTo(new Vector2d(58,26))
                 .build();
 
         Action MoveToBasketForFourth = drive.actionBuilder(new Pose2d(55, 25, Math.toRadians(0)))
                 .strafeTo(new Vector2d(58, 60))
                 .build();
 
+        while (!isStopRequested() && !opModeIsActive()) {
 
+        }
 
         waitForStart();
 
@@ -94,55 +98,57 @@ public class highBasketSampleAuto extends LinearOpMode {
                 ),
                 new ParallelAction(
                         MoveToSecondSample,
-                        slideRotation.yellowSamplePickUp(),
-                        wrist.out()
+                        wrist.pickUpSample(),
+                        twist.vertical(),
+                        slideRotation.halfSampleRotation()
                 ),
                 new SequentialAction(
-                        extensionMotor.sampleYellowPickUp(),
+                        slideRotation.yellowSamplePickUp(),
                         claw.close()
                 ),
                 new ParallelAction(
-                        extensionMotor.retract(),
                         slideRotation.highBasketSample(),
-                        MoveUpToBasketForSecond
+                        MoveUpToBasketForSecond,
+                        twist.horizontal()
                 ),
                 new SequentialAction(
                     extensionMotor.highBasketSample(),
                     claw.open(),
-                        wrist.home()
+                        wrist.home(),
+                        extensionMotor.retract()
                 ),
                 new ParallelAction(
                         MoveToThirdSample,
-                        extensionMotor.retract(),
-                        slideRotation.yellowSamplePickUp(),
-                        wrist.out()
+                        wrist.pickUpSample(),
+                        twist.vertical(),
+                        slideRotation.halfSampleRotation()
                 ),
                 new SequentialAction(
-                        extensionMotor.sampleYellowPickUp(),
+                        slideRotation.yellowSamplePickUp(),
                         claw.close()
                 ),
                 new ParallelAction(
-                        extensionMotor.retract(),
                         slideRotation.highBasketSample(),
-                        MoveUpToBasketForThird
+                        MoveUpToBasketForThird,
+                        twist.horizontal()
                 ),
                 new SequentialAction(
                         extensionMotor.highBasketSample(),
                         claw.open(),
-                        wrist.home()
+                        wrist.home(),
+                        extensionMotor.retract()
                 ),
                 new ParallelAction(
                         MoveToFourthSample,
-                        extensionMotor.retract(),
-                        slideRotation.yellowSamplePickUp(),
-                        wrist.out()
+                        twist.vertical(),
+                        wrist.pickUpSample(),
+                        slideRotation.halfSampleRotation()
                 ),
                 new SequentialAction(
-                        extensionMotor.sampleYellowPickUp(),
+                        slideRotation.yellowSamplePickUp(),
                         claw.close()
                 ),
                 new ParallelAction(
-                        extensionMotor.retract(),
                         slideRotation.highBasketSample(),
                         MoveToBasketForFourth
                 ),
@@ -151,9 +157,6 @@ public class highBasketSampleAuto extends LinearOpMode {
                         claw.open(),
                         wrist.home()
                 )
-
-
-
         ));
     }
 
