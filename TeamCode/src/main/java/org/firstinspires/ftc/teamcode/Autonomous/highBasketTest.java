@@ -21,7 +21,7 @@ public class highBasketTest extends LinearOpMode{
     @Override
     public void runOpMode() {
         extensionMotor = new ExtensionClass(hardwareMap, telemetry);
-
+        slideRotation = new SlidesRotationClass(hardwareMap);
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
@@ -30,8 +30,7 @@ public class highBasketTest extends LinearOpMode{
         if (isStopRequested()) return;
 
         Actions.runBlocking(new SequentialAction(
-                extensionMotor.sampleYellowPickUp(),
-                slideRotation.yellowSamplePickUp()
+                slideRotation.highBasketSample()
         ));
 
     }
