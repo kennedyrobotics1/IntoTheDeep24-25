@@ -28,7 +28,7 @@ public class SlideRotationUprightTest extends LinearOpMode {
         if (isStopRequested()) return;
 
         Actions.runBlocking(new SequentialAction(
-                slideRotation.pickUpSpecimenFromHumanPlayer()
+                slideRotation.highBarSpecimen()
         ));
 
     }

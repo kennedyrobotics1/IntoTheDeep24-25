@@ -26,7 +26,7 @@ public class IntakeWristOutTest extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Actions.runBlocking(new SequentialAction(wrist.pickUpSpecimenFromHumanPlayer()));
+        Actions.runBlocking(new SequentialAction(wrist.specimenFromHumanPlayer()));
 
 
     }

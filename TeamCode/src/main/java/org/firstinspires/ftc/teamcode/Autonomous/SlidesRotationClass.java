@@ -91,17 +91,22 @@ public class SlidesRotationClass{
     }
 
 
-    public class PickUpSpecimenFromHumanPlayer implements Action {
+
+
+
+
+
+    public class SpecimenFromHumanPlayer implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setArmRotationPosition(.8);
+            setArmRotationPosition(.7);
             return false;
         }
     }
 
-    public Action pickUpSpecimenFromHumanPlayer() {
+    public Action specimenFromHumanPlayer() {
         return new ParallelAction(
-                new PickUpSpecimenFromHumanPlayer(),
+                new SpecimenFromHumanPlayer(),
                 new SleepAction(1)
         );
     }

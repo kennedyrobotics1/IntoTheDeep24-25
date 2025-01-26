@@ -21,23 +21,23 @@ public class ExtensionClass {
     private DcMotor extensionMotor;
     private Telemetry telemetry;
     private static final double TICKSPERINCH = 75.71;
+    double slidesStartingPosition;
 
     public ExtensionClass(HardwareMap hardwareMap, Telemetry telemetryB) {
         extensionMotor = hardwareMap.get(DcMotor.class, "slideExtensionMotor");
         extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         telemetry = telemetryB;
+        slidesStartingPosition = extensionMotor.getCurrentPosition();
+
     }
 
     public class HighBarSpecimen implements Action {
         private boolean initialized = false;
-        double slidesStartingPosition;
-
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
                 extensionMotor.setPower(1);
-                slidesStartingPosition = extensionMotor.getCurrentPosition();
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
             }
@@ -72,7 +72,7 @@ public class ExtensionClass {
             }
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 23.5 *TICKSPERINCH){
+            if (pos < (23.5 *TICKSPERINCH) + slidesStartingPosition){
                 return true;
             } else{
                 extensionMotor.setPower(0);
@@ -108,7 +108,7 @@ public class ExtensionClass {
             }
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 15 *TICKSPERINCH){
+            if (pos < (15 *TICKSPERINCH) + slidesStartingPosition){
                 return true;
             } else{
                 extensionMotor.setPower(0);
@@ -138,7 +138,7 @@ public class ExtensionClass {
             }
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 20 *TICKSPERINCH){
+            if (pos < (20 *TICKSPERINCH) + slidesStartingPosition){
                 return true;
             } else{
                 extensionMotor.setPower(0);
@@ -174,7 +174,7 @@ public class ExtensionClass {
 
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 13 * TICKSPERINCH) {
+            if (pos < (13 * TICKSPERINCH) + slidesStartingPosition) {
                 return true;
             } else {
                 extensionMotor.setPower(0);
@@ -196,14 +196,49 @@ public class ExtensionClass {
 
 
 
-    public class Retract implements Action {
+
+
+
+    public class SpecimenHumanPlayer implements Action {
         private boolean initialized = false;
-        double slidesStartingPosition;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                slidesStartingPosition = extensionMotor.getCurrentPosition();
+                extensionMotor.setPower(1);
+                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                initialized = true;
+            }
+
+            double pos = extensionMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < (4 * TICKSPERINCH) + slidesStartingPosition) {
+                return true;
+            } else {
+                extensionMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+
+    public Action specimenHumanPlayer() {
+        return new ParallelAction(
+                new SpecimenHumanPlayer(),
+                new SleepAction(0.5)
+        );
+    }
+
+
+
+
+
+
+
+    public class Retract implements Action {
+        private boolean initialized = false;
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
                 extensionMotor.setPower(-1);
                 extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 initialized = true;
@@ -223,44 +258,6 @@ public class ExtensionClass {
         return new ParallelAction(
                 new Retract(),
                 new SleepAction(0.57)
-        );
-    }
-
-
-
-
-
-
-
-
-
-
-    public class PickupFromHumanPlayer implements Action {
-        private boolean initialized = false;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                extensionMotor.setPower(1);
-                extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                initialized = true;
-            }
-
-            double pos = extensionMotor.getCurrentPosition();
-            packet.put("liftPos", pos);
-            if (pos < 5 * TICKSPERINCH) {
-                return true;
-            } else {
-                extensionMotor.setPower(0);
-                return false;
-            }
-        }
-    }
-
-    public Action pickupFromHumanPlayer() {
-        return new ParallelAction(
-                new PickupFromHumanPlayer(),
-                new SleepAction(2)
         );
     }
 
