@@ -38,6 +38,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     private static final double TICKSPERINCH = 75.71;
 
+    boolean lastA = false;                      // Use to track the prior button state.
+    boolean lastLB = false;                     // Use to track the prior button state.
+
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
