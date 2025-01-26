@@ -38,6 +38,8 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
     private static final double TICKSPERINCH = 75.71;
 
+    private DigitalChannel wristTouch;
+
 
     public void init() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -64,6 +66,9 @@ public class IntoTheDeepTeleOp extends BasicOpMode_Iterative {
 
         armPosition = new ServoController(0.35);
         setArmRotationPosition(armPosition.position);
+
+        wristTouch = hardwareMap.get(DigitalChannel.class, "sensor1e");
+        wristTouch.setMode(DigitalChannel.Mode.INPUT);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
