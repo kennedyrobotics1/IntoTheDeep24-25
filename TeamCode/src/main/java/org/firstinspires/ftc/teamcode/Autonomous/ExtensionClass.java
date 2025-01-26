@@ -190,7 +190,7 @@ public class ExtensionClass {
             }
             double pos = extensionMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 20 *TICKSPERINCH){
+            if (pos < 10 *TICKSPERINCH){
                 return true;
             } else{
                 extensionMotor.setPower(0.08);
